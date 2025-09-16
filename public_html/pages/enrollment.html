@@ -1,15 +1,244 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Enroll in Math and Language Synergy courses for English, Japanese, and Mathematics">
+    <meta name="keywords" content="course enrollment, registration, sign up, language courses, math courses">
+    <title>Course Enrollment | Math and Language Synergy</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="icon" href="../assets/images/logo.png" type="image/png">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="../assets/images/logo.png" alt="Math and Language Synergy Logo">
+                    <span>Math</span> & Language Synergy
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="enrollment.html" class="active">Enroll</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="forum.html">Forum</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <section class="page-hero" style="background-image: url('../assets/images/college.jpg');">
+        <div class="container">
+            <h1>Course Enrollment</h1>
+            <p>Start your journey with our integrated language and mathematics programs</p>
+        </div>
+    </section>
+
+    <main id="main-content">
+        <section class="enrollment-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Select Your Courses</h2>
+                    <p>Choose from our comprehensive range of language and mathematics programs</p>
+                </div>
+
+                <div class="course-selection">
+                    <div class="course-category">
+                        <h3>Language Programs</h3>
+                        <div class="course-options">
+                            <div class="course-option">
+                                <h4>English Language Mastery</h4>
+                                <p>Improve fluency, communication skills, writing, and cultural awareness</p>
+                                <p class="price">Semester cost: ZAR 9,000</p>
+                                <button class="btn enroll-btn" data-course="eng-101" data-course-name="English Language Mastery">Enroll Now</button>
+                            </div>
+                            <div class="course-option">
+                                <h4>Japanese Language Immersion</h4>
+                                <p>Learn Japanese with practice in communication, reading, writing, and cultural insights</p>
+                                <p class="price">Semester cost: ZAR 9,900</p>
+                                <button class="btn enroll-btn" data-course="jpn-101" data-course-name="Japanese Language Immersion">Enroll Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="course-category">
+                        <h3>Mathematics Programs</h3>
+                        <div class="course-options">
+                            <div class="course-option">
+                                <h4>Advanced Algebra and Calculus</h4>
+                                <p>For high school and college students preparing for competitive examinations</p>
+                                <p class="price">Semester cost: ZAR 7,200</p>
+                                <button class="btn enroll-btn" data-course="math-201" data-course-name="Advanced Algebra and Calculus">Enroll Now</button>
+                            </div>
+                            <div class="course-option">
+                                <h4>Applied Mathematics</h4>
+                                <p>Application of mathematics to real-world problems including statistics and data analysis</p>
+                                <p class="price">Semester cost: ZAR 10,800</p>
+                                <button class="btn enroll-btn" data-course="math-301" data-course-name="Applied Mathematics">Enroll Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="enrollment-form-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Complete Your Enrollment</h2>
+                    <p>Fill out the form below to register for your selected courses</p>
+                </div>
+
+                <form id="enrollment-form" class="enrollment-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="first-name">First Name *</label>
+                            <input type="text" id="first-name" name="first-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Last Name *</label>
+                            <input type="text" id="last-name" name="last-name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="course-select">Select Course *</label>
+                        <select id="course-select" name="course" required>
+                            <option value="">Please select a course</option>
+                            <option value="eng-101">English Language Mastery</option>
+                            <option value="jpn-101">Japanese Language Immersion</option>
+                            <option value="math-201">Advanced Algebra and Calculus</option>
+                            <option value="math-301">Applied Mathematics</option>
+                            <option value="integrated-401">Integrated Language & Math Program</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="skill-level">Current Skill Level *</label>
+                        <select id="skill-level" name="skill-level" required>
+                            <option value="">Please select your level</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="goals">Learning Goals</label>
+                        <textarea id="goals" name="goals" placeholder="What do you hope to achieve with this course?"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="referral">How did you hear about us?</label>
+                        <select id="referral" name="referral">
+                            <option value="">Please select an option</option>
+                            <option value="search-engine">Search Engine</option>
+                            <option value="social-media">Social Media</option>
+                            <option value="friend">Friend or Colleague</option>
+                            <option value="advertisement">Advertisement</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to the <a href="#">terms and conditions</a> *</label>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="newsletter" name="newsletter">
+                        <label for="newsletter">I would like to receive updates about courses and events</label>
+                    </div>
+
+                    <button type="submit" class="btn">Complete Enrollment</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="enrollment.html">Enrollment</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="forum.html">Forum</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>123 Learning Lane, Knowledge City, EDU 45678, Gauteng, South Africa</p>
+                    <p>Phone: +27 (0)11 234 5678</p>
+                    <p>Email: info@mathlanguagesynergy.edu</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-media">
+                        <a href="https://facebook.com/MathLanguageSynergy" target="_blank" aria-label="Facebook">FB</a>
+                        <a href="https://twitter.com/MathLangSynergy" target="_blank" aria-label="Twitter">TW</a>
+                        <a href="https://instagram.com/MathLanguageSynergy" target="_blank" aria-label="Instagram">IG</a>
+                        <a href="https://linkedin.com/company/mathlanguagesynergy" target="_blank" aria-label="LinkedIn">LI</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Language Selection</h3>
+                    <select id="language-selector">
+                        <option value="en">English</option>
+                        <option value="jp">日本語</option>
+                    </select>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; <span id="current-year"></span> Math and Language Synergy. All rights reserved.</p>
+                <p><a href="accessibility.html">Accessibility Statement</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="chatbot-toggle">💬</div>
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <h3>Learning Assistant</h3>
+            <span class="chatbot-close">×</span>
+        </div>
+        <div class="chatbot-messages">
+            <div class="chat-message bot">Hello! How can I help you with your enrollment today?</div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" placeholder="Ask a question...">
+            <button class="chatbot-send">Send</button>
+        </div>
+    </div>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/enrollment.js"></script>
+</body>
 </html>
