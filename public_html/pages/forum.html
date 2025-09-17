@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Student forum for Math and Language Synergy - connect with other students and discuss learning topics">
+    <meta name="keywords" content="student forum, discussion board, learning community, education forum">
+    <title>Student Forum | Math and Language Synergy</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="icon" href="../assets/images/logo.png" type="image/png">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="../assets/images/logo.png" alt="Math and Language Synergy Logo">
+                    <span>Math</span> & Language Synergy
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="enrollment.html">Enroll</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="forum.html" class="active">Forum</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Page Hero Section -->
+    <section class="page-hero" style="background-image: url('../assets/images/college.jpg');">
+        <div class="container">
+            <h1>Student Forum</h1>
+            <p>Connect, discuss, and learn with fellow students</p>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <main id="main-content">
+        <!-- Forum Navigation Section -->
+        <section class="forum-navigation">
+            <div class="container">
+                <div class="forum-actions">
+                    <button class="btn" id="new-thread-btn">Start New Thread</button>
+                    <form class="search-form" id="forum-search">
+                        <input type="search" placeholder="Search forum threads...">
+                        <button type="submit" class="btn">Search</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Thread Section (Initially Hidden) -->
+        <section class="new-thread-section hidden" id="new-thread-section">
+            <div class="container">
+                <h2>Start a New Discussion</h2>
+                <form id="new-thread-form">
+                    <div class="form-group">
+                        <label for="thread-title">Thread Title *</label>
+                        <input type="text" id="thread-title" name="thread-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="thread-category">Category *</label>
+                        <select id="thread-category" name="thread-category" required>
+                            <option value="">Select a category</option>
+                            <option value="english">English Language</option>
+                            <option value="japanese">Japanese Language</option>
+                            <option value="math">Mathematics</option>
+                            <option value="general">General Discussion</option>
+                            <option value="resources">Learning Resources</option>
+                            <option value="study-groups">Study Groups</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="thread-content">Your Question or Discussion Topic *</label>
+                        <textarea id="thread-content" name="thread-content" rows="6" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn secondary" id="cancel-thread">Cancel</button>
+                        <button type="submit" class="btn">Post Thread</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Thread List Section -->
+        <section class="thread-list-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Recent Discussions</h2>
+                </div>
+                
+                <div class="forum-categories">
+                    <div class="forum-category">
+                        <h3>English Language Discussions</h3>
+                        <div class="thread-list">
+                            <div class="thread-item" data-thread-id="101">
+                                <div class="thread-main">
+                                    <h4>Help with English essay structure</h4>
+                                    <p>I'm struggling with organizing my ideas for the academic writing assignment. Any tips?</p>
+                                    <div class="thread-meta">
+                                        <span class="thread-author">Posted by: Student123</span>
+                                        <span class="thread-date">2 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="thread-stats">
+                                    <span class="thread-replies">5 replies</span>
+                                    <span class="thread-views">24 views</span>
+                                </div>
+                            </div>
+                            
+                            <div class="thread-item" data-thread-id="102">
+                                <div class="thread-main">
+                                    <h4>Best resources for expanding vocabulary?</h4>
+                                    <p>Looking for recommendations beyond the course materials to improve my English vocabulary.</p>
+                                    <div class="thread-meta">
+                                        <span class="thread-author">Posted by: LanguageLearner</span>
+                                        <span class="thread-date">1 day ago</span>
+                                    </div>
+                                </div>
+                                <div class="thread-stats">
+                                    <span class="thread-replies">8 replies</span>
+                                    <span class="thread-views">37 views</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="forum-category">
+                        <h3>Japanese Language Discussions</h3>
+                        <div class="thread-list">
+                            <div class="thread-item" data-thread-id="201">
+                                <div class="thread-main">
+                                    <h4>Kanji memorization techniques</h4>
+                                    <p>Does anyone have effective methods for remembering kanji characters? I'm struggling with the N4 level kanji.</p>
+                                    <div class="thread-meta">
+                                        <span class="thread-author">Posted by: KanjiStudent</span>
+                                        <span class="thread-date">3 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="thread-stats">
+                                    <span class="thread-replies">3 replies</span>
+                                    <span class="thread-views">19 views</span>
+                                </div>
+                            </div>
+                            
+                            <div class="thread-item" data-thread-id="202">
+                                <div class="thread-main">
+                                    <h4>Japanese listening practice</h4>
+                                    <p>Looking for partners to practice Japanese conversation. I'm available weekday evenings.</p>
+                                    <div class="thread-meta">
+                                        <span class="thread-author">Posted by: ConversationPartner</span>
+                                        <span class="thread-date">2 days ago</span>
+                                    </div>
+                                </div>
+                                <div class="thread-stats">
+                                    <span class="thread-replies">6 replies</span>
+                                    <span class="thread-views">42 views</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="forum-category">
+                        <h3>Mathematics Discussions</h3>
+                        <div class="thread-list">
+                            <div class="thread-item" data-thread-id="301">
+                                <div class="thread-main">
+                                    <h4>Calculus problem help</h4>
+                                    <p>I'm stuck on problem 15 from chapter 3. It's about derivatives of trigonometric functions.</p>
+                                    <div class="thread-meta">
+                                        <span class="thread-author">Posted by: MathStudent22</span>
+                                        <span class="thread-date">5 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="thread-stats">
+                                    <span class="thread-replies">4 replies</span>
+                                    <span class="thread-views">28 views</span>
+                                </div>
+                            </div>
+                            
+                            <div class="thread-item" data-thread-id="302">
+                                <div class="thread-main">
+                                    <h4>Study group for algebra final</h4>
+                                    <p>Forming a study group to prepare for the algebra final exam. Meeting online this weekend.</p>
+                                    <div class="thread-meta">
+                                        <span class="thread-author">Posted by: AlgebraFan</span>
+                                        <span class="thread-date">1 day ago</span>
+                                    </div>
+                                </div>
+                                <div class="thread-stats">
+                                    <span class="thread-replies">7 replies</span>
+                                    <span class="thread-views">35 views</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Thread Detail Section (Initially Hidden) -->
+        <section class="thread-detail-section hidden">
+            <div class="container">
+                <button class="btn secondary" id="back-to-threads">← Back to Threads</button>
+                
+                <div class="thread-detail">
+                    <h2 id="thread-title">Thread Title</h2>
+                    <div class="thread-content" id="thread-content">
+                        <p>Thread content will be loaded here...</p>
+                    </div>
+                    <div class="thread-meta">
+                        <span class="thread-author">Posted by: AuthorName</span>
+                        <span class="thread-date">Posted on: Date</span>
+                    </div>
+                </div>
+                
+                <div class="thread-replies">
+                    <h3>Replies</h3>
+                    <div id="thread-replies">
+                        <!-- Replies will be loaded here dynamically -->
+                    </div>
+                    
+                    <div class="add-reply">
+                        <h4>Post a Reply</h4>
+                        <textarea placeholder="Type your reply here..." rows="4"></textarea>
+                        <button class="btn">Post Reply</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Results Section (Initially Hidden) -->
+        <section class="search-results-section hidden" id="search-results">
+            <!-- Search results will be displayed here -->
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="enrollment.html">Enrollment</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="forum.html">Forum</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>123 Learning Lane, Knowledge City, EDU 45678, Gauteng, South Africa</p>
+                    <p>Phone: +27 (0)11 234 5678</p>
+                    <p>Email: info@mathlanguagesynergy.edu</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-media">
+                        <a href="https://facebook.com/MathLanguageSynergy" target="_blank" aria-label="Facebook">FB</a>
+                        <a href="https://twitter.com/MathLangSynergy" target="_blank" aria-label="Twitter">TW</a>
+                        <a href="https://instagram.com/MathLanguageSynergy" target="_blank" aria-label="Instagram">IG</a>
+                        <a href="https://linkedin.com/company/mathlanguagesynergy" target="_blank" aria-label="LinkedIn">LI</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Language Selection</h3>
+                    <select id="language-selector">
+                        <option value="en">English</option>
+                        <option value="jp">日本語</option>
+                    </select>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; <span id="current-year"></span> Math and Language Synergy. All rights reserved.</p>
+                <p><a href="accessibility.html">Accessibility Statement</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Toggle Button -->
+    <div class="chatbot-toggle">💬</div>
+    
+    <!-- Chatbot Container -->
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <h3>Learning Assistant</h3>
+            <span class="chatbot-close">×</span>
+        </div>
+        <div class="chatbot-messages">
+            <div class="chat-message bot">Hello! How can I help with the forum today?</div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" placeholder="Ask a question...">
+            <button class="chatbot-send">Send</button>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/forum.js"></script>
+    <script src="../assets/js/chatbot.js"></script>
+</body>
+</html>

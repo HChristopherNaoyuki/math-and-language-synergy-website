@@ -7,25 +7,27 @@
     <meta name="keywords" content="math education, language learning, English courses, Japanese courses, academic success">
     <meta name="author" content="Math and Language Synergy">
     <title>Math and Language Synergy | Home</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="assets/images/logo.jpg" type="image/jpg">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="assets/images/logo.png" type="image/png">
 </head>
 <body>
+    <!-- Header Section -->
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <img src="assets/images/logo.jpg" alt="Math and Language Synergy Logo">
+                    <img src="assets/images/logo.png" alt="Math and Language Synergy Logo">
                     <span>Math</span> & Language Synergy
                 </div>
                 <nav>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="services.html">Services</a></li>
-                        <li><a href="news.html">News</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="index.html" class="active">Home</a></li>
+                        <li><a href="pages/about.html">About</a></li>
+                        <li><a href="pages/services.html">Services</a></li>
+                        <li><a href="pages/enrollment.html">Enroll</a></li>
+                        <li><a href="pages/dashboard.html">Dashboard</a></li>
+                        <li><a href="pages/forum.html">Forum</a></li>
+                        <li><a href="pages/contact.html">Contact</a></li>
                     </ul>
                 </nav>
                 <div class="mobile-menu-toggle">
@@ -37,35 +39,124 @@
         </div>
     </header>
 
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
                 <h1>Where Language Meets Logic</h1>
                 <p>Comprehensive education in English, Japanese, and Mathematics for academic and professional success</p>
-                <a href="services.html" class="btn">Explore Our Programs</a>
+                <div class="hero-buttons">
+                    <a href="pages/services.html" class="btn">Explore Our Programs</a>
+                    <a href="pages/dashboard.html" class="btn secondary">Student Dashboard</a>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="mission">
-        <div class="container">
-            <div class="mission-content">
-                <h2>Our Mission</h2>
-                <p>At Math and Language Synergy, our vision is to offer an integrated education that gives children both the math and language skills they need, to gift them a proficiency that will lead them to success in a varied, global world.</p>
-                <h2>Our Vision</h2>
-                <p>We want to see a world where language and math go with each other so that the student will excel in academic performances and be well-versed, ready to live in international backgrounds.</p>
+    <!-- Main Content Section -->
+    <main id="main-content">
+        <!-- Mission Section -->
+        <section class="mission">
+            <div class="container">
+                <div class="mission-content">
+                    <h2>Our Mission</h2>
+                    <p>At Math and Language Synergy, our vision is to offer an integrated education that gives students both the math and language skills they need, to gift them a proficiency that will lead them to success in a varied, global world.</p>
+                    <h2>Our Vision</h2>
+                    <p>We want to see a world where language and math go with each other so that the student will excel in academic performances and be well-versed, ready to live in international backgrounds.</p>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="welcome">
-        <div class="container">
-            <h2>Welcome to Math and Language Synergy!</h2>
-            <p>We are excited about you navigating through our energetic community of learners combining language and math teaching into an extraordinary educational delivery. At Math and Language Synergy, our focus is on preparing students for a borderless world.</p>
-            <p>English, Japanese, and Math are the three core areas of study at our academy. These courses were put in place to improve our communication skills and make us better thinkers when solving problems.</p>
-        </div>
-    </section>
+        <!-- Welcome Section -->
+        <section class="welcome">
+            <div class="container">
+                <h2>Welcome to Math and Language Synergy!</h2>
+                <p>We are excited about you navigating through our energetic community of learners combining language and math teaching into an extraordinary educational delivery. At Math and Language Synergy, our focus is on preparing students for a borderless world.</p>
+                <p>English, Japanese, and Math are the three core areas of study at our academy. These courses were put in place to improve our communication skills and make us better thinkers when solving problems.</p>
+            </div>
+        </section>
 
+        <!-- Featured Programs Section -->
+        <section class="featured-programs">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Featured Programs</h2>
+                </div>
+                <div class="programs-grid">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <img src="assets/images/english-icon.png" alt="English Language Program">
+                        </div>
+                        <h3>English Language Mastery</h3>
+                        <p>Improve fluency, communication skills, writing, and cultural awareness through our comprehensive English program.</p>
+                        <a href="pages/services.html#language" class="btn">Learn More</a>
+                    </div>
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <img src="assets/images/japanese-icon.png" alt="Japanese Language Program">
+                        </div>
+                        <h3>Japanese Language Immersion</h3>
+                        <p>Learn Japanese with practice in communication, reading, writing, and insights into Japanese culture.</p>
+                        <a href="pages/services.html#language" class="btn">Learn More</a>
+                    </div>
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <img src="assets/images/math-icon.png" alt="Mathematics Program">
+                        </div>
+                        <h3>Advanced Mathematics</h3>
+                        <p>Develop critical thinking and problem-solving skills with our advanced mathematics curriculum.</p>
+                        <a href="pages/services.html#math" class="btn">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials">
+            <div class="container">
+                <div class="section-title">
+                    <h2>What Our Students Say</h2>
+                </div>
+                <div class="testimonial-slider">
+                    <div class="testimonial">
+                        <div class="testimonial-content">
+                            <p>"The integrated approach to language and math has significantly improved my analytical and communication skills. I feel more prepared for my international business career."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <h4>Sarah Johnson</h4>
+                            <p>Business Professional</p>
+                        </div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-content">
+                            <p>"The Japanese language program combined with mathematical problem-solving has given me a competitive edge in technology job applications."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <h4>David Kim</h4>
+                            <p>Computer Science Student</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="cta">
+            <div class="container">
+                <h2>Ready to Start Your Journey?</h2>
+                <p>Join our community of learners and unlock your potential with our integrated language and mathematics programs.</p>
+                <div class="cta-buttons">
+                    <a href="pages/contact.html" class="btn">Contact Us</a>
+                    <a href="pages/services.html" class="btn secondary">View Programs</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -73,10 +164,12 @@
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="services.html">Services</a></li>
-                        <li><a href="news.html">News</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="pages/about.html">About Us</a></li>
+                        <li><a href="pages/services.html">Services</a></li>
+                        <li><a href="pages/enrollment.html">Enrollment</a></li>
+                        <li><a href="pages/dashboard.html">Dashboard</a></li>
+                        <li><a href="pages/forum.html">Forum</a></li>
+                        <li><a href="pages/contact.html">Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -88,19 +181,47 @@
                 <div class="footer-section">
                     <h3>Follow Us</h3>
                     <div class="social-media">
-                        <a href="https://facebook.com/MathLanguageSynergy" target="_blank" aria-label="Facebook"><span class="icon-facebook"></span></a>
-                        <a href="https://twitter.com/MathLangSynergy" target="_blank" aria-label="Twitter"><span class="icon-twitter"></span></a>
-                        <a href="https://instagram.com/MathLanguageSynergy" target="_blank" aria-label="Instagram"><span class="icon-instagram"></span></a>
-                        <a href="https://linkedin.com/company/mathlanguagesynergy" target="_blank" aria-label="LinkedIn"><span class="icon-linkedin"></span></a>
+                        <a href="https://facebook.com/MathLanguageSynergy" target="_blank" aria-label="Facebook">FB</a>
+                        <a href="https://twitter.com/MathLangSynergy" target="_blank" aria-label="Twitter">TW</a>
+                        <a href="https://instagram.com/MathLanguageSynergy" target="_blank" aria-label="Instagram">IG</a>
+                        <a href="https://linkedin.com/company/mathlanguagesynergy" target="_blank" aria-label="LinkedIn">LI</a>
                     </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Language Selection</h3>
+                    <select id="language-selector">
+                        <option value="en">English</option>
+                        <option value="jp">日本語</option>
+                    </select>
                 </div>
             </div>
             <div class="copyright">
                 <p>&copy; <span id="current-year"></span> Math and Language Synergy. All rights reserved.</p>
+                <p><a href="pages/accessibility.html">Accessibility Statement</a></p>
             </div>
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
+    <!-- Chatbot Toggle Button -->
+    <div class="chatbot-toggle">💬</div>
+    
+    <!-- Chatbot Container -->
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <h3>Learning Assistant</h3>
+            <span class="chatbot-close">×</span>
+        </div>
+        <div class="chatbot-messages">
+            <div class="chat-message bot">Hello! How can I help you with our programs?</div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" placeholder="Ask a question...">
+            <button class="chatbot-send">Send</button>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/chatbot.js"></script>
 </body>
 </html>
