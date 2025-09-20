@@ -51,91 +51,200 @@
 
     <!-- Main Content Section -->
     <main id="main-content">
-        <!-- Welcome Section -->
-        <section class="welcome-dashboard apple-card">
-            <div class="container">
+        <div class="container dashboard-container">
+            <!-- Welcome Section -->
+            <section class="welcome-dashboard">
                 <div class="welcome-content">
                     <h2>Welcome back, <span id="user-name">Student</span>!</h2>
                     <p>You've completed <strong id="progress-percentage">0%</strong> of your current course. Keep up the good work!</p>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Progress Overview Section -->
-        <section class="progress-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Your Progress</h2>
-                </div>
-                <div class="dashboard-grid" id="progress-cards">
-                    <!-- Progress cards will be loaded dynamically -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Badges & Achievements Section -->
-        <section class="badges-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Your Achievements</h2>
-                </div>
-                <div class="badges-container" id="badges-container">
-                    <!-- Badges will be loaded dynamically -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Upcoming Events Section -->
-        <section class="events-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Upcoming Events</h2>
-                </div>
-                <div class="events-list" id="events-list">
-                    <!-- Events will be loaded dynamically -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Recent Resources Section -->
-        <section class="resources-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Recent Resources</h2>
-                </div>
-                <div class="resources-grid" id="resources-grid">
-                    <!-- Resources will be loaded dynamically -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Tutoring Schedule Section -->
-        <section class="tutoring-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Schedule Tutoring</h2>
-                </div>
-                <div class="calendar" id="full-calendar">
-                    <div class="calendar-header">
-                        <button id="prev-month" class="apple-btn small">←</button>
-                        <h3 id="current-month">October 2023</h3>
-                        <button id="next-month" class="apple-btn small">→</button>
+            <!-- Stats Overview -->
+            <section class="dashboard-section">
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Active Courses</div>
                     </div>
-                    <div class="calendar-weekdays">
-                        <div>Sun</div>
-                        <div>Mon</div>
-                        <div>Tue</div>
-                        <div>Wed</div>
-                        <div>Thu</div>
-                        <div>Fri</div>
-                        <div>Sat</div>
+                    <div class="stat-card">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Completed Lessons</div>
                     </div>
-                    <div class="calendar-days" id="calendar-days">
-                        <!-- Calendar days will be generated dynamically -->
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Upcoming Events</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Learning Resources</div>
                     </div>
                 </div>
+            </section>
+
+            <!-- Main Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Left Column - Main Content -->
+                <div class="dashboard-main">
+                    <!-- Progress Section -->
+                    <section class="dashboard-section">
+                        <div class="dashboard-header">
+                            <h2>Your Progress</h2>
+                        </div>
+                        <div class="progress-grid" id="progress-cards">
+                            <div class="progress-card">
+                                <div class="progress-header">
+                                    <h3 class="progress-title">English Language Mastery</h3>
+                                    <span class="progress-percentage">75%</span>
+                                </div>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-fill" style="width: 75%"></div>
+                                </div>
+                                <div class="progress-actions">
+                                    <a href="#" class="btn">Continue Learning</a>
+                                    <a href="#" class="btn secondary">View Resources</a>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-card">
+                                <div class="progress-header">
+                                    <h3 class="progress-title">Japanese Language Immersion</h3>
+                                    <span class="progress-percentage">40%</span>
+                                </div>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-fill" style="width: 40%"></div>
+                                </div>
+                                <div class="progress-actions">
+                                    <a href="#" class="btn">Continue Learning</a>
+                                    <a href="#" class="btn secondary">View Resources</a>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-card">
+                                <div class="progress-header">
+                                    <h3 class="progress-title">Advanced Mathematics</h3>
+                                    <span class="progress-percentage">90%</span>
+                                </div>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-fill" style="width: 90%"></div>
+                                </div>
+                                <div class="progress-actions">
+                                    <a href="#" class="btn">Continue Learning</a>
+                                    <a href="#" class="btn secondary">View Resources</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Resources Section -->
+                    <section class="dashboard-section">
+                        <div class="dashboard-header">
+                            <h2>Recent Resources</h2>
+                            <a href="#" class="btn secondary">View All</a>
+                        </div>
+                        <div class="resources-grid" id="resources-grid">
+                            <div class="resource-card">
+                                <div class="resource-icon">📚</div>
+                                <h3 class="resource-name">English Grammar Guide</h3>
+                                <p class="resource-type">PDF • 2.5 MB</p>
+                                <button class="btn download-btn">Download</button>
+                            </div>
+                            
+                            <div class="resource-card">
+                                <div class="resource-icon">📝</div>
+                                <h3 class="resource-name">Japanese Vocabulary List</h3>
+                                <p class="resource-type">PDF • 1.8 MB</p>
+                                <button class="btn download-btn">Download</button>
+                            </div>
+                            
+                            <div class="resource-card">
+                                <div class="resource-icon">🧮</div>
+                                <h3 class="resource-name">Calculus Practice Problems</h3>
+                                <p class="resource-type">PDF • 3.2 MB</p>
+                                <button class="btn download-btn">Download</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column - Sidebar -->
+                <div class="dashboard-sidebar">
+                    <!-- Calendar Section -->
+                    <section class="dashboard-section">
+                        <div class="dashboard-header">
+                            <h2>Schedule</h2>
+                        </div>
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <button class="calendar-nav" id="prev-month">←</button>
+                                <h3 id="current-month">October 2023</h3>
+                                <button class="calendar-nav" id="next-month">→</button>
+                            </div>
+                            <div class="calendar-weekdays">
+                                <div>Sun</div>
+                                <div>Mon</div>
+                                <div>Tue</div>
+                                <div>Wed</div>
+                                <div>Thu</div>
+                                <div>Fri</div>
+                                <div>Sat</div>
+                            </div>
+                            <div class="calendar-days" id="calendar-days">
+                                <!-- Calendar days will be generated dynamically -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Badges Section -->
+                    <section class="dashboard-section">
+                        <div class="dashboard-header">
+                            <h2>Your Achievements</h2>
+                        </div>
+                        <div class="badges-grid" id="badges-container">
+                            <div class="badge-card earned">
+                                <div class="badge-icon">🌟</div>
+                                <div class="badge-name">Language Learner</div>
+                            </div>
+                            <div class="badge-card earned">
+                                <div class="badge-icon">🧮</div>
+                                <div class="badge-name">Math Whiz</div>
+                            </div>
+                            <div class="badge-card">
+                                <div class="badge-icon">📅</div>
+                                <div class="badge-name">Consistent Learner</div>
+                            </div>
+                            <div class="badge-card">
+                                <div class="badge-icon">💬</div>
+                                <div class="badge-name">Forum Contributor</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Events Section -->
+                    <section class="dashboard-section">
+                        <div class="dashboard-header">
+                            <h2>Upcoming Events</h2>
+                            <a href="#" class="btn secondary">View All</a>
+                        </div>
+                        <div class="events-list" id="events-list">
+                            <div class="event-card">
+                                <div class="event-date">October 15, 2023 • 3:00 PM - 5:00 PM</div>
+                                <h3 class="event-title">Japanese Culture Workshop</h3>
+                                <p class="event-description">Interactive workshop on Japanese traditions and customs</p>
+                                <button class="btn">RSVP</button>
+                            </div>
+                            
+                            <div class="event-card">
+                                <div class="event-date">October 20, 2023 • 4:00 PM - 6:00 PM</div>
+                                <h3 class="event-title">Math Problem Solving Session</h3>
+                                <p class="event-description">Group session for challenging math problems</p>
+                                <button class="btn">RSVP</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div>
-        </section>
+        </div>
     </main>
 
     <!-- Footer Section -->
