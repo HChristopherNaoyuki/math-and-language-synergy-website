@@ -11,7 +11,7 @@
 </head>
 <body>
     <!-- Header Section -->
-    <header>
+    <header class="minimal-nav">
         <div class="container">
             <div class="header-content">
                 <div class="logo">
@@ -51,16 +51,6 @@
 
     <!-- Main Content Section -->
     <main id="main-content">
-        <!-- FAQ Search Section -->
-        <section class="faq-search">
-            <div class="container">
-                <div class="search-container">
-                    <input type="search" placeholder="Search for questions..." id="faq-search-input">
-                    <button class="btn" id="faq-search-btn">Search</button>
-                </div>
-            </div>
-        </section>
-
         <!-- FAQ Categories Section -->
         <section class="faq-categories">
             <div class="container">
@@ -77,15 +67,15 @@
         <!-- FAQ List Section -->
         <section class="faq-list">
             <div class="container">
-                <div class="faq-item" data-categories="enrollment">
+                <div class="faq-item apple-card" data-categories="enrollment">
                     <h3>How do I enroll in a course?</h3>
                     <div class="faq-answer">
                         <p>You can enroll in our courses through our online enrollment form on the Enrollment page. Simply select your desired course, fill out the required information, and submit the form. Our team will contact you within 24-48 hours to confirm your enrollment and provide next steps.</p>
-                        <p>Alternatively, you can visit our campus during business hours to enroll in person.</p>
+                        <p>Alternatively, you can visit our campus during business hours to enroll in person. Our address is 123 Learning Lane, Knowledge City, EDU 45678.</p>
                     </div>
                 </div>
                 
-                <div class="faq-item" data-categories="payment">
+                <div class="faq-item apple-card" data-categories="payment">
                     <h3>What payment methods do you accept?</h3>
                     <div class="faq-answer">
                         <p>We accept various payment methods including:</p>
@@ -94,12 +84,13 @@
                             <li>Bank transfers</li>
                             <li>Payment plans (for semester-long courses)</li>
                             <li>Cash payments (in-person only)</li>
+                            <li>Cryptocurrency (BTC, ETH, SOL) for premium plans</li>
                         </ul>
                         <p>Payment plans can be arranged on a case-by-case basis. Please contact our administration office for more information.</p>
                     </div>
                 </div>
                 
-                <div class="faq-item" data-categories="courses">
+                <div class="faq-item apple-card" data-categories="courses">
                     <h3>Do you offer online classes?</h3>
                     <div class="faq-answer">
                         <p>Yes, we offer both in-person and online classes for most of our programs. Our online classes are conducted through a secure learning management system that includes:</p>
@@ -110,11 +101,11 @@
                             <li>Digital resources and materials</li>
                             <li>Online assessments and feedback</li>
                         </ul>
-                        <p>You can choose your preferred format during enrollment.</p>
+                        <p>You can choose your preferred format during enrollment. All online classes are conducted in real-time with small group sizes to ensure personalized attention.</p>
                     </div>
                 </div>
                 
-                <div class="faq-item" data-categories="courses">
+                <div class="faq-item apple-card" data-categories="courses">
                     <h3>What is the typical class size?</h3>
                     <div class="faq-answer">
                         <p>We maintain small class sizes to ensure personalized attention and effective learning:</p>
@@ -123,33 +114,34 @@
                             <li>Semi-private sessions: 3-5 students</li>
                             <li>Private tutoring: One-on-one instruction</li>
                         </ul>
-                        <p>Our small class sizes allow instructors to provide individualized feedback and support to each student.</p>
+                        <p>Our small class sizes allow instructors to provide individualized feedback and support to each student. This approach has proven to significantly improve learning outcomes compared to larger classroom settings.</p>
                     </div>
                 </div>
                 
-                <div class="faq-item" data-categories="enrollment">
+                <div class="faq-item apple-card" data-categories="enrollment">
                     <h3>Can I switch courses after enrolling?</h3>
                     <div class="faq-answer">
                         <p>Yes, you can switch courses within the first two weeks of the semester, subject to availability. Please contact our administration office to discuss your options. There may be a course difference fee if the new course has a different tuition rate.</p>
-                        <p>After the first two weeks, course changes may still be possible but are evaluated on a case-by-case basis.</p>
+                        <p>After the first two weeks, course changes may still be possible but are evaluated on a case-by-case basis. We understand that sometimes learning needs change, and we'll work with you to find the best solution.</p>
                     </div>
                 </div>
                 
-                <div class="faq-item" data-categories="technical">
+                <div class="faq-item apple-card" data-categories="technical">
                     <h3>What technical requirements are needed for online classes?</h3>
                     <div class="faq-answer">
                         <p>For optimal experience in our online classes, we recommend:</p>
                         <ul>
-                            <li>A computer with a reliable internet connection (minimum 5 Mbps download speed)</li>
+                            <li>A computer with a reliable internet connection (minimum 10 Mbps download speed)</li>
                             <li>Webcam and microphone for participation</li>
                             <li>Updated web browser (Chrome, Firefox, Safari, or Edge)</li>
                             <li>Our learning platform works on most devices, but a computer or tablet is recommended for the best experience</li>
+                            <li>Headphones for better audio quality during sessions</li>
                         </ul>
-                        <p>Detailed technical requirements will be provided upon enrollment.</p>
+                        <p>Detailed technical requirements will be provided upon enrollment. We also offer technical orientation sessions before classes begin to ensure all students are comfortable with the platform.</p>
                     </div>
                 </div>
                 
-                <div class="faq-item" data-categories="payment">
+                <div class="faq-item apple-card" data-categories="payment">
                     <h3>Do you offer scholarships or financial aid?</h3>
                     <div class="faq-answer">
                         <p>Yes, we offer a limited number of scholarships and financial aid options for qualified students. These include:</p>
@@ -158,12 +150,13 @@
                             <li>Need-based financial aid</li>
                             <li>Payment plans</li>
                             <li>Early enrollment discounts</li>
+                            <li>Referral discounts</li>
                         </ul>
-                        <p>Please contact our administration office for more information about eligibility and application procedures.</p>
+                        <p>Please contact our administration office for more information about eligibility and application procedures. Scholarship applications are typically due one month before the start of each semester.</p>
                     </div>
                 </div>
                 
-                <div class="faq-item" data-categories="courses">
+                <div class="faq-item apple-card" data-categories="courses">
                     <h3>What is the duration of your courses?</h3>
                     <div class="faq-answer">
                         <p>Course durations vary depending on the program:</p>
@@ -172,20 +165,79 @@
                             <li>Intensive language programs: 4-8 weeks</li>
                             <li>Mathematics courses: 10-14 weeks per semester</li>
                             <li>Workshops and special programs: 1-2 days to 4 weeks</li>
+                            <li>Summer intensive programs: 6-8 weeks</li>
                         </ul>
-                        <p>Specific course durations are listed in the course descriptions on our Services page.</p>
+                        <p>Specific course durations are listed in the course descriptions on our Services page. Most courses include regular assessments and a final examination or project.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item apple-card" data-categories="enrollment">
+                    <h3>What is your cancellation policy?</h3>
+                    <div class="faq-answer">
+                        <p>Our cancellation policy is designed to be fair to both students and our institution:</p>
+                        <ul>
+                            <li>Full refund if cancelled at least 14 days before the course start date</li>
+                            <li>50% refund if cancelled 7-13 days before the course start date</li>
+                            <li>No refund for cancellations less than 7 days before the course start date</li>
+                            <li>Exceptions may be made for documented medical emergencies</li>
+                        </ul>
+                        <p>If you need to cancel your enrollment, please contact our administration office as soon as possible. We may be able to transfer your enrollment to a future session in some cases.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item apple-card" data-categories="technical">
+                    <h3>What if I need technical support?</h3>
+                    <div class="faq-answer">
+                        <p>We provide comprehensive technical support for all our students:</p>
+                        <ul>
+                            <li>Email support: support@mathlanguagesynergy.edu (response within 24 hours)</li>
+                            <li>Phone support: +27 (0)11 234 5678 (9 AM - 6 PM weekdays)</li>
+                            <li>Live chat available on our website during business hours</li>
+                            <li>Detailed help guides and video tutorials in your student dashboard</li>
+                            <li>Technical orientation sessions before classes begin</li>
+                        </ul>
+                        <p>Most technical issues are resolved within 24 hours of reporting. For urgent issues during class times, we have dedicated technical staff available to assist immediately.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item apple-card" data-categories="courses">
+                    <h3>Do you provide certificates upon completion?</h3>
+                    <div class="faq-answer">
+                        <p>Yes, we provide certificates of completion for all our courses. The type of certificate depends on the program:</p>
+                        <ul>
+                            <li>Certificate of Participation: For students who attend at least 80% of classes</li>
+                            <li>Certificate of Achievement: For students who pass the course assessments</li>
+                            <li>Certificate of Excellence: For students who achieve 90% or higher in all assessments</li>
+                            <li>Professional Certification: For certain advanced programs that include industry recognition</li>
+                        </ul>
+                        <p>All our certificates are digitally verifiable and can be shared on professional networks like LinkedIn. Physical copies are available upon request for an additional fee.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item apple-card" data-categories="enrollment">
+                    <h3>Can I audit a course without receiving a grade?</h3>
+                    <div class="faq-answer">
+                        <p>Yes, we offer audit options for most of our courses. Audit students:</p>
+                        <ul>
+                            <li>Participate in all class activities</li>
+                            <li>Receive all course materials</li>
+                            <li>Do not complete assessments or receive grades</li>
+                            <li>Receive a Certificate of Participation instead of a Certificate of Achievement</li>
+                            <li>Pay a reduced tuition rate (typically 60% of regular tuition)</li>
+                        </ul>
+                        <p>If you're interested in auditing a course, please indicate this on your enrollment form or contact our administration office. Some courses may have limited audit spaces available.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Contact CTA Section -->
-        <section class="contact-cta">
+        <section class="contact-cta apple-card">
             <div class="container">
                 <div class="cta-content">
                     <h2>Still have questions?</h2>
                     <p>Our team is here to help you with any additional questions you may have about our programs and services.</p>
-                    <a href="contact.html" class="btn">Contact Us</a>
+                    <a href="contact.html" class="apple-btn">Contact Us</a>
                 </div>
             </div>
         </section>
@@ -224,7 +276,7 @@
                 </div>
                 <div class="footer-section">
                     <h3>Language Selection</h3>
-                    <select id="language-selector">
+                    <select id="language-selector" class="apple-input">
                         <option value="en">English</option>
                         <option value="jp">日本語</option>
                     </select>
@@ -250,8 +302,8 @@
             <div class="chat-message bot">Hello! How can I help with your questions?</div>
         </div>
         <div class="chatbot-input">
-            <input type="text" placeholder="Ask a question...">
-            <button class="chatbot-send">Send</button>
+            <input type="text" placeholder="Ask a question..." class="apple-input">
+            <button class="chatbot-send apple-btn">Send</button>
         </div>
     </div>
 
