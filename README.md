@@ -43,7 +43,7 @@ math-and-language-synergy-website/
 │
 ├── assets/
 │   ├── images/
-│   │   ├── logo.png
+│   │   ├── logo.jpg
 │   │   ├── college.jpg
 │   │   ├── high-school.jpg
 │   │   └── young-professionals.jpg
