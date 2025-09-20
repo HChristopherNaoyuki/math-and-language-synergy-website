@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment | Math and Language Synergy</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="icon" href="../assets/images/logo.png" type="image/png">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="../assets/images/logo.png" alt="Math and Language Synergy Logo">
+                    <span>Math</span> & Language Synergy
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="auth-container">
+        <div class="auth-form">
+            <h2>Complete Your Payment</h2>
+            <div class="payment-info">
+                <p>You've selected the <strong id="plan-name">Plus</strong> plan</p>
+                <p class="price">Amount due: <span id="plan-price">$20</span></p>
+            </div>
+            
+            <form id="payment-form">
+                <div class="form-group">
+                    <label for="crypto-type">Cryptocurrency</label>
+                    <select id="crypto-type" name="cryptoType" required>
+                        <option value="btc">Bitcoin (BTC)</option>
+                        <option value="eth">Ethereum (ETH)</option>
+                        <option value="sol">Solana (SOL)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Wallet Address</label>
+                    <div class="wallet-address">
+                        <code id="wallet-address">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</code>
+                        <button type="button" class="btn small" id="copy-address">Copy</button>
+                    </div>
+                    <p class="help-text">Send exact amount to this address</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="transaction-id">Transaction ID (Optional)</label>
+                    <input type="text" id="transaction-id" name="transactionId" placeholder="Enter your transaction ID for faster verification">
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="payment-terms" name="paymentTerms" required>
+                    <label for="payment-terms">I understand that cryptocurrency payments are irreversible</label>
+                </div>
+                
+                <button type="submit" class="btn">Confirm Payment</button>
+            </form>
+            
+            <p class="help-text">Payment typically processes within 1 hour. You'll receive email confirmation once completed.</p>
+        </div>
+    </main>
+
+    <script src="../assets/js/payment.js"></script>
+</body>
+</html>

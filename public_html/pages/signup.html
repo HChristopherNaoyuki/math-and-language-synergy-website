@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Math and Language Synergy</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="icon" href="../assets/images/logo.png" type="image/png">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="../assets/images/logo.png" alt="Math and Language Synergy Logo">
+                    <span>Math</span> & Language Synergy
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="auth-container">
+        <div class="auth-form">
+            <h2>Create Your Account</h2>
+            <form id="signup-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" name="lastName" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password (min 12 characters)</label>
+                    <input type="password" id="password" name="password" minlength="12" required>
+                </div>
+                <div class="form-group">
+                    <label for="account-type">Account Type</label>
+                    <select id="account-type" name="accountType" required>
+                        <option value="">Select account type</option>
+                        <option value="student">Student</option>
+                        <option value="lecturer">Lecturer</option>
+                        <option value="parent">Parent</option>
+                        <option value="tutor">Tutor</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+                <div class="form-group">
+                    <label for="account-plan">Account Plan</label>
+                    <select id="account-plan" name="accountPlan" required>
+                        <option value="free">Free</option>
+                        <option value="plus">Plus ($20)</option>
+                        <option value="pro">Pro ($200)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Create Account</button>
+            </form>
+            <p>Already have an account? <a href="login.html">Login here</a></p>
+        </div>
+    </main>
+
+    <script src="../assets/js/auth.js"></script>
+</body>
+</html>

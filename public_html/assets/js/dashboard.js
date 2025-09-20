@@ -522,3 +522,152 @@ function closeModal()
         }, 300);
     }
 }
+
+// Add to dashboard.js
+function loadUserData() {
+    const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    
+    // Update welcome message
+    if (user.firstName) {
+        document.getElementById('user-name').textContent = user.firstName;
+    }
+    
+    // Load user progress
+    loadUserProgress(user);
+    
+    // Initialize full calendar
+    initializeFullCalendar();
+}
+
+function loadUserProgress(user) {
+    // In a real app, this would come from a database
+    // For demo, we'll use localStorage or generate random progress
+    const userProgress = JSON.parse(localStorage.getItem(`progress_${user.username}`) || '{}');
+    
+    const courses = [
+        { id: 'eng-101', name: 'English Language Mastery', progress: userProgress.english || Math.floor(Math.random() * 100) },
+        { id: 'jpn-101', name: 'Japanese Language Immersion', progress: userProgress.japanese || Math.floor(Math.random() * 100) },
+        { id: 'math-101', name: 'Advanced Mathematics', progress: userProgress.math || Math.floor(Math.random() * 100) }
+    ];
+    
+    // Update overall progress
+    const totalProgress = courses.reduce((sum, course) => sum + course.progress, 0) / courses.length;
+    document.getElementById('progress-percentage').textContent = `${Math.round(totalProgress)}%`;
+    
+    // Render progress cards
+    const progressContainer = document.getElementById('progress-cards');
+    progressContainer.innerHTML = '';
+    
+    courses.forEach(course => {
+        const card = document.createElement('div');
+        card.className = 'dashboard-card';
+        card.innerHTML = `
+            <h3>${course.name}</h3>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" data-progress="${course.progress}"></div>
+                </div>
+                <span class="progress-text">${course.progress}% Complete</span>
+            </div>
+            <div class="course-actions">
+                <a href="#" class="btn">Continue Learning</a>
+                <a href="#" class="btn secondary">View Resources</a>
+            </div>
+        `;
+        progressContainer.appendChild(card);
+    });
+    
+    // Reinitialize progress bars
+    initializeProgressBars();
+}
+
+function initializeFullCalendar() {
+    const calendarDays = document.getElementById('calendar-days');
+    const currentMonthEl = document.getElementById('current-month');
+    const prevMonthBtn = document.getElementById('prev-month');
+    const nextMonthBtn = document.getElementById('next-month');
+    
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
+    
+    // Render calendar
+    renderCalendar(currentMonth, currentYear);
+    
+    // Navigation event listeners
+    prevMonthBtn.addEventListener('click', () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        renderCalendar(currentMonth, currentYear);
+    });
+    
+    nextMonthBtn.addEventListener('click', () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        renderCalendar(currentMonth, currentYear);
+    });
+    
+    function renderCalendar(month, year) {
+        // Update month header
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                           'July', 'August', 'September', 'October', 'November', 'December'];
+        currentMonthEl.textContent = `${monthNames[month]} ${year}`;
+        
+        // Clear previous days
+        calendarDays.innerHTML = '';
+        
+        // Get first day of month and number of days
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        
+        // Add empty cells for days before first day of month
+        for (let i = 0; i < firstDay; i++) {
+            const emptyDay = document.createElement('div');
+            emptyDay.className = 'calendar-day empty';
+            calendarDays.appendChild(emptyDay);
+        }
+        
+        // Add days of month
+        const today = new Date();
+        for (let i = 1; i <= daysInMonth; i++) {
+            const day = document.createElement('div');
+            day.className = 'calendar-day';
+            day.textContent = i;
+            
+            // Check if today
+            if (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                day.classList.add('today');
+            }
+            
+            // Add random events for demo
+            if (Math.random() > 0.7) {
+                day.classList.add('has-event');
+            }
+            
+            // Add click event for scheduling
+            day.addEventListener('click', () => {
+                showTimeSelection(i, month, year);
+            });
+            
+            calendarDays.appendChild(day);
+        }
+    }
+}
+
+// Update DOMContentLoaded event
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize dashboard functionality
+    initializeProgressBars();
+    initializeBadges();
+    initializeResourceDownloads();
+    setupCourseEnrollment();
+    
+    // Load user-specific data
+    loadUserData();
+});

@@ -578,3 +578,40 @@ function showNotification(message, type)
         }, 300);
     }, 5000);
 }
+
+// Update the initializeNewThreadForm function
+function initializeNewThreadForm() {
+    const newThreadForm = document.getElementById('new-thread-form');
+    
+    if (newThreadForm) {
+        newThreadForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (validateThreadForm(this)) {
+                createNewThread(this);
+            }
+        });
+    }
+    
+    // Toggle new thread form
+    const newThreadBtn = document.getElementById('new-thread-btn');
+    const newThreadSection = document.getElementById('new-thread-section');
+    const cancelThreadBtn = document.getElementById('cancel-thread');
+    
+    if (newThreadBtn && newThreadSection) {
+        newThreadBtn.addEventListener('click', function() {
+            newThreadSection.classList.toggle('hidden');
+            
+            if (!newThreadSection.classList.contains('hidden')) {
+                newThreadSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
+    
+    if (cancelThreadBtn) {
+        cancelThreadBtn.addEventListener('click', function() {
+            document.getElementById('new-thread-form').reset();
+            newThreadSection.classList.add('hidden');
+        });
+    }
+}
