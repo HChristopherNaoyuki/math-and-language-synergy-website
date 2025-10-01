@@ -204,55 +204,47 @@ function displayThreads(threads) {
 }
 
 /**
- * Create thread element
+ * Create thread element with new card design
  */
 function createThreadElement(thread) {
     const threadItem = document.createElement('div');
-    threadItem.className = 'thread-item';
+    threadItem.className = 'card';
     threadItem.setAttribute('data-thread-id', thread.id);
     
     const date = new Date(thread.date);
     const timeAgo = getTimeAgo(date);
-    const categoryLabel = getCategoryLabel(thread.category);
     
     threadItem.innerHTML = `
-        <div class="thread-main">
-            <div class="thread-header">
-                <span class="thread-category ${thread.category}">${categoryLabel}</span>
-                <h4>${thread.title}</h4>
-            </div>
-            <p>${thread.content}</p>
-            <div class="thread-tags">
-                ${thread.tags ? thread.tags.map(tag => `<span class="thread-tag">#${tag}</span>`).join('') : ''}
-            </div>
-            <div class="thread-meta">
-                <span class="thread-author">Posted by: ${thread.author}</span>
-                <span class="thread-date">${timeAgo}</span>
-            </div>
+        <div class="header">
+            <span class="icon">
+                <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path clip-rule="evenodd" d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z" fill-rule="evenodd"></path>
+                </svg>
+            </span>
+            <p class="alert">${thread.title}</p>
         </div>
-        <div class="thread-stats">
+
+        <p class="message">
+            ${thread.content}
+        </p>
+
+        <div class="thread-meta">
+            <span class="thread-author">Posted by: ${thread.author}</span>
+            <span class="thread-date">${timeAgo}</span>
             <span class="thread-replies">${thread.replies} replies</span>
-            <span class="thread-views">${thread.views} views</span>
-            <button class="btn small view-thread-btn" data-thread-id="${thread.id}">View Thread</button>
+        </div>
+
+        <div class="actions">
+            <a class="read view-thread-btn" data-thread-id="${thread.id}">
+                Take a Look
+            </a>
+            <a class="mark-as-read" href="#">
+                Mark as Read
+            </a>
         </div>
     `;
     
     return threadItem;
-}
-
-/**
- * Get category label
- */
-function getCategoryLabel(category) {
-    const labels = {
-        'english': 'English',
-        'japanese': 'Japanese',
-        'math': 'Mathematics',
-        'general': 'General',
-        'resources': 'Resources',
-        'study-groups': 'Study Groups'
-    };
-    return labels[category] || 'General';
 }
 
 /**
@@ -278,13 +270,9 @@ function getTimeAgo(date) {
 function initializeThreadNavigation() {
     // Use event delegation for thread items
     document.addEventListener('click', function(e) {
-        const threadItem = e.target.closest('.thread-item');
         const viewThreadBtn = e.target.closest('.view-thread-btn');
         
-        if (threadItem && !viewThreadBtn) {
-            const threadId = threadItem.getAttribute('data-thread-id');
-            viewThread(threadId);
-        } else if (viewThreadBtn) {
+        if (viewThreadBtn) {
             const threadId = viewThreadBtn.getAttribute('data-thread-id');
             viewThread(threadId);
         }
@@ -312,11 +300,12 @@ function viewThread(threadId) {
 }
 
 /**
- * Show thread detail view
+ * Show thread detail view with new GUI
  */
 function showThreadDetail(thread) {
-    // Create thread detail view
-    const threadDetailHTML = `
+    const replies = JSON.parse(localStorage.getItem(`forumReplies_${thread.id}`) || '[]');
+    
+    let threadDetailHTML = `
         <div class="thread-detail-view">
             <div class="thread-detail-header">
                 <button class="btn secondary back-to-threads">← Back to Threads</button>
@@ -328,23 +317,87 @@ function showThreadDetail(thread) {
                 </div>
             </div>
             
-            <div class="thread-detail-content">
-                <p>${thread.content}</p>
-                <div class="thread-tags">
-                    ${thread.tags ? thread.tags.map(tag => `<span class="thread-tag">#${tag}</span>`).join('') : ''}
+            <div class="card thread-detail-card">
+                <span class="title">Comments</span>
+                <div class="comments">
+                    <div class="comment-react">
+                        <button>
+                            <svg fill="none" viewBox="0 0 24 24" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="#707277" stroke-linecap="round" stroke-width="2" stroke="#707277" d="M19.4626 3.99415C16.7809 2.34923 14.4404 3.01211 13.0344 4.06801C12.4578 4.50096 12.1696 4.71743 12 4.71743C11.8304 4.71743 11.5422 4.50096 10.9656 4.06801C9.55962 3.01211 7.21909 2.34923 4.53744 3.99415C1.01807 6.15294 0.221721 13.2749 8.33953 19.2834C9.88572 20.4278 10.6588 21 12 21C13.3412 21 14.1143 20.4278 15.6605 19.2834C23.7783 13.2749 22.9819 6.15294 19.4626 3.99415Z"></path>
+                            </svg>
+                        </button>
+                        <hr>
+                        <span>${thread.replies}</span>
+                    </div>
+                    <div class="comment-container">
+                        <div class="user">
+                            <div class="user-pic">
+                                <svg fill="none" viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linejoin="round" fill="#707277" stroke-linecap="round" stroke-width="2" stroke="#707277" d="M6.57757 15.4816C5.1628 16.324 1.45336 18.0441 3.71266 20.1966C4.81631 21.248 6.04549 22 7.59087 22H16.4091C17.9545 22 19.1837 21.248 20.2873 20.1966C22.5466 18.0441 18.8372 16.324 17.4224 15.4816C14.1048 13.5061 9.89519 13.5061 6.57757 15.4816Z"></path>
+                                    <path stroke-width="2" fill="#707277" stroke="#707277" d="M16.5 6.5C16.5 8.98528 14.4853 11 12 11C9.51472 11 7.5 8.98528 7.5 6.5C7.5 4.01472 9.51472 2 12 2C14.4853 2 16.5 4.01472 16.5 6.5Z"></path>
+                                </svg>
+                            </div>
+                            <div class="user-info">
+                                <span>${thread.author}</span>
+                                <p>${new Date(thread.date).toLocaleString()}</p>
+                            </div>
+                        </div>
+                        <p class="comment-content">
+                            ${thread.content}
+                        </p>
+                    </div>
+                </div>
+    `;
+    
+    // Add replies
+    replies.forEach(reply => {
+        threadDetailHTML += `
+            <div class="comments">
+                <div class="comment-react">
+                    <button>
+                        <svg fill="none" viewBox="0 0 24 24" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#707277" stroke-linecap="round" stroke-width="2" stroke="#707277" d="M19.4626 3.99415C16.7809 2.34923 14.4404 3.01211 13.0344 4.06801C12.4578 4.50096 12.1696 4.71743 12 4.71743C11.8304 4.71743 11.5422 4.50096 10.9656 4.06801C9.55962 3.01211 7.21909 2.34923 4.53744 3.99415C1.01807 6.15294 0.221721 13.2749 8.33953 19.2834C9.88572 20.4278 10.6588 21 12 21C13.3412 21 14.1143 20.4278 15.6605 19.2834C23.7783 13.2749 22.9819 6.15294 19.4626 3.99415Z"></path>
+                        </svg>
+                    </button>
+                    <hr>
+                    <span>0</span>
+                </div>
+                <div class="comment-container">
+                    <div class="user">
+                        <div class="user-pic">
+                            <svg fill="none" viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linejoin="round" fill="#707277" stroke-linecap="round" stroke-width="2" stroke="#707277" d="M6.57757 15.4816C5.1628 16.324 1.45336 18.0441 3.71266 20.1966C4.81631 21.248 6.04549 22 7.59087 22H16.4091C17.9545 22 19.1837 21.248 20.2873 20.1966C22.5466 18.0441 18.8372 16.324 17.4224 15.4816C14.1048 13.5061 9.89519 13.5061 6.57757 15.4816Z"></path>
+                                <path stroke-width="2" fill="#707277" stroke="#707277" d="M16.5 6.5C16.5 8.98528 14.4853 11 12 11C9.51472 11 7.5 8.98528 7.5 6.5C7.5 4.01472 9.51472 2 12 2C14.4853 2 16.5 4.01472 16.5 6.5Z"></path>
+                            </svg>
+                        </div>
+                        <div class="user-info">
+                            <span>${reply.author}</span>
+                            <p>${new Date(reply.date).toLocaleString()}</p>
+                        </div>
+                    </div>
+                    <p class="comment-content">
+                        ${reply.content}
+                    </p>
                 </div>
             </div>
-            
-            <div class="thread-replies-section">
-                <h3>Replies (${thread.replies})</h3>
-                <div class="replies-list" id="replies-${thread.id}">
-                    ${generateRepliesHTML(thread.id)}
-                </div>
-                
-                <div class="add-reply-form">
-                    <h4>Post a Reply</h4>
-                    <textarea id="reply-content-${thread.id}" placeholder="Type your reply here..." rows="4"></textarea>
-                    <button class="btn post-reply-btn" data-thread-id="${thread.id}">Post Reply</button>
+        `;
+    });
+    
+    threadDetailHTML += `
+                <div class="text-box">
+                    <div class="box-container">
+                        <textarea id="reply-content-${thread.id}" placeholder="Reply"></textarea>
+                        <div>
+                            <div class="formatting">
+                                <button type="submit" class="send post-reply-btn" data-thread-id="${thread.id}" title="Send">
+                                    <svg fill="none" viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff" d="M12 5L12 20"></path>
+                                        <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff" d="M7 9L11.2929 4.70711C11.6262 4.37377 11.7929 4.20711 12 4.20711C12.2071 4.20711 12.3738 4.37377 12.7071 4.70711L17 9"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -380,6 +433,7 @@ function initializeThreadDetailEvents(threadId) {
     document.querySelector('.back-to-threads').addEventListener('click', function() {
         document.querySelector('.thread-detail-section').classList.add('hidden');
         document.querySelector('.thread-list-section').classList.remove('hidden');
+        document.querySelector('.new-thread-section').classList.remove('hidden');
     });
     
     // Post reply button
@@ -389,24 +443,18 @@ function initializeThreadDetailEvents(threadId) {
 }
 
 /**
- * Generate replies HTML
+ * Get category label
  */
-function generateRepliesHTML(threadId) {
-    const replies = JSON.parse(localStorage.getItem(`forumReplies_${threadId}`) || '[]');
-    
-    if (replies.length === 0) {
-        return '<p class="no-replies">No replies yet. Be the first to reply!</p>';
-    }
-    
-    return replies.map(reply => `
-        <div class="reply-item">
-            <div class="reply-header">
-                <span class="reply-author">${reply.author}</span>
-                <span class="reply-date">${getTimeAgo(new Date(reply.date))}</span>
-            </div>
-            <div class="reply-content">${reply.content}</div>
-        </div>
-    `).join('');
+function getCategoryLabel(category) {
+    const labels = {
+        'english': 'English',
+        'japanese': 'Japanese',
+        'math': 'Mathematics',
+        'general': 'General',
+        'resources': 'Resources',
+        'study-groups': 'Study Groups'
+    };
+    return labels[category] || 'General';
 }
 
 /**
@@ -449,7 +497,9 @@ function postReply(threadId) {
     
     // Update UI
     document.getElementById(`reply-content-${threadId}`).value = '';
-    document.getElementById(`replies-${threadId}`).innerHTML = generateRepliesHTML(threadId);
+    
+    // Reload thread detail view
+    viewThread(threadId);
     
     showNotification('Reply posted successfully', 'success');
 }
@@ -681,6 +731,7 @@ function displaySearchResults(results, searchTerm) {
         clearSearch.addEventListener('click', function() {
             finalResultsContainer.classList.add('hidden');
             threadsContainer.classList.remove('hidden');
+            document.querySelector('.new-thread-section').classList.remove('hidden');
             document.getElementById('forum-search').reset();
         });
         

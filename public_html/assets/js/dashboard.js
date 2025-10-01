@@ -31,12 +31,13 @@ function initializeDashboard() {
     loadUserData();
     initializeProgressBars();
     initializeBadges();
-    initializeCalendar();
+    initializeFullCalendar();
     initializeResourceDownloads();
     setupCourseEnrollment();
     setupUserMenu();
     initializeEventRSVP();
     initializeDashboardStats();
+    initializeCourseResourcesModal();
 }
 
 /**
@@ -139,8 +140,8 @@ function loadUserData() {
     // Load user progress
     loadUserProgress(user);
     
-    // Initialize full calendar
-    initializeFullCalendar();
+    // Initialize full calendar with user's DOB
+    initializeFullCalendar(user.dob);
     
     // Load user events
     loadUserEvents();
@@ -352,7 +353,7 @@ function initializeProgressActions() {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             const courseId = this.getAttribute('data-course');
-            viewCourseResources(courseId);
+            showCourseResourcesModal(courseId);
         });
     });
 }
@@ -403,9 +404,24 @@ function continueLearning(courseId) {
 }
 
 /**
- * View course resources
+ * Initialize Course Resources Modal
  */
-function viewCourseResources(courseId) {
+function initializeCourseResourcesModal() {
+    const resourceButtons = document.querySelectorAll('.view-resources-btn');
+    
+    resourceButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const courseId = this.getAttribute('data-course');
+            showCourseResourcesModal(courseId);
+        });
+    });
+}
+
+/**
+ * Show Course Resources Modal
+ */
+function showCourseResourcesModal(courseId) {
     const resources = {
         'eng-101': [
             { name: 'Grammar Guide', type: 'PDF', size: '2.5 MB' },
@@ -425,17 +441,18 @@ function viewCourseResources(courseId) {
     };
     
     const courseResources = resources[courseId] || [];
-    showResourceModal(courseResources, courseId);
-}
-
-/**
- * Show resource modal
- */
-function showResourceModal(resources, courseId) {
-    let resourcesHTML = '<h3>Course Resources</h3><div class="resources-list">';
     
-    resources.forEach(resource => {
-        resourcesHTML += `
+    let modalHTML = `
+        <div class="modal-header">
+            <h2>Course Resources</h2>
+            <span class="modal-close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="resources-list">
+    `;
+    
+    courseResources.forEach(resource => {
+        modalHTML += `
             <div class="resource-item">
                 <div class="resource-info">
                     <h4>${resource.name}</h4>
@@ -446,9 +463,12 @@ function showResourceModal(resources, courseId) {
         `;
     });
     
-    resourcesHTML += '</div>';
+    modalHTML += `
+            </div>
+        </div>
+    `;
     
-    showModal('Course Resources', resourcesHTML);
+    showModal('Course Resources', modalHTML);
     
     // Add download functionality
     setTimeout(() => {
@@ -586,9 +606,9 @@ function showBadgeRequirements(badgeName) {
 }
 
 /**
- * Initialize full calendar with timezone support
+ * Initialize full calendar with timezone support and user's DOB
  */
-function initializeFullCalendar() {
+function initializeFullCalendar(userDOB) {
     const calendarDays = document.getElementById('calendar-days');
     const currentMonthEl = document.getElementById('current-month');
     const prevMonthBtn = document.getElementById('prev-month');
@@ -598,8 +618,11 @@ function initializeFullCalendar() {
     let currentMonth = currentDate.getMonth();
     let currentYear = currentDate.getFullYear();
     
+    // If user has DOB, highlight it on calendar
+    const userBirthday = userDOB ? new Date(userDOB) : null;
+    
     // Render calendar
-    renderCalendar(currentMonth, currentYear);
+    renderCalendar(currentMonth, currentYear, userBirthday);
     
     // Navigation event listeners
     prevMonthBtn.addEventListener('click', () => {
@@ -608,7 +631,7 @@ function initializeFullCalendar() {
             currentMonth = 11;
             currentYear--;
         }
-        renderCalendar(currentMonth, currentYear);
+        renderCalendar(currentMonth, currentYear, userBirthday);
     });
     
     nextMonthBtn.addEventListener('click', () => {
@@ -617,10 +640,10 @@ function initializeFullCalendar() {
             currentMonth = 0;
             currentYear++;
         }
-        renderCalendar(currentMonth, currentYear);
+        renderCalendar(currentMonth, currentYear, userBirthday);
     });
     
-    function renderCalendar(month, year) {
+    function renderCalendar(month, year, birthday) {
         // Update month header with timezone info
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                            'July', 'August', 'September', 'October', 'November', 'December'];
@@ -653,6 +676,12 @@ function initializeFullCalendar() {
             // Check if today
             if (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
                 day.classList.add('today');
+            }
+            
+            // Check for user's birthday
+            if (birthday && i === birthday.getDate() && month === birthday.getMonth()) {
+                day.classList.add('birthday');
+                day.title = 'Your Birthday!';
             }
             
             // Check for events
@@ -804,7 +833,8 @@ function scheduleAppointment(day, month, year, time, subject, notes) {
         updateUpcomingAppointments();
         
         // Refresh calendar
-        initializeFullCalendar();
+        const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        initializeFullCalendar(user.dob);
     }, 1000);
 }
 
@@ -1151,10 +1181,6 @@ REGISTRATIONS:
             return `Math and Language Synergy - ${fileType}
 ================================
 File Created: ${timestamp}
-Total Entries: 0
-
-ENTRIES:
-========
 `;
     }
 }

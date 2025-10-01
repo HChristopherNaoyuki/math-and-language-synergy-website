@@ -220,15 +220,30 @@ function updateNavigationForLoggedInUser(user) {
     const userMenuContainer = document.getElementById('user-menu-container');
     
     if (userMenuContainer) {
+        let menuItems = '';
+        
+        if (user.accountType === 'student') {
+            menuItems = `
+                <li><a href="enrollment.html">Enroll</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="forum.html">Forum</a></li>
+                <li><a href="#" id="switch-account">Switch Account</a></li>
+                <li><a href="#" id="logout">Logout</a></li>
+            `;
+        } else if (user.accountType === 'lecturer') {
+            menuItems = `
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="forum.html">Forum</a></li>
+                <li><a href="#" id="switch-account">Switch Account</a></li>
+                <li><a href="#" id="logout">Logout</a></li>
+            `;
+        }
+        
         userMenuContainer.innerHTML = `
             <li class="user-menu">
                 <a href="#" class="user-toggle">${user.firstName} ▾</a>
                 <ul class="user-dropdown">
-                    <li><a href="enrollment.html">Enroll</a></li>
-                    <li><a href="dashboard.html">Dashboard</a></li>
-                    <li><a href="forum.html">Forum</a></li>
-                    <li><a href="#" id="switch-account">Switch Account</a></li>
-                    <li><a href="#" id="logout">Logout</a></li>
+                    ${menuItems}
                 </ul>
             </li>
         `;
