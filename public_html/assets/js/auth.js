@@ -1,4 +1,4 @@
-// Authentication functionality
+// Authentication functionality with text file storage simulation
 document.addEventListener('DOMContentLoaded', function() {
     // Check if user is logged in
     checkAuthStatus();
@@ -40,6 +40,9 @@ function handleLogin(form) {
             localStorage.setItem('currentUser', JSON.stringify(user));
             showNotification('Login successful!', 'success');
             
+            // Update navigation
+            updateNavigationForLoggedInUser(user);
+            
             // Redirect to dashboard
             setTimeout(() => {
                 window.location.href = 'dashboard.html';
@@ -56,6 +59,7 @@ function handleLogin(form) {
 function handleSignup(form) {
     const formData = new FormData(form);
     const userData = {
+        id: generateUserId(),
         firstName: formData.get('firstName'),
         lastName: formData.get('lastName'),
         username: formData.get('username'),
@@ -63,7 +67,14 @@ function handleSignup(form) {
         accountType: formData.get('accountType'),
         dob: formData.get('dob'),
         accountPlan: formData.get('accountPlan'),
-        joinDate: new Date().toISOString()
+        joinDate: new Date().toISOString(),
+        progress: {
+            english: 0,
+            japanese: 0,
+            math: 0
+        },
+        badges: [],
+        events: []
     };
     
     // Validate password length
@@ -83,12 +94,15 @@ function handleSignup(form) {
         // Add new user
         users.push(userData);
         
-        // Save users
-        saveUsers(users).then(() => {
+        // Save users to text file
+        saveUsersToFile(users).then(() => {
             showNotification('Account created successfully!', 'success');
             
             // Auto login
             localStorage.setItem('currentUser', JSON.stringify(userData));
+            
+            // Update navigation
+            updateNavigationForLoggedInUser(userData);
             
             // Redirect based on account plan
             setTimeout(() => {
@@ -105,9 +119,10 @@ function handleSignup(form) {
         });
     }).catch(error => {
         // If no users file exists, create one with this user
-        saveUsers([userData]).then(() => {
+        saveUsersToFile([userData]).then(() => {
             showNotification('Account created successfully!', 'success');
             localStorage.setItem('currentUser', JSON.stringify(userData));
+            updateNavigationForLoggedInUser(userData);
             
             setTimeout(() => {
                 if (userData.accountPlan === 'free') {
@@ -123,10 +138,13 @@ function handleSignup(form) {
     });
 }
 
+function generateUserId() {
+    return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+}
+
 function getUsers() {
     return new Promise((resolve, reject) => {
-        // In a real application, this would be a server API call
-        // For this demo, we'll use localStorage as a fallback
+        // Check localStorage first (for demo purposes)
         const usersData = localStorage.getItem('userData');
         
         if (usersData) {
@@ -136,25 +154,57 @@ function getUsers() {
                 reject(error);
             }
         } else {
-            // Try to read from a file (simulated)
+            // Simulate reading from a text file
+            // In a real application, this would be a server API call
             setTimeout(() => {
-                // For demo purposes, we'll return an empty array
+                // For demo purposes, return an empty array
                 resolve([]);
             }, 100);
         }
     });
 }
 
-function saveUsers(users) {
+function saveUsersToFile(users) {
     return new Promise((resolve, reject) => {
         try {
             // Save to localStorage for this demo
             localStorage.setItem('userData', JSON.stringify(users));
+            
+            // Simulate saving to .txt file
+            simulateUserSaveToTxtFile(users);
+            
             resolve();
         } catch (error) {
             reject(error);
         }
     });
+}
+
+function simulateUserSaveToTxtFile(users) {
+    // This simulates what would happen on the server
+    const txtContent = users.map(user => `
+User Account
+============
+User ID: ${user.id}
+Name: ${user.firstName} ${user.lastName}
+Username: ${user.username}
+Account Type: ${user.accountType}
+Account Plan: ${user.accountPlan}
+Join Date: ${new Date(user.joinDate).toLocaleString()}
+Progress: 
+  English: ${user.progress.english}%
+  Japanese: ${user.progress.japanese}%
+  Math: ${user.progress.math}%
+Badges: ${user.badges.join(', ') || 'None'}
+Events: ${user.events.length}
+
+`).join('\n' + '='.repeat(50) + '\n');
+    
+    // In a real application, this would be saved to a file on the server
+    // For demo purposes, we'll store it in localStorage
+    localStorage.setItem('users_backup.txt', txtContent);
+    
+    console.log('Simulated user data .txt file creation');
 }
 
 function checkAuthStatus() {
@@ -167,49 +217,87 @@ function checkAuthStatus() {
 }
 
 function updateNavigationForLoggedInUser(user) {
-    const nav = document.querySelector('nav ul');
+    const userMenuContainer = document.getElementById('user-menu-container');
     
-    if (nav) {
-        // Add user menu
-        const userMenu = document.createElement('li');
-        userMenu.className = 'user-menu';
-        userMenu.innerHTML = `
-            <a href="#" class="user-toggle">${user.firstName} ▾</a>
-            <ul class="user-dropdown">
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="profile.html">Profile</a></li>
-                <li><a href="#" id="switch-account">Switch Account</a></li>
-                <li><a href="#" id="logout">Logout</a></li>
-            </ul>
+    if (userMenuContainer) {
+        userMenuContainer.innerHTML = `
+            <li class="user-menu">
+                <a href="#" class="user-toggle">${user.firstName} ▾</a>
+                <ul class="user-dropdown">
+                    <li><a href="enrollment.html">Enroll</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="forum.html">Forum</a></li>
+                    <li><a href="#" id="switch-account">Switch Account</a></li>
+                    <li><a href="#" id="logout">Logout</a></li>
+                </ul>
+            </li>
         `;
         
-        // Find the last nav item and insert before it
-        const lastItem = nav.querySelector('li:last-child');
-        nav.insertBefore(userMenu, lastItem);
+        // Re-initialize user menu functionality
+        const userToggle = userMenuContainer.querySelector('.user-toggle');
+        const userDropdown = userMenuContainer.querySelector('.user-dropdown');
+        const switchAccount = userMenuContainer.querySelector('#switch-account');
+        const logout = userMenuContainer.querySelector('#logout');
         
-        // Add event listeners
-        document.getElementById('logout').addEventListener('click', handleLogout);
-        document.getElementById('switch-account').addEventListener('click', handleSwitchAccount);
+        if (userToggle && userDropdown) {
+            userToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                userDropdown.classList.toggle('show');
+            });
+        }
         
-        // Toggle dropdown
-        document.querySelector('.user-toggle').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.querySelector('.user-dropdown').classList.toggle('show');
-        });
+        if (switchAccount) {
+            switchAccount.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('currentUser');
+                showNotification('Switching accounts...', 'info');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1000);
+            });
+        }
+        
+        if (logout) {
+            logout.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('currentUser');
+                showNotification('Logged out successfully', 'success');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            });
+        }
     }
 }
 
-function handleLogout(e) {
-    e.preventDefault();
-    localStorage.removeItem('currentUser');
-    showNotification('Logged out successfully', 'success');
+// Helper function to show notifications
+function showNotification(message, type) {
+    // Remove any existing notifications
+    const existingNotification = document.querySelector('.notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    
+    // Add to page
+    document.body.appendChild(notification);
+    
+    // Show notification
     setTimeout(() => {
-        window.location.href = '../index.html';
-    }, 1000);
-}
-
-function handleSwitchAccount(e) {
-    e.preventDefault();
-    localStorage.removeItem('currentUser');
-    window.location.href = 'login.html';
+        notification.style.display = 'block';
+    }, 10);
+    
+    // Hide notification after 3 seconds
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transition = 'opacity 0.5s ease';
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 500);
+    }, 3000);
 }
