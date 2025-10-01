@@ -36,6 +36,7 @@ function initializeDashboard() {
     setupCourseEnrollment();
     setupUserMenu();
     initializeEventRSVP();
+    initializeDashboardStats();
 }
 
 /**
@@ -80,6 +81,19 @@ function setupUserMenu() {
  * Handle switch account
  */
 function handleSwitchAccount() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    
+    // Log account switch to text file
+    if (currentUser) {
+        const switchData = {
+            action: 'account_switch',
+            username: currentUser.username,
+            timestamp: new Date().toISOString(),
+            page: 'dashboard'
+        };
+        saveToTextFile('user_actions', switchData);
+    }
+    
     localStorage.removeItem('currentUser');
     showNotification('Switching accounts...', 'info');
     setTimeout(() => {
@@ -91,10 +105,23 @@ function handleSwitchAccount() {
  * Handle logout
  */
 function handleLogout() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    
+    // Log logout action to text file
+    if (currentUser) {
+        const logoutData = {
+            action: 'logout',
+            username: currentUser.username,
+            timestamp: new Date().toISOString(),
+            page: 'dashboard'
+        };
+        saveToTextFile('user_actions', logoutData);
+    }
+    
     localStorage.removeItem('currentUser');
     showNotification('Logged out successfully', 'success');
     setTimeout(() => {
-        window.location.href = '../index.html';
+        window.location.reload();
     }, 1000);
 }
 
@@ -120,43 +147,87 @@ function loadUserData() {
     
     // Update stats based on user data
     updateDashboardStats(user);
+    
+    // Log dashboard access
+    logDashboardAccess(user);
+}
+
+/**
+ * Log dashboard access to text file
+ */
+function logDashboardAccess(user) {
+    const accessData = {
+        action: 'dashboard_access',
+        username: user.username,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent
+    };
+    saveToTextFile('user_actions', accessData);
+}
+
+/**
+ * Initialize dashboard statistics
+ */
+function initializeDashboardStats() {
+    const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    const userProgress = user.progress || { english: 0, japanese: 0, math: 0 };
+    
+    // Calculate stats based on progress
+    const activeCourses = Object.keys(userProgress).filter(course => userProgress[course] > 0 && userProgress[course] < 100).length;
+    const completedLessons = Object.values(userProgress).reduce((sum, progress) => sum + Math.floor(progress / 10), 0);
+    
+    // Get download history
+    const downloadHistory = JSON.parse(localStorage.getItem(`downloadHistory_${user.username}`) || '[]');
+    const downloadCount = downloadHistory.length;
+    
+    // Get upcoming events
+    const userEvents = JSON.parse(localStorage.getItem('userEvents') || '[]');
+    const now = new Date();
+    const upcomingEvents = userEvents.filter(event => new Date(event.date) >= now).length;
+    
+    // Update stat cards
+    const statNumbers = document.querySelectorAll('.stat-number');
+    if (statNumbers.length >= 4) {
+        statNumbers[0].textContent = activeCourses || 3;
+        statNumbers[1].textContent = completedLessons || 12;
+        statNumbers[2].textContent = upcomingEvents || 5;
+        statNumbers[3].textContent = downloadCount || 8;
+    }
 }
 
 /**
  * Update dashboard statistics
  */
 function updateDashboardStats(user) {
-    const userProgress = JSON.parse(localStorage.getItem(`progress_${user.username}`) || '{}');
-    
-    // Update stats cards with real data
-    const activeCourses = Object.keys(userProgress).filter(course => userProgress[course] > 0 && userProgress[course] < 100).length;
-    const completedLessons = Object.values(userProgress).reduce((sum, progress) => sum + Math.floor(progress / 10), 0);
-    
-    document.querySelectorAll('.stat-number')[0].textContent = activeCourses || 3;
-    document.querySelectorAll('.stat-number')[1].textContent = completedLessons || 12;
+    // This function is called by other components to update stats
+    initializeDashboardStats();
 }
 
 /**
  * Load user progress
  */
 function loadUserProgress(user) {
-    const userProgress = JSON.parse(localStorage.getItem(`progress_${user.username}`) || '{}');
+    const userProgress = user.progress || {
+        english: Math.floor(Math.random() * 30) + 70,
+        japanese: Math.floor(Math.random() * 50) + 30,
+        math: Math.floor(Math.random() * 20) + 80
+    };
     
     const courses = [
         { 
             id: 'eng-101', 
             name: 'English Language Mastery', 
-            progress: userProgress.english || Math.floor(Math.random() * 30) + 70 
+            progress: userProgress.english 
         },
         { 
             id: 'jpn-101', 
             name: 'Japanese Language Immersion', 
-            progress: userProgress.japanese || Math.floor(Math.random() * 50) + 30 
+            progress: userProgress.japanese 
         },
         { 
             id: 'math-101', 
             name: 'Advanced Mathematics', 
-            progress: userProgress.math || Math.floor(Math.random() * 20) + 80 
+            progress: userProgress.math 
         }
     ];
     
@@ -164,11 +235,8 @@ function loadUserProgress(user) {
     const totalProgress = courses.reduce((sum, course) => sum + course.progress, 0) / courses.length;
     document.getElementById('progress-percentage').textContent = `${Math.round(totalProgress)}%`;
     
-    // Save progress back to localStorage
-    userProgress.english = courses[0].progress;
-    userProgress.japanese = courses[1].progress;
-    userProgress.math = courses[2].progress;
-    localStorage.setItem(`progress_${user.username}`, JSON.stringify(userProgress));
+    // Save progress to text file
+    saveProgressToTextFile(user.username, userProgress);
     
     // Render progress cards
     const progressContainer = document.getElementById('progress-cards');
@@ -200,6 +268,51 @@ function loadUserProgress(user) {
     
     // Reinitialize progress bars
     initializeProgressBars();
+}
+
+/**
+ * Save progress to text file
+ */
+function saveProgressToTextFile(username, progress) {
+    const progressData = {
+        username: username,
+        progress: progress,
+        timestamp: new Date().toISOString(),
+        overall: Math.round((progress.english + progress.japanese + progress.math) / 3)
+    };
+    
+    saveToTextFile('student_progress', progressData);
+    
+    // Also update user data in localStorage
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    currentUser.progress = progress;
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    
+    // Update users data file
+    updateUserProgressInMainFile(username, progress);
+}
+
+/**
+ * Update user progress in main users file
+ */
+function updateUserProgressInMainFile(username, progress) {
+    const usersData = JSON.parse(localStorage.getItem('userData') || '[]');
+    const userIndex = usersData.findIndex(u => u.username === username);
+    
+    if (userIndex !== -1) {
+        usersData[userIndex].progress = progress;
+        localStorage.setItem('userData', JSON.stringify(usersData));
+        
+        // Update text file backup
+        const user = usersData[userIndex];
+        const userUpdateData = {
+            action: 'progress_update',
+            username: username,
+            progress: progress,
+            timestamp: new Date().toISOString()
+        };
+        saveToTextFile('users_data_updates', userUpdateData);
+    }
 }
 
 /**
@@ -254,18 +367,31 @@ function continueLearning(courseId) {
         'math-101': 'Advanced Mathematics'
     };
     
+    const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    
     showNotification(`Continuing with ${courseNames[courseId]}...`, 'info');
+    
+    // Log learning activity
+    const learningData = {
+        action: 'continue_learning',
+        username: user.username,
+        course: courseId,
+        courseName: courseNames[courseId],
+        timestamp: new Date().toISOString()
+    };
+    saveToTextFile('learning_activities', learningData);
     
     // Simulate loading next lesson
     setTimeout(() => {
         // Update progress
-        const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
-        const userProgress = JSON.parse(localStorage.getItem(`progress_${user.username}`) || '{}');
+        const userProgress = user.progress || { english: 0, japanese: 0, math: 0 };
         
         const courseKey = courseId.split('-')[0]; // eng, jpn, math
         if (userProgress[courseKey] < 100) {
             userProgress[courseKey] = Math.min(userProgress[courseKey] + 5, 100);
-            localStorage.setItem(`progress_${user.username}`, JSON.stringify(userProgress));
+            
+            // Save updated progress
+            saveProgressToTextFile(user.username, userProgress);
             
             // Reload progress
             loadUserProgress(user);
@@ -299,13 +425,13 @@ function viewCourseResources(courseId) {
     };
     
     const courseResources = resources[courseId] || [];
-    showResourceModal(courseResources);
+    showResourceModal(courseResources, courseId);
 }
 
 /**
  * Show resource modal
  */
-function showResourceModal(resources) {
+function showResourceModal(resources, courseId) {
     let resourcesHTML = '<h3>Course Resources</h3><div class="resources-list">';
     
     resources.forEach(resource => {
@@ -315,7 +441,7 @@ function showResourceModal(resources) {
                     <h4>${resource.name}</h4>
                     <p>${resource.type} • ${resource.size}</p>
                 </div>
-                <button class="btn small download-resource-btn">Download</button>
+                <button class="btn small download-resource-btn" data-resource="${resource.name}" data-course="${courseId}">Download</button>
             </div>
         `;
     });
@@ -328,8 +454,9 @@ function showResourceModal(resources) {
     setTimeout(() => {
         document.querySelectorAll('.download-resource-btn').forEach(button => {
             button.addEventListener('click', function() {
-                const resourceName = this.closest('.resource-item').querySelector('h4').textContent;
-                downloadResource(resourceName);
+                const resourceName = this.getAttribute('data-resource');
+                const courseId = this.getAttribute('data-course');
+                downloadResource(resourceName, courseId);
             });
         });
     }, 100);
@@ -338,12 +465,25 @@ function showResourceModal(resources) {
 /**
  * Download resource
  */
-function downloadResource(resourceName) {
+function downloadResource(resourceName, courseId) {
+    const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    
     showNotification(`Downloading ${resourceName}...`, 'info');
+    
+    // Log download activity
+    const downloadData = {
+        action: 'resource_download',
+        username: user.username,
+        resource: resourceName,
+        course: courseId,
+        timestamp: new Date().toISOString()
+    };
+    saveToTextFile('download_history', downloadData);
     
     setTimeout(() => {
         showNotification(`${resourceName} downloaded successfully!`, 'success');
         updateDownloadProgress();
+        updateDownloadHistory(resourceName, 'PDF', courseId);
     }, 2000);
 }
 
@@ -351,16 +491,39 @@ function downloadResource(resourceName) {
  * Update download progress
  */
 function updateDownloadProgress() {
+    // This would update visual progress indicators
     const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    const userDownloads = JSON.parse(localStorage.getItem(`downloads_${user.username}`) || '{}');
-    
-    userDownloads.count = (userDownloads.count || 0) + 1;
-    userDownloads.lastDownload = new Date().toISOString();
-    
-    localStorage.setItem(`downloads_${user.username}`, JSON.stringify(userDownloads));
+    const downloadHistory = JSON.parse(localStorage.getItem(`downloadHistory_${user.username}`) || '[]');
     
     // Update download count stat
-    document.querySelectorAll('.stat-number')[3].textContent = userDownloads.count || 8;
+    const statNumbers = document.querySelectorAll('.stat-number');
+    if (statNumbers.length >= 4) {
+        statNumbers[3].textContent = downloadHistory.length;
+    }
+}
+
+/**
+ * Update download history
+ */
+function updateDownloadHistory(resourceName, resourceType, courseId) {
+    const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    let downloadHistory = JSON.parse(localStorage.getItem(`downloadHistory_${user.username}`) || '[]');
+    
+    const now = new Date();
+    const downloadRecord = {
+        name: resourceName,
+        type: resourceType,
+        course: courseId,
+        date: now.toISOString(),
+        timestamp: now.getTime()
+    };
+    
+    downloadHistory.unshift(downloadRecord);
+    
+    // Keep only last 10 downloads
+    downloadHistory = downloadHistory.slice(0, 10);
+    
+    localStorage.setItem(`downloadHistory_${user.username}`, JSON.stringify(downloadHistory));
 }
 
 /**
@@ -620,6 +783,7 @@ function scheduleAppointment(day, month, year, time, subject, notes) {
         subject: subject,
         notes: notes,
         student: currentUser.firstName + ' ' + currentUser.lastName,
+        username: currentUser.username,
         status: 'scheduled'
     };
     
@@ -627,6 +791,9 @@ function scheduleAppointment(day, month, year, time, subject, notes) {
     let userEvents = JSON.parse(localStorage.getItem('userEvents') || '[]');
     userEvents.push(appointment);
     localStorage.setItem('userEvents', JSON.stringify(userEvents));
+    
+    // Save to text file
+    saveToTextFile('user_events', appointment);
     
     // Simulate API call
     setTimeout(() => {
@@ -654,7 +821,10 @@ function updateUpcomingAppointments() {
         .sort((a, b) => new Date(a.date) - new Date(b.date));
     
     // Update events count
-    document.querySelectorAll('.stat-number')[2].textContent = upcomingAppointments.length;
+    const statNumbers = document.querySelectorAll('.stat-number');
+    if (statNumbers.length >= 3) {
+        statNumbers[2].textContent = upcomingAppointments.length;
+    }
 }
 
 /**
@@ -673,6 +843,7 @@ function initializeResourceDownloads() {
     downloadButtons.forEach(button => {
         button.addEventListener('click', function() {
             const resourceName = this.closest('.resource-card').querySelector('.resource-name').textContent;
+            const courseId = this.getAttribute('data-course') || 'general';
             
             showNotification(`Downloading ${resourceName}...`, 'info');
             
@@ -684,33 +855,10 @@ function initializeResourceDownloads() {
                 updateDownloadProgress();
                 
                 // Update download history
-                updateDownloadHistory(resourceName, 'PDF');
+                updateDownloadHistory(resourceName, 'PDF', courseId);
             }, 2000);
         });
     });
-}
-
-/**
- * Update download history
- */
-function updateDownloadHistory(resourceName, resourceType) {
-    const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    let downloadHistory = JSON.parse(localStorage.getItem(`downloadHistory_${user.username}`) || '[]');
-    
-    const now = new Date();
-    const downloadRecord = {
-        name: resourceName,
-        type: resourceType,
-        date: now.toISOString(),
-        timestamp: now.getTime()
-    };
-    
-    downloadHistory.unshift(downloadRecord);
-    
-    // Keep only last 10 downloads
-    downloadHistory = downloadHistory.slice(0, 10);
-    
-    localStorage.setItem(`downloadHistory_${user.username}`, JSON.stringify(downloadHistory));
 }
 
 /**
@@ -727,6 +875,86 @@ function setupCourseEnrollment() {
             showEnrollmentModal(courseId, courseName);
         });
     });
+}
+
+/**
+ * Show enrollment modal
+ */
+function showEnrollmentModal(courseId, courseName) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    
+    const modalContent = `
+        <h3>Enroll in ${courseName}</h3>
+        <p>Please confirm your enrollment details:</p>
+        <div class="form-group">
+            <label for="enrollment-name">Full Name</label>
+            <input type="text" id="enrollment-name" value="${currentUser.firstName} ${currentUser.lastName}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="enrollment-email">Email</label>
+            <input type="email" id="enrollment-email" value="${currentUser.username}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="enrollment-level">Current Level</label>
+            <select id="enrollment-level" required>
+                <option value="">Select your level</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+            </select>
+        </div>
+        <div class="button-group">
+            <button class="btn secondary" id="cancel-enrollment">Cancel</button>
+            <button class="btn" id="confirm-enrollment">Enroll Now</button>
+        </div>
+    `;
+    
+    showModal('Course Enrollment', modalContent);
+    
+    document.getElementById('confirm-enrollment').addEventListener('click', function() {
+        const level = document.getElementById('enrollment-level').value;
+        
+        if (!level) {
+            showNotification('Please select your level', 'error');
+            return;
+        }
+        
+        processEnrollment(courseId, courseName, currentUser, level);
+    });
+    
+    document.getElementById('cancel-enrollment').addEventListener('click', function() {
+        closeModal();
+    });
+}
+
+/**
+ * Process enrollment
+ */
+function processEnrollment(courseId, courseName, user, level) {
+    const enrollmentData = {
+        courseId: courseId,
+        courseName: courseName,
+        username: user.username,
+        studentName: `${user.firstName} ${user.lastName}`,
+        level: level,
+        enrollmentDate: new Date().toISOString(),
+        status: 'enrolled'
+    };
+    
+    // Save enrollment to text file
+    saveToTextFile('course_enrollments', enrollmentData);
+    
+    // Show success message
+    showNotification(`Successfully enrolled in ${courseName}!`, 'success');
+    
+    // Close modal
+    closeModal();
+    
+    // Redirect to course page or update dashboard
+    setTimeout(() => {
+        // You could redirect to a course page here
+        // window.location.href = `course.html?id=${courseId}`;
+    }, 1000);
 }
 
 /**
@@ -755,19 +983,202 @@ function handleEventRSVP(eventTitle, eventDate, button) {
         button.classList.add('registered');
         showNotification(`Successfully registered for ${eventTitle}`, 'success');
         
-        // Save RSVP
-        let userRSVPs = JSON.parse(localStorage.getItem(`rsvps_${user.username}`) || '[]');
-        userRSVPs.push({
+        // Save RSVP to text file
+        const rsvpData = {
             event: eventTitle,
             date: eventDate,
+            username: user.username,
             registeredAt: new Date().toISOString()
-        });
-        localStorage.setItem(`rsvps_${user.username}`, JSON.stringify(userRSVPs));
+        };
+        saveToTextFile('event_registrations', rsvpData);
+        
     } else {
         button.textContent = 'RSVP';
         button.classList.remove('registered');
         showNotification(`Cancelled registration for ${eventTitle}`, 'info');
     }
+}
+
+/**
+ * Save data to text file system
+ * @param {string} fileType - Type of data to save
+ * @param {Object} data - Data to save
+ */
+function saveToTextFile(fileType, data) {
+    try {
+        // Get existing file content
+        const existingContent = localStorage.getItem(`${fileType}_backup`) || getInitialFileContent(fileType);
+        
+        // Parse existing content and update
+        let newContent = existingContent;
+        
+        // Add new entry based on file type
+        switch(fileType) {
+            case 'student_progress':
+                newContent += `\n\nProgress Update - ${new Date(data.timestamp).toLocaleString()}
+Student: ${data.username}
+English: ${data.progress.english}%
+Japanese: ${data.progress.japanese}%
+Math: ${data.progress.math}%
+Overall: ${data.overall}%
+----------------------------------------`;
+                break;
+                
+            case 'user_events':
+                newContent += `\n\nEvent Scheduled - ${new Date(data.timestamp).toLocaleString()}
+Student: ${data.student} (${data.username})
+Date: ${new Date(data.date).toLocaleDateString()}
+Time: ${data.time}
+Subject: ${data.subject}
+Status: ${data.status}
+----------------------------------------`;
+                break;
+                
+            case 'download_history':
+                newContent += `\n\nDownload - ${new Date(data.timestamp).toLocaleString()}
+Student: ${data.username}
+Resource: ${data.resource}
+Course: ${data.course}
+----------------------------------------`;
+                break;
+                
+            case 'learning_activities':
+                newContent += `\n\nLearning Activity - ${new Date(data.timestamp).toLocaleString()}
+Student: ${data.username}
+Course: ${data.courseName} (${data.course})
+Action: ${data.action}
+----------------------------------------`;
+                break;
+                
+            case 'course_enrollments':
+                newContent += `\n\nEnrollment - ${new Date(data.enrollmentDate).toLocaleString()}
+Student: ${data.studentName} (${data.username})
+Course: ${data.courseName} (${data.courseId})
+Level: ${data.level}
+Status: ${data.status}
+----------------------------------------`;
+                break;
+                
+            case 'event_registrations':
+                newContent += `\n\nEvent Registration - ${new Date(data.registeredAt).toLocaleString()}
+Student: ${data.username}
+Event: ${data.event}
+Date: ${data.date}
+----------------------------------------`;
+                break;
+                
+            default:
+                newContent += `\n\nNew Entry - ${new Date().toLocaleString()}
+${JSON.stringify(data, null, 2)}
+----------------------------------------`;
+        }
+        
+        // Update counters in file header
+        newContent = updateFileCounter(newContent, fileType);
+        
+        // Save back to localStorage
+        localStorage.setItem(`${fileType}_backup`, newContent);
+        
+        console.log(`Data saved to ${fileType} backup file`);
+        
+    } catch (error) {
+        console.error(`Error saving to ${fileType}:`, error);
+    }
+}
+
+/**
+ * Get initial content for text files
+ */
+function getInitialFileContent(fileType) {
+    const timestamp = new Date().toISOString();
+    
+    switch(fileType) {
+        case 'student_progress':
+            return `Math and Language Synergy - Student Progress Reports
+====================================================
+File Created: ${timestamp}
+Total Progress Records: 0
+
+PROGRESS RECORDS:
+=================
+`;
+        case 'user_events':
+            return `Math and Language Synergy - User Events and Appointments
+=======================================================
+File Created: ${timestamp}
+Total Events: 0
+
+EVENTS:
+=======
+`;
+        case 'download_history':
+            return `Math and Language Synergy - Resource Download History
+=====================================================
+File Created: ${timestamp}
+Total Downloads: 0
+
+DOWNLOAD HISTORY:
+=================
+`;
+        case 'learning_activities':
+            return `Math and Language Synergy - Learning Activities
+============================================
+File Created: ${timestamp}
+Total Activities: 0
+
+LEARNING ACTIVITIES:
+====================
+`;
+        case 'course_enrollments':
+            return `Math and Language Synergy - Course Enrollments
+============================================
+File Created: ${timestamp}
+Total Enrollments: 0
+
+ENROLLMENTS:
+============
+`;
+        case 'event_registrations':
+            return `Math and Language Synergy - Event Registrations
+=============================================
+File Created: ${timestamp}
+Total Registrations: 0
+
+REGISTRATIONS:
+==============
+`;
+        default:
+            return `Math and Language Synergy - ${fileType}
+================================
+File Created: ${timestamp}
+Total Entries: 0
+
+ENTRIES:
+========
+`;
+    }
+}
+
+/**
+ * Update counter in file header
+ */
+function updateFileCounter(content, fileType) {
+    const lines = content.split('\n');
+    let updated = false;
+    
+    for (let i = 0; i < lines.length; i++) {
+        if (lines[i].includes('Total')) {
+            const match = lines[i].match(/Total (\w+): (\d+)/);
+            if (match) {
+                const currentCount = parseInt(match[2]);
+                lines[i] = lines[i].replace(`: ${currentCount}`, `: ${currentCount + 1}`);
+                updated = true;
+                break;
+            }
+        }
+    }
+    
+    return lines.join('\n');
 }
 
 /**
