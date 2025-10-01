@@ -589,9 +589,9 @@ function initializeUserMenu() {
                 <li class="user-menu">
                     <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
                     <ul class="user-dropdown">
-                        <li><a href="enrollment.html">Enroll</a></li>
-                        <li><a href="dashboard.html">Dashboard</a></li>
-                        <li><a href="forum.html">Forum</a></li>
+                        <li><a href="pages/enrollment.html">Enroll in Courses</a></li>
+                        <li><a href="pages/dashboard.html">My Dashboard</a></li>
+                        <li><a href="pages/forum.html">Student Forum</a></li>
                         <li><a href="#" id="switch-account">Switch Account</a></li>
                         <li><a href="#" id="logout">Logout</a></li>
                     </ul>
@@ -603,8 +603,9 @@ function initializeUserMenu() {
                 <li class="user-menu">
                     <a href="#" class="user-toggle">Current Student ▾</a>
                     <ul class="user-dropdown">
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="signup.html">Sign Up</a></li>
+                        <li><a href="pages/login.html">Login to Account</a></li>
+                        <li><a href="pages/signup.html">Create New Account</a></li>
+                        <li><a href="pages/services.html">Browse Courses</a></li>
                     </ul>
                 </li>
             `;
@@ -628,6 +629,13 @@ function setupUserMenuFunctionality() {
         userToggle.addEventListener('click', function(e) {
             e.preventDefault();
             userDropdown.classList.toggle('show');
+            
+            // Close other open dropdowns
+            document.querySelectorAll('.user-dropdown').forEach(dropdown => {
+                if (dropdown !== userDropdown) {
+                    dropdown.classList.remove('show');
+                }
+            });
         });
 
         // Close dropdown when clicking outside
@@ -651,6 +659,13 @@ function setupUserMenuFunctionality() {
             handleLogout();
         });
     }
+    
+    // Add keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && userDropdown && userDropdown.classList.contains('show')) {
+            userDropdown.classList.remove('show');
+        }
+    });
 }
 
 /**
@@ -672,7 +687,7 @@ function handleSwitchAccount() {
     localStorage.removeItem('currentUser');
     showNotification('Switching accounts...', 'info');
     setTimeout(() => {
-        window.location.href = 'login.html';
+        window.location.href = 'pages/login.html';
     }, 1000);
 }
 
@@ -876,99 +891,4 @@ function updateDownloadProgress() {
             }
         }
     }
-}
-
-// Add this enhanced user menu function to your main.js
-
-/**
- * Enhanced User Menu with better functionality
- */
-function initializeUserMenu() {
-    const userMenuContainer = document.getElementById('user-menu-container');
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-    
-    if (userMenuContainer) {
-        if (currentUser) {
-            // User is logged in - show student options with user's name
-            userMenuContainer.innerHTML = `
-                <li class="user-menu">
-                    <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
-                    <ul class="user-dropdown">
-                        <li><a href="enrollment.html">Enroll in Courses</a></li>
-                        <li><a href="dashboard.html">My Dashboard</a></li>
-                        <li><a href="forum.html">Student Forum</a></li>
-                        <li><a href="#" id="switch-account">Switch Account</a></li>
-                        <li><a href="#" id="logout">Logout</a></li>
-                    </ul>
-                </li>
-            `;
-        } else {
-            // User is not logged in - show login/signup option
-            userMenuContainer.innerHTML = `
-                <li class="user-menu">
-                    <a href="#" class="user-toggle">Current Student ▾</a>
-                    <ul class="user-dropdown">
-                        <li><a href="login.html">Login to Account</a></li>
-                        <li><a href="signup.html">Create New Account</a></li>
-                        <li><a href="enrollment.html">Browse Courses</a></li>
-                    </ul>
-                </li>
-            `;
-        }
-        
-        // Initialize user menu functionality
-        setupUserMenuFunctionality();
-    }
-}
-
-/**
- * Enhanced user menu functionality
- */
-function setupUserMenuFunctionality() {
-    const userToggle = document.querySelector('.user-toggle');
-    const userDropdown = document.querySelector('.user-dropdown');
-    const switchAccount = document.getElementById('switch-account');
-    const logout = document.getElementById('logout');
-
-    if (userToggle && userDropdown) {
-        userToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            userDropdown.classList.toggle('show');
-            
-            // Close other open dropdowns
-            document.querySelectorAll('.user-dropdown').forEach(dropdown => {
-                if (dropdown !== userDropdown) {
-                    dropdown.classList.remove('show');
-                }
-            });
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!userToggle.contains(e.target) && !userDropdown.contains(e.target)) {
-                userDropdown.classList.remove('show');
-            }
-        });
-    }
-
-    if (switchAccount) {
-        switchAccount.addEventListener('click', function(e) {
-            e.preventDefault();
-            handleSwitchAccount();
-        });
-    }
-
-    if (logout) {
-        logout.addEventListener('click', function(e) {
-            e.preventDefault();
-            handleLogout();
-        });
-    }
-    
-    // Add keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && userDropdown && userDropdown.classList.contains('show')) {
-            userDropdown.classList.remove('show');
-        }
-    });
 }
