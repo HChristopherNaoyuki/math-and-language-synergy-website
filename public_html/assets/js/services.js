@@ -47,7 +47,10 @@ function initializeEnrollmentButtons() {
                 window.location.href = `enrollment.html?course=${courseId}`;
             } else {
                 // Redirect to login page
-                window.location.href = 'login.html';
+                showNotification('Please log in to enroll in courses', 'info');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
             }
         });
     });
