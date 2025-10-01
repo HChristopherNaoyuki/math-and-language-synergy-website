@@ -581,17 +581,20 @@ function respondToMessage(message) {
 function initializeUserMenu() {
     const userMenuContainer = document.getElementById('user-menu-container');
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    const currentPath = window.location.pathname;
+    const isInPagesFolder = currentPath.includes('/pages/');
     
     if (userMenuContainer) {
         if (currentUser) {
             // User is logged in - show student options
+            const basePath = isInPagesFolder ? '../' : 'pages/';
             userMenuContainer.innerHTML = `
                 <li class="user-menu">
                     <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
                     <ul class="user-dropdown">
-                        <li><a href="pages/enrollment.html">Enroll in Courses</a></li>
-                        <li><a href="pages/dashboard.html">My Dashboard</a></li>
-                        <li><a href="pages/forum.html">Student Forum</a></li>
+                        <li><a href="${basePath}enrollment.html">Enroll in Courses</a></li>
+                        <li><a href="${basePath}dashboard.html">My Dashboard</a></li>
+                        <li><a href="${basePath}forum.html">Student Forum</a></li>
                         <li><a href="#" id="switch-account">Switch Account</a></li>
                         <li><a href="#" id="logout">Logout</a></li>
                     </ul>
@@ -599,13 +602,14 @@ function initializeUserMenu() {
             `;
         } else {
             // User is not logged in - show login/signup option
+            const basePath = isInPagesFolder ? '' : 'pages/';
             userMenuContainer.innerHTML = `
                 <li class="user-menu">
                     <a href="#" class="user-toggle">Current Student ▾</a>
                     <ul class="user-dropdown">
-                        <li><a href="pages/login.html">Login to Account</a></li>
-                        <li><a href="pages/signup.html">Create New Account</a></li>
-                        <li><a href="pages/services.html">Browse Courses</a></li>
+                        <li><a href="${basePath}login.html">Login to Account</a></li>
+                        <li><a href="${basePath}signup.html">Create New Account</a></li>
+                        <li><a href="${basePath}services.html">Browse Courses</a></li>
                     </ul>
                 </li>
             `;
@@ -687,7 +691,10 @@ function handleSwitchAccount() {
     localStorage.removeItem('currentUser');
     showNotification('Switching accounts...', 'info');
     setTimeout(() => {
-        window.location.href = 'pages/login.html';
+        const currentPath = window.location.pathname;
+        const isInPagesFolder = currentPath.includes('/pages/');
+        const loginPath = isInPagesFolder ? 'login.html' : 'pages/login.html';
+        window.location.href = loginPath;
     }, 1000);
 }
 
