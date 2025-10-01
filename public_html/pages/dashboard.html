@@ -11,7 +11,7 @@
 </head>
 <body>
     <!-- Header Section -->
-    <header class="minimal-nav">
+    <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
@@ -23,10 +23,17 @@
                         <li><a href="../index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="services.html">Services</a></li>
-                        <li><a href="enrollment.html">Enroll</a></li>
-                        <li><a href="dashboard.html" class="active">Dashboard</a></li>
-                        <li><a href="forum.html">Forum</a></li>
                         <li><a href="contact.html">Contact</a></li>
+                        <li class="user-menu">
+                            <a href="#" class="user-toggle">Current Student ▾</a>
+                            <ul class="user-dropdown">
+                                <li><a href="enrollment.html">Enroll</a></li>
+                                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                                <li><a href="forum.html">Forum</a></li>
+                                <li><a href="#" id="switch-account">Switch Account</a></li>
+                                <li><a href="#" id="logout">Logout</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
                 <div class="mobile-menu-toggle">
@@ -280,7 +287,7 @@
                 </div>
                 <div class="footer-section">
                     <h3>Language Selection</h3>
-                    <select id="language-selector" class="apple-input">
+                    <select id="language-selector">
                         <option value="en">English</option>
                         <option value="jp">日本語</option>
                     </select>
@@ -306,8 +313,8 @@
             <div class="chat-message bot">Hello! How can I help with your learning today?</div>
         </div>
         <div class="chatbot-input">
-            <input type="text" placeholder="Ask a question..." class="apple-input">
-            <button class="chatbot-send apple-btn">Send</button>
+            <input type="text" placeholder="Ask a question...">
+            <button class="chatbot-send">Send</button>
         </div>
     </div>
 

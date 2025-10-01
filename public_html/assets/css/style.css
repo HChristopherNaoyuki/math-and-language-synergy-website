@@ -2954,3 +2954,57 @@ footer
         font-size: 1.5rem;
     }
 }
+
+/* Accessibility Page Styles */
+.accessibility-content {
+    padding: var(--spacing-xl) 0;
+}
+
+.accessibility-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.accessibility-item {
+    background: var(--white);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.accessibility-item h3 {
+    color: var(--secondary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.accessibility-item ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.accessibility-item li {
+    margin-bottom: var(--spacing-xs);
+    padding-left: var(--spacing-md);
+    position: relative;
+}
+
+.accessibility-item li::before {
+    content: "•";
+    color: var(--secondary);
+    position: absolute;
+    left: 0;
+}
+
+.accessibility-notes {
+    background: var(--light);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-lg);
+    margin-top: var(--spacing-xl);
+}
+
+.accessibility-notes h3 {
+    color: var(--secondary);
+    margin-bottom: var(--spacing-sm);
+}

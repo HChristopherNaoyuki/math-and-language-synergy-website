@@ -23,10 +23,17 @@
                         <li><a href="../index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="services.html">Services</a></li>
-                        <li><a href="enrollment.html">Enroll</a></li>
-                        <li><a href="dashboard.html">Dashboard</a></li>
-                        <li><a href="forum.html" class="active">Forum</a></li>
                         <li><a href="contact.html">Contact</a></li>
+                        <li class="user-menu">
+                            <a href="#" class="user-toggle">Current Student ▾</a>
+                            <ul class="user-dropdown">
+                                <li><a href="enrollment.html">Enroll</a></li>
+                                <li><a href="dashboard.html">Dashboard</a></li>
+                                <li><a href="forum.html" class="active">Forum</a></li>
+                                <li><a href="#" id="switch-account">Switch Account</a></li>
+                                <li><a href="#" id="logout">Logout</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
                 <div class="mobile-menu-toggle">
@@ -107,138 +114,23 @@
                 <div class="forum-categories">
                     <div class="forum-category">
                         <h3>English Language Discussions</h3>
-                        <div class="thread-list">
-                            <div class="thread-item" data-thread-id="101">
-                                <div class="thread-main">
-                                    <h4>Help with English essay structure</h4>
-                                    <p>I'm struggling with organizing my ideas for the academic writing assignment. Any tips?</p>
-                                    <div class="thread-meta">
-                                        <span class="thread-author">Posted by: Student123</span>
-                                        <span class="thread-date">2 hours ago</span>
-                                    </div>
-                                </div>
-                                <div class="thread-stats">
-                                    <span class="thread-replies">5 replies</span>
-                                    <span class="thread-views">24 views</span>
-                                </div>
-                            </div>
-                            
-                            <div class="thread-item" data-thread-id="102">
-                                <div class="thread-main">
-                                    <h4>Best resources for expanding vocabulary?</h4>
-                                    <p>Looking for recommendations beyond the course materials to improve my English vocabulary.</p>
-                                    <div class="thread-meta">
-                                        <span class="thread-author">Posted by: LanguageLearner</span>
-                                        <span class="thread-date">1 day ago</span>
-                                    </div>
-                                </div>
-                                <div class="thread-stats">
-                                    <span class="thread-replies">8 replies</span>
-                                    <span class="thread-views">37 views</span>
-                                </div>
-                            </div>
+                        <div class="thread-list" id="english-threads">
+                            <!-- Threads will be loaded here -->
                         </div>
                     </div>
                     
                     <div class="forum-category">
                         <h3>Japanese Language Discussions</h3>
-                        <div class="thread-list">
-                            <div class="thread-item" data-thread-id="201">
-                                <div class="thread-main">
-                                    <h4>Kanji memorization techniques</h4>
-                                    <p>Does anyone have effective methods for remembering kanji characters? I'm struggling with the N4 level kanji.</p>
-                                    <div class="thread-meta">
-                                        <span class="thread-author">Posted by: KanjiStudent</span>
-                                        <span class="thread-date">3 hours ago</span>
-                                    </div>
-                                </div>
-                                <div class="thread-stats">
-                                    <span class="thread-replies">3 replies</span>
-                                    <span class="thread-views">19 views</span>
-                                </div>
-                            </div>
-                            
-                            <div class="thread-item" data-thread-id="202">
-                                <div class="thread-main">
-                                    <h4>Japanese listening practice</h4>
-                                    <p>Looking for partners to practice Japanese conversation. I'm available weekday evenings.</p>
-                                    <div class="thread-meta">
-                                        <span class="thread-author">Posted by: ConversationPartner</span>
-                                        <span class="thread-date">2 days ago</span>
-                                    </div>
-                                </div>
-                                <div class="thread-stats">
-                                    <span class="thread-replies">6 replies</span>
-                                    <span class="thread-views">42 views</span>
-                                </div>
-                            </div>
+                        <div class="thread-list" id="japanese-threads">
+                            <!-- Threads will be loaded here -->
                         </div>
                     </div>
                     
                     <div class="forum-category">
                         <h3>Mathematics Discussions</h3>
-                        <div class="thread-list">
-                            <div class="thread-item" data-thread-id="301">
-                                <div class="thread-main">
-                                    <h4>Calculus problem help</h4>
-                                    <p>I'm stuck on problem 15 from chapter 3. It's about derivatives of trigonometric functions.</p>
-                                    <div class="thread-meta">
-                                        <span class="thread-author">Posted by: MathStudent22</span>
-                                        <span class="thread-date">5 hours ago</span>
-                                    </div>
-                                </div>
-                                <div class="thread-stats">
-                                    <span class="thread-replies">4 replies</span>
-                                    <span class="thread-views">28 views</span>
-                                </div>
-                            </div>
-                            
-                            <div class="thread-item" data-thread-id="302">
-                                <div class="thread-main">
-                                    <h4>Study group for algebra final</h4>
-                                    <p>Forming a study group to prepare for the algebra final exam. Meeting online this weekend.</p>
-                                    <div class="thread-meta">
-                                        <span class="thread-author">Posted by: AlgebraFan</span>
-                                        <span class="thread-date">1 day ago</span>
-                                    </div>
-                                </div>
-                                <div class="thread-stats">
-                                    <span class="thread-replies">7 replies</span>
-                                    <span class="thread-views">35 views</span>
-                                </div>
-                            </div>
+                        <div class="thread-list" id="math-threads">
+                            <!-- Threads will be loaded here -->
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Thread Detail Section (Initially Hidden) -->
-        <section class="thread-detail-section hidden">
-            <div class="container">
-                <button class="btn secondary" id="back-to-threads">← Back to Threads</button>
-                
-                <div class="thread-detail">
-                    <h2 id="thread-title">Thread Title</h2>
-                    <div class="thread-content" id="thread-content">
-                        <p>Thread content will be loaded here...</p>
-                    </div>
-                    <div class="thread-meta">
-                        <span class="thread-author">Posted by: AuthorName</span>
-                        <span class="thread-date">Posted on: Date</span>
-                    </div>
-                </div>
-                
-                <div class="thread-replies">
-                    <h3>Replies</h3>
-                    <div id="thread-replies">
-                        <!-- Replies will be loaded here dynamically -->
-                    </div>
-                    
-                    <div class="add-reply">
-                        <h4>Post a Reply</h4>
-                        <textarea placeholder="Type your reply here..." rows="4"></textarea>
-                        <button class="btn">Post Reply</button>
                     </div>
                 </div>
             </div>
