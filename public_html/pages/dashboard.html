@@ -8,10 +8,357 @@
     <title>Student Dashboard | Math and Language Synergy</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="icon" href="../assets/images/logo.jpg" type="image/jpg">
+    <style>
+        /* Apple-inspired Dashboard Styles */
+        .apple-dashboard {
+            background-color: #f5f5f7;
+            min-height: 100vh;
+        }
+
+        .apple-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .apple-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .apple-btn {
+            background: #0071e3;
+            color: white;
+            border: none;
+            border-radius: 980px;
+            padding: 12px 24px;
+            font-size: 17px;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .apple-btn:hover {
+            background: #0077ed;
+            transform: scale(1.02);
+        }
+
+        .apple-btn.secondary {
+            background: transparent;
+            color: #0071e3;
+            border: 1px solid #0071e3;
+        }
+
+        .apple-btn.secondary:hover {
+            background: rgba(0, 113, 227, 0.1);
+        }
+
+        .progress-ring {
+            width: 80px;
+            height: 80px;
+        }
+
+        .progress-ring-circle {
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .discussions-section {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .discussions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .discussions-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f7;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-icon:hover {
+            background: #e5e5e7;
+            transform: scale(1.05);
+        }
+
+        .forum-card {
+            max-width: 380px;
+            margin: 0 auto 16px;
+            border: 1px solid #e5e5e7;
+            border-radius: 12px;
+            background: #ffffff;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .forum-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .forum-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .forum-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0071e3;
+            color: white;
+            font-size: 18px;
+        }
+
+        .forum-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: #1d1d1f;
+            margin: 0;
+        }
+
+        .forum-content {
+            font-size: 14px;
+            color: #86868b;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .forum-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #86868b;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-item {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #0071e3;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #86868b;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-day:hover {
+            background: #f5f5f7;
+        }
+
+        .calendar-day.today {
+            background: #0071e3;
+            color: white;
+        }
+
+        .calendar-day.birthday {
+            background: #ffd700;
+            color: #1d1d1f;
+        }
+
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 12px;
+        }
+
+        .badge-item {
+            text-align: center;
+        }
+
+        .badge-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f7;
+            margin: 0 auto 8px;
+            font-size: 24px;
+        }
+
+        .badge-icon.earned {
+            background: #0071e3;
+            color: white;
+        }
+
+        .badge-name {
+            font-size: 12px;
+            color: #1d1d1f;
+        }
+
+        .thread-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .thread-modal.active {
+            display: flex;
+        }
+
+        .thread-modal-content {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #86868b;
+        }
+
+        .comment {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .comment-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f5f5f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+
+        .comment-date {
+            font-size: 12px;
+            color: #86868b;
+        }
+
+        .comment-text {
+            color: #1d1d1f;
+            line-height: 1.4;
+        }
+
+        .reply-box {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .reply-input {
+            flex: 1;
+            border: 1px solid #e5e5e7;
+            border-radius: 20px;
+            padding: 12px 16px;
+            font-size: 14px;
+        }
+
+        .reply-button {
+            background: #0071e3;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 20px;
+            cursor: pointer;
+        }
+    </style>
 </head>
-<body>
+<body class="apple-dashboard">
     <!-- Header Section -->
-    <header>
+    <header class="apple-header">
         <div class="container">
             <div class="header-content">
                 <div class="logo">
@@ -60,7 +407,7 @@
     <main id="main-content">
         <div class="container dashboard-container">
             <!-- Welcome Section -->
-            <section class="welcome-dashboard">
+            <section class="welcome-dashboard apple-card">
                 <div class="welcome-content">
                     <h2>Welcome back, <span id="user-name">Student</span>!</h2>
                     <p>You've completed <strong id="progress-percentage">0%</strong> of your current course. Keep up the good work!</p>
@@ -69,20 +416,20 @@
 
             <!-- Stats Overview -->
             <section class="dashboard-section">
-                <div class="dashboard-stats">
-                    <div class="stat-card">
+                <div class="stats-grid">
+                    <div class="stat-item">
                         <div class="stat-number">3</div>
                         <div class="stat-label">Active Courses</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-item">
                         <div class="stat-number">12</div>
                         <div class="stat-label">Completed Lessons</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-item">
                         <div class="stat-number">5</div>
                         <div class="stat-label">Upcoming Events</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-item">
                         <div class="stat-number">8</div>
                         <div class="stat-label">Learning Resources</div>
                     </div>
@@ -90,54 +437,54 @@
             </section>
 
             <!-- Main Dashboard Content -->
-            <div class="dashboard-content">
+            <div class="dashboard-content" style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
                 <!-- Left Column - Main Content -->
                 <div class="dashboard-main">
                     <!-- Progress Section -->
                     <section class="dashboard-section">
-                        <div class="dashboard-header">
+                        <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                             <h2>Your Progress</h2>
                         </div>
-                        <div class="progress-grid" id="progress-cards">
-                            <div class="progress-card">
-                                <div class="progress-header">
-                                    <h3 class="progress-title">English Language Mastery</h3>
-                                    <span class="progress-percentage">75%</span>
+                        <div class="progress-grid" id="progress-cards" style="display: grid; gap: 16px;">
+                            <div class="apple-card">
+                                <div class="progress-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                                    <h3 class="progress-title" style="margin: 0; font-size: 18px;">English Language Mastery</h3>
+                                    <span class="progress-percentage" style="font-weight: 600; color: #0071e3;">75%</span>
                                 </div>
-                                <div class="progress-bar-container">
-                                    <div class="progress-bar-fill" style="width: 75%"></div>
+                                <div class="progress-bar-container" style="height: 8px; background: #f5f5f7; border-radius: 4px; margin-bottom: 16px;">
+                                    <div class="progress-bar-fill" style="height: 100%; background: #0071e3; border-radius: 4px; width: 75%;"></div>
                                 </div>
-                                <div class="progress-actions">
-                                    <a href="#" class="btn">Continue Learning</a>
-                                    <a href="#" class="btn secondary">View Resources</a>
-                                </div>
-                            </div>
-                            
-                            <div class="progress-card">
-                                <div class="progress-header">
-                                    <h3 class="progress-title">Japanese Language Immersion</h3>
-                                    <span class="progress-percentage">40%</span>
-                                </div>
-                                <div class="progress-bar-container">
-                                    <div class="progress-bar-fill" style="width: 40%"></div>
-                                </div>
-                                <div class="progress-actions">
-                                    <a href="#" class="btn">Continue Learning</a>
-                                    <a href="#" class="btn secondary">View Resources</a>
+                                <div class="progress-actions" style="display: flex; gap: 12px;">
+                                    <button class="apple-btn continue-learning-btn" data-course="eng-101">Continue Learning</button>
+                                    <button class="apple-btn secondary view-resources-btn" data-course="eng-101">View Resources</button>
                                 </div>
                             </div>
                             
-                            <div class="progress-card">
-                                <div class="progress-header">
-                                    <h3 class="progress-title">Advanced Mathematics</h3>
-                                    <span class="progress-percentage">90%</span>
+                            <div class="apple-card">
+                                <div class="progress-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                                    <h3 class="progress-title" style="margin: 0; font-size: 18px;">Japanese Language Immersion</h3>
+                                    <span class="progress-percentage" style="font-weight: 600; color: #0071e3;">40%</span>
                                 </div>
-                                <div class="progress-bar-container">
-                                    <div class="progress-bar-fill" style="width: 90%"></div>
+                                <div class="progress-bar-container" style="height: 8px; background: #f5f5f7; border-radius: 4px; margin-bottom: 16px;">
+                                    <div class="progress-bar-fill" style="height: 100%; background: #0071e3; border-radius: 4px; width: 40%;"></div>
                                 </div>
-                                <div class="progress-actions">
-                                    <a href="#" class="btn">Continue Learning</a>
-                                    <a href="#" class="btn secondary">View Resources</a>
+                                <div class="progress-actions" style="display: flex; gap: 12px;">
+                                    <button class="apple-btn continue-learning-btn" data-course="jpn-101">Continue Learning</button>
+                                    <button class="apple-btn secondary view-resources-btn" data-course="jpn-101">View Resources</button>
+                                </div>
+                            </div>
+                            
+                            <div class="apple-card">
+                                <div class="progress-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                                    <h3 class="progress-title" style="margin: 0; font-size: 18px;">Advanced Mathematics</h3>
+                                    <span class="progress-percentage" style="font-weight: 600; color: #0071e3;">90%</span>
+                                </div>
+                                <div class="progress-bar-container" style="height: 8px; background: #f5f5f7; border-radius: 4px; margin-bottom: 16px;">
+                                    <div class="progress-bar-fill" style="height: 100%; background: #0071e3; border-radius: 4px; width: 90%;"></div>
+                                </div>
+                                <div class="progress-actions" style="display: flex; gap: 12px;">
+                                    <button class="apple-btn continue-learning-btn" data-course="math-101">Continue Learning</button>
+                                    <button class="apple-btn secondary view-resources-btn" data-course="math-101">View Resources</button>
                                 </div>
                             </div>
                         </div>
@@ -145,30 +492,30 @@
 
                     <!-- Resources Section -->
                     <section class="dashboard-section">
-                        <div class="dashboard-header">
+                        <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                             <h2>Recent Resources</h2>
-                            <a href="#" class="btn secondary">View All</a>
+                            <button class="apple-btn secondary">View All</button>
                         </div>
-                        <div class="resources-grid" id="resources-grid">
-                            <div class="resource-card">
-                                <div class="resource-icon">📚</div>
-                                <h3 class="resource-name">English Grammar Guide</h3>
-                                <p class="resource-type">PDF • 2.5 MB</p>
-                                <button class="btn download-btn">Download</button>
+                        <div class="resources-grid" id="resources-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
+                            <div class="apple-card">
+                                <div class="resource-icon" style="font-size: 32px; text-align: center; margin-bottom: 16px;">📚</div>
+                                <h3 class="resource-name" style="margin: 0 0 8px; font-size: 16px;">English Grammar Guide</h3>
+                                <p class="resource-type" style="color: #86868b; font-size: 14px; margin-bottom: 16px;">PDF • 2.5 MB</p>
+                                <button class="apple-btn download-btn" style="width: 100%;">Download</button>
                             </div>
                             
-                            <div class="resource-card">
-                                <div class="resource-icon">📝</div>
-                                <h3 class="resource-name">Japanese Vocabulary List</h3>
-                                <p class="resource-type">PDF • 1.8 MB</p>
-                                <button class="btn download-btn">Download</button>
+                            <div class="apple-card">
+                                <div class="resource-icon" style="font-size: 32px; text-align: center; margin-bottom: 16px;">📝</div>
+                                <h3 class="resource-name" style="margin: 0 0 8px; font-size: 16px;">Japanese Vocabulary List</h3>
+                                <p class="resource-type" style="color: #86868b; font-size: 14px; margin-bottom: 16px;">PDF • 1.8 MB</p>
+                                <button class="apple-btn download-btn" style="width: 100%;">Download</button>
                             </div>
                             
-                            <div class="resource-card">
-                                <div class="resource-icon">🧮</div>
-                                <h3 class="resource-name">Calculus Practice Problems</h3>
-                                <p class="resource-type">PDF • 3.2 MB</p>
-                                <button class="btn download-btn">Download</button>
+                            <div class="apple-card">
+                                <div class="resource-icon" style="font-size: 32px; text-align: center; margin-bottom: 16px;">🧮</div>
+                                <h3 class="resource-name" style="margin: 0 0 8px; font-size: 16px;">Calculus Practice Problems</h3>
+                                <p class="resource-type" style="color: #86868b; font-size: 14px; margin-bottom: 16px;">PDF • 3.2 MB</p>
+                                <button class="apple-btn download-btn" style="width: 100%;">Download</button>
                             </div>
                         </div>
                     </section>
@@ -176,76 +523,150 @@
 
                 <!-- Right Column - Sidebar -->
                 <div class="dashboard-sidebar">
+                    <!-- Recent Discussions Section -->
+                    <section class="dashboard-section discussions-section">
+                        <div class="discussions-header">
+                            <h2 style="margin: 0;">Recent Discussions</h2>
+                            <div class="discussions-actions">
+                                <div class="action-icon" id="new-thread-btn" title="Start New Thread">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <div class="action-icon" id="search-threads-btn" title="Search Threads">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="discussions-list">
+                            <div class="forum-card" data-thread-id="101">
+                                <div class="forum-card-header">
+                                    <div class="forum-icon">EN</div>
+                                    <h3 class="forum-title">Essay Structure Help</h3>
+                                </div>
+                                <p class="forum-content">I'm struggling with organizing my ideas for the academic writing assignment. Any tips on essay structure?</p>
+                                <div class="forum-meta">
+                                    <span>Student123</span>
+                                    <span>2h ago</span>
+                                </div>
+                            </div>
+                            
+                            <div class="forum-card" data-thread-id="102">
+                                <div class="forum-card-header">
+                                    <div class="forum-icon">日</div>
+                                    <h3 class="forum-title">Kanji Memorization</h3>
+                                </div>
+                                <p class="forum-content">Does anyone have effective methods for remembering kanji characters? Looking for study techniques.</p>
+                                <div class="forum-meta">
+                                    <span>KanjiStudent</span>
+                                    <span>1d ago</span>
+                                </div>
+                            </div>
+                            
+                            <div class="forum-card" data-thread-id="103">
+                                <div class="forum-card-header">
+                                    <div class="forum-icon">∫</div>
+                                    <h3 class="forum-title">Calculus Problem</h3>
+                                </div>
+                                <p class="forum-content">Stuck on problem 15 from chapter 3 about derivatives of trigonometric functions. f(x) = sin(x)cos(x)</p>
+                                <div class="forum-meta">
+                                    <span>MathStudent22</span>
+                                    <span>3h ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
                     <!-- Calendar Section -->
                     <section class="dashboard-section">
-                        <div class="dashboard-header">
-                            <h2>Schedule</h2>
-                        </div>
-                        <div class="calendar-container">
-                            <div class="calendar-header">
-                                <button class="calendar-nav" id="prev-month">←</button>
-                                <h3 id="current-month">October 2023</h3>
-                                <button class="calendar-nav" id="next-month">→</button>
+                        <div class="apple-card">
+                            <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                                <h3 style="margin: 0;">October 2023</h3>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="action-icon" style="width: 32px; height: 32px;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                    </button>
+                                    <button class="action-icon" style="width: 32px; height: 32px;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="calendar-weekdays">
-                                <div>Sun</div>
-                                <div>Mon</div>
-                                <div>Tue</div>
-                                <div>Wed</div>
-                                <div>Thu</div>
-                                <div>Fri</div>
-                                <div>Sat</div>
-                            </div>
-                            <div class="calendar-days" id="calendar-days">
-                                <!-- Calendar days will be generated dynamically -->
+                            <div class="calendar-grid">
+                                <div style="text-align: center; font-size: 12px; color: #86868b; margin-bottom: 8px;">S</div>
+                                <div style="text-align: center; font-size: 12px; color: #86868b; margin-bottom: 8px;">M</div>
+                                <div style="text-align: center; font-size: 12px; color: #86868b; margin-bottom: 8px;">T</div>
+                                <div style="text-align: center; font-size: 12px; color: #86868b; margin-bottom: 8px;">W</div>
+                                <div style="text-align: center; font-size: 12px; color: #86868b; margin-bottom: 8px;">T</div>
+                                <div style="text-align: center; font-size: 12px; color: #86868b; margin-bottom: 8px;">F</div>
+                                <div style="text-align: center; font-size: 12px; color: #86868b; margin-bottom: 8px;">S</div>
+                                
+                                <!-- Calendar days will be populated by JavaScript -->
+                                <div class="calendar-day">1</div>
+                                <div class="calendar-day">2</div>
+                                <div class="calendar-day">3</div>
+                                <div class="calendar-day">4</div>
+                                <div class="calendar-day">5</div>
+                                <div class="calendar-day">6</div>
+                                <div class="calendar-day">7</div>
+                                <div class="calendar-day">8</div>
+                                <div class="calendar-day">9</div>
+                                <div class="calendar-day">10</div>
+                                <div class="calendar-day">11</div>
+                                <div class="calendar-day">12</div>
+                                <div class="calendar-day today">13</div>
+                                <div class="calendar-day">14</div>
+                                <div class="calendar-day">15</div>
+                                <div class="calendar-day">16</div>
+                                <div class="calendar-day">17</div>
+                                <div class="calendar-day">18</div>
+                                <div class="calendar-day">19</div>
+                                <div class="calendar-day">20</div>
+                                <div class="calendar-day birthday">21</div>
+                                <div class="calendar-day">22</div>
+                                <div class="calendar-day">23</div>
+                                <div class="calendar-day">24</div>
+                                <div class="calendar-day">25</div>
+                                <div class="calendar-day">26</div>
+                                <div class="calendar-day">27</div>
+                                <div class="calendar-day">28</div>
+                                <div class="calendar-day">29</div>
+                                <div class="calendar-day">30</div>
+                                <div class="calendar-day">31</div>
                             </div>
                         </div>
                     </section>
 
                     <!-- Badges Section -->
                     <section class="dashboard-section">
-                        <div class="dashboard-header">
-                            <h2>Your Achievements</h2>
-                        </div>
-                        <div class="badges-grid" id="badges-container">
-                            <div class="badge-card earned">
-                                <div class="badge-icon">🌟</div>
-                                <div class="badge-name">Language Learner</div>
+                        <div class="apple-card">
+                            <div class="dashboard-header" style="margin-bottom: 16px;">
+                                <h3 style="margin: 0;">Your Achievements</h3>
                             </div>
-                            <div class="badge-card earned">
-                                <div class="badge-icon">🧮</div>
-                                <div class="badge-name">Math Whiz</div>
-                            </div>
-                            <div class="badge-card">
-                                <div class="badge-icon">📅</div>
-                                <div class="badge-name">Consistent Learner</div>
-                            </div>
-                            <div class="badge-card">
-                                <div class="badge-icon">💬</div>
-                                <div class="badge-name">Forum Contributor</div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- Events Section -->
-                    <section class="dashboard-section">
-                        <div class="dashboard-header">
-                            <h2>Upcoming Events</h2>
-                            <a href="#" class="btn secondary">View All</a>
-                        </div>
-                        <div class="events-list" id="events-list">
-                            <div class="event-card">
-                                <div class="event-date">October 15, 2023 • 3:00 PM - 5:00 PM</div>
-                                <h3 class="event-title">Japanese Culture Workshop</h3>
-                                <p class="event-description">Interactive workshop on Japanese traditions and customs</p>
-                                <button class="btn">RSVP</button>
-                            </div>
-                            
-                            <div class="event-card">
-                                <div class="event-date">October 20, 2023 • 4:00 PM - 6:00 PM</div>
-                                <h3 class="event-title">Math Problem Solving Session</h3>
-                                <p class="event-description">Group session for challenging math problems</p>
-                                <button class="btn">RSVP</button>
+                            <div class="badge-grid">
+                                <div class="badge-item">
+                                    <div class="badge-icon earned">🌟</div>
+                                    <div class="badge-name">Language Learner</div>
+                                </div>
+                                <div class="badge-item">
+                                    <div class="badge-icon earned">🧮</div>
+                                    <div class="badge-name">Math Whiz</div>
+                                </div>
+                                <div class="badge-item">
+                                    <div class="badge-icon">📅</div>
+                                    <div class="badge-name">Consistent</div>
+                                </div>
+                                <div class="badge-item">
+                                    <div class="badge-icon">💬</div>
+                                    <div class="badge-name">Contributor</div>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -253,6 +674,54 @@
             </div>
         </div>
     </main>
+
+    <!-- Thread Detail Modal -->
+    <div class="thread-modal" id="thread-modal">
+        <div class="thread-modal-content">
+            <div class="modal-header">
+                <h2 style="margin: 0;">Thread Discussion</h2>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            
+            <div class="comment">
+                <div class="comment-avatar">EN</div>
+                <div class="comment-content">
+                    <div class="comment-header">
+                        <span class="comment-author">Student123</span>
+                        <span class="comment-date">2 hours ago</span>
+                    </div>
+                    <p class="comment-text">I'm struggling with organizing my ideas for the academic writing assignment. Any tips on how to structure my essay properly? I have all my research but don't know how to put it together effectively.</p>
+                </div>
+            </div>
+            
+            <div class="comment">
+                <div class="comment-avatar">TA</div>
+                <div class="comment-content">
+                    <div class="comment-header">
+                        <span class="comment-author">WritingAssistant</span>
+                        <span class="comment-date">1 hour ago</span>
+                    </div>
+                    <p class="comment-text">Start with a clear thesis statement, then organize your main points in logical order. Use the hamburger method: introduction, 3 body paragraphs, conclusion.</p>
+                </div>
+            </div>
+            
+            <div class="comment">
+                <div class="comment-avatar">S</div>
+                <div class="comment-content">
+                    <div class="comment-header">
+                        <span class="comment-author">StudyBuddy42</span>
+                        <span class="comment-date">45 minutes ago</span>
+                    </div>
+                    <p class="comment-text">I found creating an outline first really helps! List your main arguments and supporting evidence before you start writing.</p>
+                </div>
+            </div>
+            
+            <div class="reply-box">
+                <input type="text" class="reply-input" placeholder="Add a reply...">
+                <button class="reply-button">Reply</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer Section -->
     <footer>
@@ -322,5 +791,69 @@
     <script src="../assets/js/main.js"></script>
     <script src="../assets/js/dashboard.js"></script>
     <script src="../assets/js/chatbot.js"></script>
+    
+    <script>
+        // Dashboard-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update copyright year
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Thread modal functionality
+            const forumCards = document.querySelectorAll('.forum-card');
+            const threadModal = document.getElementById('thread-modal');
+            const modalClose = document.getElementById('modal-close');
+            
+            forumCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    threadModal.classList.add('active');
+                });
+            });
+            
+            modalClose.addEventListener('click', function() {
+                threadModal.classList.remove('active');
+            });
+            
+            // Close modal when clicking outside
+            threadModal.addEventListener('click', function(e) {
+                if (e.target === threadModal) {
+                    threadModal.classList.remove('active');
+                }
+            });
+            
+            // New thread button functionality
+            document.getElementById('new-thread-btn').addEventListener('click', function() {
+                window.location.href = 'forum.html';
+            });
+            
+            // Search threads button functionality
+            document.getElementById('search-threads-btn').addEventListener('click', function() {
+                window.location.href = 'forum.html';
+            });
+            
+            // Progress buttons functionality
+            document.querySelectorAll('.continue-learning-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const courseId = this.getAttribute('data-course');
+                    alert(`Continuing with ${courseId} course...`);
+                });
+            });
+            
+            document.querySelectorAll('.view-resources-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const courseId = this.getAttribute('data-course');
+                    // This would open the course resources modal
+                    alert(`Showing resources for ${courseId} course...`);
+                });
+            });
+            
+            // Download buttons functionality
+            document.querySelectorAll('.download-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const resourceName = this.closest('.apple-card').querySelector('.resource-name').textContent;
+                    alert(`Downloading ${resourceName}...`);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
