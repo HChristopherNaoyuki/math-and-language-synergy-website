@@ -66,7 +66,6 @@ function handleSignup(form) {
         password: formData.get('password'),
         accountType: formData.get('accountType'),
         dob: formData.get('dob'),
-        accountPlan: formData.get('accountPlan'),
         joinDate: new Date().toISOString(),
         progress: {
             english: 0,
@@ -104,14 +103,9 @@ function handleSignup(form) {
             // Update navigation
             updateNavigationForLoggedInUser(userData);
             
-            // Redirect based on account plan
+            // Redirect to dashboard
             setTimeout(() => {
-                if (userData.accountPlan === 'free') {
-                    window.location.href = 'dashboard.html';
-                } else {
-                    // Redirect to payment page for paid plans
-                    window.location.href = 'payment.html';
-                }
+                window.location.href = 'dashboard.html';
             }, 1000);
         }).catch(error => {
             showNotification('Error saving user data', 'error');
@@ -125,11 +119,7 @@ function handleSignup(form) {
             updateNavigationForLoggedInUser(userData);
             
             setTimeout(() => {
-                if (userData.accountPlan === 'free') {
-                    window.location.href = 'dashboard.html';
-                } else {
-                    window.location.href = 'payment.html';
-                }
+                window.location.href = 'dashboard.html';
             }, 1000);
         }).catch(saveError => {
             showNotification('Error creating account', 'error');
@@ -189,7 +179,6 @@ User ID: ${user.id}
 Name: ${user.firstName} ${user.lastName}
 Username: ${user.username}
 Account Type: ${user.accountType}
-Account Plan: ${user.accountPlan}
 Join Date: ${new Date(user.joinDate).toLocaleString()}
 Progress: 
   English: ${user.progress.english}%

@@ -15,6 +15,71 @@ function initializeForum() {
     initializeNewThreadForm();
     initializeSearchFunctionality();
     setupUserMenu();
+    initializeLikeButtons();
+}
+
+/**
+ * Initialize like button functionality
+ */
+function initializeLikeButtons() {
+    document.addEventListener('click', function(e) {
+        const likeBtn = e.target.closest('.comment-react button');
+        if (likeBtn) {
+            e.preventDefault();
+            handleLikeClick(likeBtn);
+        }
+    });
+}
+
+/**
+ * Handle like button click
+ */
+function handleLikeClick(likeBtn) {
+    const likeCountSpan = likeBtn.parentNode.querySelector('span');
+    let likeCount = parseInt(likeCountSpan.textContent) || 0;
+    
+    if (likeBtn.classList.contains('liked')) {
+        // Unlike
+        likeCount--;
+        likeBtn.classList.remove('liked');
+    } else {
+        // Like
+        likeCount++;
+        likeBtn.classList.add('liked');
+    }
+    
+    likeCountSpan.textContent = likeCount;
+    
+    // Save like state to localStorage
+    const threadId = likeBtn.closest('.thread-detail-card') ? 
+        document.querySelector('.thread-detail-view').getAttribute('data-thread-id') : null;
+    
+    if (threadId) {
+        saveLikeState(threadId, likeBtn.classList.contains('liked'));
+    }
+}
+
+/**
+ * Save like state to localStorage
+ */
+function saveLikeState(threadId, isLiked) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    if (!currentUser) return;
+    
+    let userLikes = JSON.parse(localStorage.getItem(`userLikes_${currentUser.username}`) || '{}');
+    userLikes[threadId] = isLiked;
+    localStorage.setItem(`userLikes_${currentUser.username}`, JSON.stringify(userLikes));
+}
+
+/**
+ * Get like state from localStorage
+ */
+function getLikeState(threadId) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    if (!currentUser) return false;
+    
+    const userLikes = JSON.parse(localStorage.getItem(`userLikes_${currentUser.username}`) || '{}');
+    return userLikes[threadId] || false;
 }
 
 /**
@@ -107,6 +172,7 @@ function getDefaultThreads() {
             date: new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
             replies: 5,
             views: 24,
+            likes: 3,
             tags: ["writing", "essay", "structure"]
         },
         {
@@ -118,6 +184,7 @@ function getDefaultThreads() {
             date: new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
             replies: 8,
             views: 37,
+            likes: 7,
             tags: ["vocabulary", "resources", "learning"]
         },
         {
@@ -129,6 +196,7 @@ function getDefaultThreads() {
             date: new Date(now.getTime() - 3 * 60 * 60 * 1000).toISOString(), // 3 hours ago
             replies: 3,
             views: 19,
+            likes: 5,
             tags: ["kanji", "study", "techniques"]
         },
         {
@@ -140,6 +208,7 @@ function getDefaultThreads() {
             date: new Date(now.getTime() - 48 * 60 * 60 * 1000).toISOString(), // 2 days ago
             replies: 6,
             views: 42,
+            likes: 12,
             tags: ["listening", "practice", "conversation"]
         },
         {
@@ -151,6 +220,7 @@ function getDefaultThreads() {
             date: new Date(now.getTime() - 5 * 60 * 60 * 1000).toISOString(), // 5 hours ago
             replies: 4,
             views: 28,
+            likes: 2,
             tags: ["calculus", "derivatives", "trigonometry"]
         },
         {
@@ -162,6 +232,7 @@ function getDefaultThreads() {
             date: new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
             replies: 7,
             views: 35,
+            likes: 9,
             tags: ["algebra", "study-group", "exam"]
         }
     ];
@@ -238,9 +309,6 @@ function createThreadElement(thread) {
             <a class="read view-thread-btn" data-thread-id="${thread.id}">
                 Take a Look
             </a>
-            <a class="mark-as-read" href="#">
-                Mark as Read
-            </a>
         </div>
     `;
     
@@ -304,9 +372,11 @@ function viewThread(threadId) {
  */
 function showThreadDetail(thread) {
     const replies = JSON.parse(localStorage.getItem(`forumReplies_${thread.id}`) || '[]');
+    const isLiked = getLikeState(thread.id);
+    const likeClass = isLiked ? 'liked' : '';
     
     let threadDetailHTML = `
-        <div class="thread-detail-view">
+        <div class="thread-detail-view" data-thread-id="${thread.id}">
             <div class="thread-detail-header">
                 <button class="btn secondary back-to-threads">← Back to Threads</button>
                 <h2>${thread.title}</h2>
@@ -318,16 +388,16 @@ function showThreadDetail(thread) {
             </div>
             
             <div class="card thread-detail-card">
-                <span class="title">Comments</span>
+                <span class="title">Discussion</span>
                 <div class="comments">
                     <div class="comment-react">
-                        <button>
+                        <button class="${likeClass}">
                             <svg fill="none" viewBox="0 0 24 24" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="#707277" stroke-linecap="round" stroke-width="2" stroke="#707277" d="M19.4626 3.99415C16.7809 2.34923 14.4404 3.01211 13.0344 4.06801C12.4578 4.50096 12.1696 4.71743 12 4.71743C11.8304 4.71743 11.5422 4.50096 10.9656 4.06801C9.55962 3.01211 7.21909 2.34923 4.53744 3.99415C1.01807 6.15294 0.221721 13.2749 8.33953 19.2834C9.88572 20.4278 10.6588 21 12 21C13.3412 21 14.1143 20.4278 15.6605 19.2834C23.7783 13.2749 22.9819 6.15294 19.4626 3.99415Z"></path>
                             </svg>
                         </button>
                         <hr>
-                        <span>${thread.replies}</span>
+                        <span>${thread.likes || 0}</span>
                     </div>
                     <div class="comment-container">
                         <div class="user">
@@ -351,16 +421,20 @@ function showThreadDetail(thread) {
     
     // Add replies
     replies.forEach(reply => {
+        const replyLikes = reply.likes || 0;
+        const replyIsLiked = getLikeState(`reply_${reply.id}`);
+        const replyLikeClass = replyIsLiked ? 'liked' : '';
+        
         threadDetailHTML += `
             <div class="comments">
                 <div class="comment-react">
-                    <button>
+                    <button class="${replyLikeClass}" data-reply-id="${reply.id}">
                         <svg fill="none" viewBox="0 0 24 24" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
                             <path fill="#707277" stroke-linecap="round" stroke-width="2" stroke="#707277" d="M19.4626 3.99415C16.7809 2.34923 14.4404 3.01211 13.0344 4.06801C12.4578 4.50096 12.1696 4.71743 12 4.71743C11.8304 4.71743 11.5422 4.50096 10.9656 4.06801C9.55962 3.01211 7.21909 2.34923 4.53744 3.99415C1.01807 6.15294 0.221721 13.2749 8.33953 19.2834C9.88572 20.4278 10.6588 21 12 21C13.3412 21 14.1143 20.4278 15.6605 19.2834C23.7783 13.2749 22.9819 6.15294 19.4626 3.99415Z"></path>
                         </svg>
                     </button>
                     <hr>
-                    <span>0</span>
+                    <span>${replyLikes}</span>
                 </div>
                 <div class="comment-container">
                     <div class="user">
@@ -386,7 +460,7 @@ function showThreadDetail(thread) {
     threadDetailHTML += `
                 <div class="text-box">
                     <div class="box-container">
-                        <textarea id="reply-content-${thread.id}" placeholder="Reply"></textarea>
+                        <textarea id="reply-content-${thread.id}" placeholder="Write your reply..."></textarea>
                         <div>
                             <div class="formatting">
                                 <button type="submit" class="send post-reply-btn" data-thread-id="${thread.id}" title="Send">
@@ -440,6 +514,37 @@ function initializeThreadDetailEvents(threadId) {
     document.querySelector('.post-reply-btn').addEventListener('click', function() {
         postReply(threadId);
     });
+    
+    // Initialize like buttons for replies
+    document.querySelectorAll('.comment-react button[data-reply-id]').forEach(button => {
+        button.addEventListener('click', function() {
+            handleReplyLikeClick(this);
+        });
+    });
+}
+
+/**
+ * Handle reply like button click
+ */
+function handleReplyLikeClick(likeBtn) {
+    const replyId = likeBtn.getAttribute('data-reply-id');
+    const likeCountSpan = likeBtn.parentNode.querySelector('span');
+    let likeCount = parseInt(likeCountSpan.textContent) || 0;
+    
+    if (likeBtn.classList.contains('liked')) {
+        // Unlike
+        likeCount--;
+        likeBtn.classList.remove('liked');
+    } else {
+        // Like
+        likeCount++;
+        likeBtn.classList.add('liked');
+    }
+    
+    likeCountSpan.textContent = likeCount;
+    
+    // Save like state to localStorage
+    saveLikeState(`reply_${replyId}`, likeBtn.classList.contains('liked'));
 }
 
 /**
@@ -481,7 +586,8 @@ function postReply(threadId) {
         content: replyContent,
         author: currentUser.firstName || currentUser.username,
         date: new Date().toISOString(),
-        threadId: parseInt(threadId)
+        threadId: parseInt(threadId),
+        likes: 0
     };
     
     replies.push(newReply);
@@ -636,6 +742,7 @@ function saveThread(thread) {
     thread.date = new Date().toISOString();
     thread.replies = 0;
     thread.views = 0;
+    thread.likes = 0;
     
     threads.push(thread);
     localStorage.setItem('forumThreads', JSON.stringify(threads));
