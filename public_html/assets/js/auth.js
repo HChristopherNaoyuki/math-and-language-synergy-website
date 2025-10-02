@@ -224,16 +224,16 @@ function updateNavigationForLoggedInUser(user) {
         
         if (user.accountType === 'student') {
             menuItems = `
-                <li><a href="enrollment.html">Enroll</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="forum.html">Forum</a></li>
+                <li><a href="enrollment.html">Enroll in Courses</a></li>
+                <li><a href="dashboard.html">My Dashboard</a></li>
+                <li><a href="forum.html">Student Forum</a></li>
                 <li><a href="#" id="switch-account">Switch Account</a></li>
                 <li><a href="#" id="logout">Logout</a></li>
             `;
         } else if (user.accountType === 'lecturer') {
             menuItems = `
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="forum.html">Forum</a></li>
+                <li><a href="dashboard.html">My Dashboard</a></li>
+                <li><a href="forum.html">Student Forum</a></li>
                 <li><a href="#" id="switch-account">Switch Account</a></li>
                 <li><a href="#" id="logout">Logout</a></li>
             `;

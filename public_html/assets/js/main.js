@@ -14,7 +14,47 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeChatbot();
     initializeUserMenu();
     initializeTextFileSystem();
+    updateFooterLinks(); // Add this line
 });
+
+/**
+ * Update footer links based on current page location
+ */
+function updateFooterLinks() {
+    const currentPath = window.location.pathname;
+    const isInPagesFolder = currentPath.includes('/pages/');
+    
+    // Define base paths for links
+    const basePath = isInPagesFolder ? '../' : '';
+    const pagesPath = isInPagesFolder ? '' : 'pages/';
+    
+    // Update all footer quick links
+    const footerLinks = document.querySelectorAll('.footer-section ul');
+    
+    footerLinks.forEach(footerSection => {
+        const links = footerSection.querySelectorAll('a');
+        
+        links.forEach(link => {
+            const href = link.getAttribute('href');
+            
+            if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+                if (href === '../index.html' || href === 'index.html') {
+                    link.href = basePath + 'index.html';
+                } else if (href.startsWith('../')) {
+                    // Remove ../ from the beginning and add basePath
+                    const cleanHref = href.replace('../', '');
+                    link.href = basePath + cleanHref;
+                } else if (href.startsWith('pages/')) {
+                    // Remove pages/ from the beginning and add pagesPath
+                    const cleanHref = href.replace('pages/', '');
+                    link.href = pagesPath + cleanHref;
+                } else {
+                    link.href = pagesPath + href;
+                }
+            }
+        });
+    });
+}
 
 /**
  * Initialize Text File System for data storage
@@ -586,20 +626,35 @@ function initializeUserMenu() {
     
     if (userMenuContainer) {
         if (currentUser) {
-            // User is logged in - show student options
+            // User is logged in - show appropriate options based on account type
             const basePath = isInPagesFolder ? '../' : 'pages/';
-            userMenuContainer.innerHTML = `
-                <li class="user-menu">
-                    <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
-                    <ul class="user-dropdown">
-                        <li><a href="${basePath}enrollment.html">Enroll in Courses</a></li>
-                        <li><a href="${basePath}dashboard.html">My Dashboard</a></li>
-                        <li><a href="${basePath}forum.html">Student Forum</a></li>
-                        <li><a href="#" id="switch-account">Switch Account</a></li>
-                        <li><a href="#" id="logout">Logout</a></li>
-                    </ul>
-                </li>
-            `;
+            
+            if (currentUser.accountType === 'student') {
+                userMenuContainer.innerHTML = `
+                    <li class="user-menu">
+                        <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
+                        <ul class="user-dropdown">
+                            <li><a href="${basePath}enrollment.html">Enroll in Courses</a></li>
+                            <li><a href="${basePath}dashboard.html">My Dashboard</a></li>
+                            <li><a href="${basePath}forum.html">Student Forum</a></li>
+                            <li><a href="#" id="switch-account">Switch Account</a></li>
+                            <li><a href="#" id="logout">Logout</a></li>
+                        </ul>
+                    </li>
+                `;
+            } else if (currentUser.accountType === 'lecturer') {
+                userMenuContainer.innerHTML = `
+                    <li class="user-menu">
+                        <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
+                        <ul class="user-dropdown">
+                            <li><a href="${basePath}dashboard.html">My Dashboard</a></li>
+                            <li><a href="${basePath}forum.html">Student Forum</a></li>
+                            <li><a href="#" id="switch-account">Switch Account</a></li>
+                            <li><a href="#" id="logout">Logout</a></li>
+                        </ul>
+                    </li>
+                `;
+            }
         } else {
             // User is not logged in - show login/signup option
             const basePath = isInPagesFolder ? '' : 'pages/';
