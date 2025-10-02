@@ -1,4 +1,5 @@
 // main.js - Main JavaScript functionality for Math and Language Synergy website
+// Enhanced with Apple-inspired design, SEO, and Current Student functionality
 
 // DOM Content Loaded Event
 document.addEventListener('DOMContentLoaded', function() {
@@ -15,37 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeUserMenu();
     initializeTextFileSystem();
     updateFooterLinks();
-    initializeCurrentStudentMenu();
+    initializeCurrentStudentToggle();
+    initializeSEO();
+    initializeAppleAnimations();
 });
-
-/**
- * Initialize Current Student menu for public pages
- */
-function initializeCurrentStudentMenu() {
-    const userMenuContainer = document.getElementById('user-menu-container');
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-    
-    // Only initialize if user is not logged in and on public pages
-    if (userMenuContainer && !currentUser) {
-        const currentPath = window.location.pathname;
-        const isInPagesFolder = currentPath.includes('/pages/');
-        const basePath = isInPagesFolder ? '' : 'pages/';
-        
-        userMenuContainer.innerHTML = `
-            <li class="user-menu">
-                <a href="#" class="user-toggle">Current Student ▾</a>
-                <ul class="user-dropdown">
-                    <li><a href="${basePath}login.html">Login to Account</a></li>
-                    <li><a href="${basePath}signup.html">Create New Account</a></li>
-                    <li><a href="${basePath}services.html">Browse Courses</a></li>
-                </ul>
-            </li>
-        `;
-        
-        // Initialize dropdown functionality
-        setupUserMenuFunctionality();
-    }
-}
 
 /**
  * Initialize Mobile Menu Toggle functionality
@@ -69,14 +43,53 @@ function initializeMobileMenu() {
         mobileMenuToggle.setAttribute('aria-expanded', 'false');
         
         // Close mobile menu when clicking on a link
-        const navLinks = nav.querySelectorAll('a');
+        const navLinks = document.querySelectorAll('nav a');
         navLinks.forEach(link => {
-            link.addEventListener('click', function() {
+            link.addEventListener('click', () => {
                 mobileMenuToggle.classList.remove('active');
                 nav.classList.remove('active');
                 mobileMenuToggle.setAttribute('aria-expanded', 'false');
             });
         });
+    }
+}
+
+/**
+ * Initialize Current Student toggle functionality
+ */
+function initializeCurrentStudentToggle() {
+    const currentStudentToggle = document.querySelector('.current-student-toggle input[type="radio"]');
+    
+    if (currentStudentToggle) {
+        currentStudentToggle.addEventListener('change', function() {
+            if (this.checked) {
+                // Check if user is logged in
+                const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                
+                if (currentUser) {
+                    // User is logged in, redirect to dashboard
+                    showNotification('Redirecting to your dashboard...', 'info');
+                    setTimeout(() => {
+                        window.location.href = 'pages/dashboard.html';
+                    }, 1000);
+                } else {
+                    // User not logged in, redirect to login
+                    showNotification('Please log in to access student features', 'info');
+                    setTimeout(() => {
+                        window.location.href = 'pages/login.html';
+                    }, 1000);
+                }
+            }
+        });
+        
+        // Check if user is already logged in and update the label
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        if (currentUser) {
+            const label = document.querySelector('.current-student-toggle label');
+            if (label) {
+                label.textContent = `Welcome, ${currentUser.firstName}`;
+            }
+        }
     }
 }
 
@@ -103,7 +116,7 @@ function setupSmoothScrolling() {
             
             if (targetElement) {
                 const headerHeight = document.querySelector('header').offsetHeight;
-                const targetPosition = targetElement.offsetTop - headerHeight;
+                const targetPosition = targetElement.offsetTop - headerHeight - 20;
                 
                 window.scrollTo({
                     top: targetPosition,
@@ -127,7 +140,7 @@ function setupSmoothScrolling() {
  * Handle form submissions with validation
  */
 function handleFormSubmissions() {
-    const forms = document.querySelectorAll('form:not(#login-form):not(#signup-form):not(#contactForm):not(#enrollment-form):not(#new-thread-form):not(#payment-form):not(#donation-form)');
+    const forms = document.querySelectorAll('form:not(#login-form):not(#signup-form):not(#contactForm):not(#enrollment-form):not(#new-thread-form):not(#payment-form)');
     
     forms.forEach(form => {
         form.addEventListener('submit', function(e) {
@@ -160,6 +173,7 @@ function saveFormDataToFile(form) {
     
     data.timestamp = new Date().toISOString();
     data.formName = form.id || 'unknown_form';
+    data.pageUrl = window.location.href;
     
     // Save to general forms backup
     saveToTextFile('general_forms', data);
@@ -218,7 +232,7 @@ function validateForm(form) {
  * @param {string} message - The error message to display
  */
 function showFieldError(field, message) {
-    field.style.borderColor = 'var(--accent)';
+    field.style.borderColor = 'var(--apple-red)';
     
     // Create or find error element
     let errorElement = field.parentNode.querySelector('.form-error');
@@ -226,6 +240,7 @@ function showFieldError(field, message) {
     if (!errorElement) {
         errorElement = document.createElement('div');
         errorElement.className = 'form-error';
+        errorElement.style.cssText = 'color: var(--apple-red); font-size: 0.875rem; margin-top: 0.5rem;';
         field.parentNode.appendChild(errorElement);
     }
     
@@ -255,22 +270,6 @@ function isStrongPassword(password) {
 }
 
 /**
- * Get form data as object
- * @param {HTMLFormElement} form - The form to get data from
- * @returns {Object} - Form data as key-value pairs
- */
-function getFormData(form) {
-    const formData = new FormData(form);
-    const data = {};
-    
-    for (let [key, value] of formData.entries()) {
-        data[key] = value;
-    }
-    
-    return data;
-}
-
-/**
  * Update copyright year automatically
  */
 function updateCopyrightYear() {
@@ -295,6 +294,7 @@ function setupLazyLoading() {
                     const img = entry.target;
                     img.src = img.getAttribute('data-src');
                     img.removeAttribute('data-src');
+                    img.classList.add('fade-in');
                     observer.unobserve(img);
                 }
             });
@@ -307,6 +307,7 @@ function setupLazyLoading() {
         // Fallback for browsers without IntersectionObserver
         lazyImages.forEach(img => {
             img.src = img.getAttribute('data-src');
+            img.classList.add('fade-in');
         });
     }
 }
@@ -315,16 +316,15 @@ function setupLazyLoading() {
  * Highlight Active Link in Navigation
  */
 function highlightActiveLink() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const currentPage = window.location.pathname.split('/').pop();
     const navLinks = document.querySelectorAll('nav ul li a');
     
     navLinks.forEach(link => {
         const linkHref = link.getAttribute('href');
-        const linkPage = linkHref.split('/').pop();
         
-        if (currentPage === linkPage || 
-            (currentPage === '' && linkPage === 'index.html') ||
-            (currentPage === 'index.html' && linkPage === '../index.html')) {
+        if (currentPage === linkHref || 
+            (currentPage === '' && linkHref === 'index.html') ||
+            (currentPage === 'index.html' && linkHref === '../index.html')) {
             link.classList.add('active');
         } else {
             link.classList.remove('active');
@@ -340,8 +340,8 @@ function initializeLanguageSelector() {
     
     if (languageSelector) {
         languageSelector.addEventListener('change', function() {
-            // In a real implementation, this would change the site language
-            showNotification(`Language changed to ${this.options[this.selectedIndex].text}`, 'info');
+            const selectedLanguage = this.options[this.selectedIndex].text;
+            showNotification(`Language changed to ${selectedLanguage}`, 'info');
             
             // Save language preference
             localStorage.setItem('userLanguage', this.value);
@@ -387,7 +387,8 @@ function initializeProgressBars() {
         // Animate progress bar
         setTimeout(() => {
             bar.style.width = `${progress}%`;
-        }, 100);
+            bar.style.transition = 'width 1s ease-in-out';
+        }, 500);
     });
 }
 
@@ -401,12 +402,12 @@ function initializeBadges() {
         if (badge.classList.contains('earned')) {
             // Add animation to earned badges
             badge.addEventListener('mouseenter', function() {
-                this.style.transform = 'scale(1.1)';
+                this.style.transform = 'scale(1.1) rotate(5deg)';
                 this.style.transition = 'transform 0.3s ease';
             });
             
             badge.addEventListener('mouseleave', function() {
-                this.style.transform = 'scale(1)';
+                this.style.transform = 'scale(1) rotate(0deg)';
             });
         }
     });
@@ -424,12 +425,24 @@ function initializeChatbot() {
     
     if (chatbotToggle && chatbotContainer) {
         chatbotToggle.addEventListener('click', function() {
-            chatbotContainer.style.display = chatbotContainer.style.display === 'flex' ? 'none' : 'flex';
+            if (chatbotContainer.style.display === 'flex') {
+                chatbotContainer.style.display = 'none';
+                this.style.transform = 'scale(1)';
+            } else {
+                chatbotContainer.style.display = 'flex';
+                this.style.transform = 'scale(1.1)';
+                
+                // Focus on input when opening
+                setTimeout(() => {
+                    if (chatbotInput) chatbotInput.focus();
+                }, 300);
+            }
         });
         
         if (chatbotClose) {
             chatbotClose.addEventListener('click', function() {
                 chatbotContainer.style.display = 'none';
+                chatbotToggle.style.transform = 'scale(1)';
             });
         }
         
@@ -469,7 +482,8 @@ function saveChatHistory(message, sender) {
     const chatData = {
         message: message,
         sender: sender,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        page: window.location.pathname
     };
     
     saveToTextFile('chat_history', chatData);
@@ -482,13 +496,11 @@ function saveChatHistory(message, sender) {
  */
 function addChatMessage(sender, message) {
     const messagesContainer = document.querySelector('.chatbot-messages');
-    if (messagesContainer) {
-        const messageElement = document.createElement('div');
-        messageElement.className = `chat-message ${sender}`;
-        messageElement.textContent = message;
-        messagesContainer.appendChild(messageElement);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
+    const messageElement = document.createElement('div');
+    messageElement.className = `chat-message ${sender}`;
+    messageElement.textContent = message;
+    messagesContainer.appendChild(messageElement);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
 /**
@@ -500,24 +512,26 @@ function respondToMessage(message) {
     
     const lowerMessage = message.toLowerCase();
     
-    if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
-        response = "Hello! How can I help you today?";
+    if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+        response = "Hello! Welcome to Math and Language Synergy. How can I assist you today?";
     } else if (lowerMessage.includes('course') || lowerMessage.includes('program')) {
-        response = "We offer English, Japanese, and Mathematics courses. Would you like more information about any of these?";
+        response = "We offer comprehensive programs in English, Japanese, and Mathematics. Would you like more information about any of these?";
     } else if (lowerMessage.includes('english')) {
-        response = "Our English courses focus on fluency, communication skills, writing, and cultural awareness. They're perfect for academic and professional success.";
+        response = "Our English programs focus on fluency, communication skills, academic writing, and cultural awareness. We offer courses for all levels from beginner to advanced.";
     } else if (lowerMessage.includes('japanese')) {
-        response = "Our Japanese courses provide immersion in language and culture, with options for beginners to advanced learners, including business Japanese.";
+        response = "Our Japanese programs provide complete immersion in language and culture, with options for beginners to advanced learners, including business Japanese.";
     } else if (lowerMessage.includes('math') || lowerMessage.includes('mathematics')) {
         response = "Our Mathematics programs develop critical thinking and problem-solving skills, from basic algebra to advanced calculus and applied mathematics.";
-    } else if (lowerMessage.includes('price') || lowerMessage.includes('cost')) {
-        response = "Course prices vary by program. English courses start at ZAR 9,000 per semester, Japanese at ZAR 9,900, and Mathematics at ZAR 7,200.";
-    } else if (lowerMessage.includes('enroll') || lowerMessage.includes('apply')) {
-        response = "You can enroll through our enrollment page. Would you like me to direct you there?";
-    } else if (lowerMessage.includes('contact') || lowerMessage.includes('email')) {
-        response = "You can reach us at info@mathlanguagesynergy.edu or +27 (0)11 234 5678. Our office hours are Monday to Friday, 9 AM to 6 PM.";
-    } else if (lowerMessage.includes('donation') || lowerMessage.includes('donate')) {
-        response = "We accept Bitcoin donations to support our educational programs. You can make a donation on our donation page. Our Bitcoin address is: bc1qssyczsfm70qjglpjzhcxpyl5xdafwwlyhucn6u";
+    } else if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('fee')) {
+        response = "Course fees vary by program. English courses start at ZAR 9,000 per semester, Japanese at ZAR 9,900, and Mathematics at ZAR 7,200. Would you like detailed pricing?";
+    } else if (lowerMessage.includes('enroll') || lowerMessage.includes('apply') || lowerMessage.includes('register')) {
+        response = "You can enroll through our enrollment page. Would you like me to direct you there? You can also visit our campus during business hours.";
+    } else if (lowerMessage.includes('contact') || lowerMessage.includes('email') || lowerMessage.includes('phone')) {
+        response = "You can reach us at info@mathlanguagesynergy.edu or +27 (0)11 234 5678. Our office hours are Monday to Friday, 9 AM to 6 PM, and Saturday 10 AM to 4 PM.";
+    } else if (lowerMessage.includes('location') || lowerMessage.includes('address')) {
+        response = "We're located at 123 Learning Lane, Knowledge City, EDU 45678, Gauteng, South Africa. We also offer online classes for remote students.";
+    } else if (lowerMessage.includes('thank') || lowerMessage.includes('thanks')) {
+        response = "You're welcome! Is there anything else I can help you with today?";
     }
     
     return response;
@@ -530,34 +544,47 @@ function initializeUserMenu() {
     const userMenuContainer = document.getElementById('user-menu-container');
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
     
-    if (userMenuContainer && currentUser) {
-        // User is logged in - show appropriate options based on account type
-        const currentPath = window.location.pathname;
-        const isInPagesFolder = currentPath.includes('/pages/');
-        const basePath = isInPagesFolder ? '' : 'pages/';
-        
-        if (currentUser.accountType === 'student') {
+    if (userMenuContainer) {
+        if (currentUser) {
+            // User is logged in - show user-specific options
+            const basePath = window.location.pathname.includes('/pages/') ? '' : 'pages/';
+            
+            if (currentUser.accountType === 'student') {
+                userMenuContainer.innerHTML = `
+                    <li class="user-menu">
+                        <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
+                        <ul class="user-dropdown">
+                            <li><a href="${basePath}dashboard.html">My Dashboard</a></li>
+                            <li><a href="${basePath}enrollment.html">Enroll in Courses</a></li>
+                            <li><a href="${basePath}forum.html">Student Forum</a></li>
+                            <li><a href="#" id="switch-account">Switch Account</a></li>
+                            <li><a href="#" id="logout">Logout</a></li>
+                        </ul>
+                    </li>
+                `;
+            } else if (currentUser.accountType === 'lecturer') {
+                userMenuContainer.innerHTML = `
+                    <li class="user-menu">
+                        <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
+                        <ul class="user-dropdown">
+                            <li><a href="${basePath}dashboard.html">Instructor Dashboard</a></li>
+                            <li><a href="${basePath}forum.html">Student Forum</a></li>
+                            <li><a href="#" id="switch-account">Switch Account</a></li>
+                            <li><a href="#" id="logout">Logout</a></li>
+                        </ul>
+                    </li>
+                `;
+            }
+        } else {
+            // User not logged in - show login/signup options
+            const basePath = window.location.pathname.includes('/pages/') ? '' : 'pages/';
             userMenuContainer.innerHTML = `
                 <li class="user-menu">
-                    <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
+                    <a href="#" class="user-toggle">Account ▾</a>
                     <ul class="user-dropdown">
-                        <li><a href="${basePath}enrollment.html">Enroll in Courses</a></li>
-                        <li><a href="${basePath}dashboard.html">My Dashboard</a></li>
-                        <li><a href="${basePath}forum.html">Student Forum</a></li>
-                        <li><a href="#" id="switch-account">Switch Account</a></li>
-                        <li><a href="#" id="logout">Logout</a></li>
-                    </ul>
-                </li>
-            `;
-        } else if (currentUser.accountType === 'lecturer') {
-            userMenuContainer.innerHTML = `
-                <li class="user-menu">
-                    <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
-                    <ul class="user-dropdown">
-                        <li><a href="${basePath}dashboard.html">My Dashboard</a></li>
-                        <li><a href="${basePath}forum.html">Student Forum</a></li>
-                        <li><a href="#" id="switch-account">Switch Account</a></li>
-                        <li><a href="#" id="logout">Logout</a></li>
+                        <li><a href="${basePath}login.html">Login</a></li>
+                        <li><a href="${basePath}signup.html">Sign Up</a></li>
+                        <li><a href="${basePath}enrollment.html">Enroll as Student</a></li>
                     </ul>
                 </li>
             `;
@@ -592,7 +619,7 @@ function setupUserMenuFunctionality() {
 
         // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
-            if (!userToggle.contains(e.target) && !userDropdown.contains(e.target)) {
+            if (userToggle && userDropdown && !userToggle.contains(e.target) && !userDropdown.contains(e.target)) {
                 userDropdown.classList.remove('show');
             }
         });
@@ -631,7 +658,8 @@ function handleSwitchAccount() {
         const switchData = {
             action: 'account_switch',
             username: currentUser.username,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
+            page: window.location.pathname
         };
         saveToTextFile('user_actions', switchData);
     }
@@ -640,8 +668,7 @@ function handleSwitchAccount() {
     showNotification('Switching accounts...', 'info');
     setTimeout(() => {
         const currentPath = window.location.pathname;
-        const isInPagesFolder = currentPath.includes('/pages/');
-        const loginPath = isInPagesFolder ? 'login.html' : 'pages/login.html';
+        const loginPath = currentPath.includes('/pages/') ? 'login.html' : 'pages/login.html';
         window.location.href = loginPath;
     }, 1000);
 }
@@ -657,7 +684,8 @@ function handleLogout() {
         const logoutData = {
             action: 'logout',
             username: currentUser.username,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
+            page: window.location.pathname
         };
         saveToTextFile('user_actions', logoutData);
     }
@@ -667,6 +695,138 @@ function handleLogout() {
     setTimeout(() => {
         window.location.reload(); // Reload to update navigation
     }, 1000);
+}
+
+/**
+ * Initialize Text File System for data storage
+ */
+function initializeTextFileSystem() {
+    console.log('Initializing text file storage system...');
+    
+    // Initialize required text file structures if they don't exist
+    initializeRequiredFiles();
+}
+
+/**
+ * Initialize required text files for data storage
+ */
+function initializeRequiredFiles() {
+    const requiredFiles = [
+        'users_data',
+        'contact_submissions', 
+        'student_progress',
+        'forum_threads',
+        'user_events',
+        'download_history',
+        'chat_history',
+        'user_actions',
+        'general_forms'
+    ];
+    
+    requiredFiles.forEach(fileType => {
+        if (!localStorage.getItem(`${fileType}_backup`)) {
+            // Create initial file structure
+            const initialContent = getInitialFileContent(fileType);
+            localStorage.setItem(`${fileType}_backup`, initialContent);
+            console.log(`Initialized ${fileType} backup file`);
+        }
+    });
+}
+
+/**
+ * Get initial content for text files
+ */
+function getInitialFileContent(fileType) {
+    const timestamp = new Date().toISOString();
+    
+    switch(fileType) {
+        case 'users_data':
+            return `Math and Language Synergy - Users Database
+===========================================
+File Created: ${timestamp}
+Total Users: 0
+
+USER LIST:
+==========
+`;
+        case 'contact_submissions':
+            return `Math and Language Synergy - Contact Form Submissions
+=====================================================
+File Created: ${timestamp}
+Total Submissions: 0
+
+SUBMISSIONS:
+============
+`;
+        case 'student_progress':
+            return `Math and Language Synergy - Student Progress Reports
+====================================================
+File Created: ${timestamp}
+Total Progress Records: 0
+
+PROGRESS RECORDS:
+=================
+`;
+        case 'forum_threads':
+            return `Math and Language Synergy - Forum Discussions
+============================================
+File Created: ${timestamp}
+Total Threads: 0
+
+THREADS:
+========
+`;
+        case 'user_events':
+            return `Math and Language Synergy - User Events and Appointments
+=======================================================
+File Created: ${timestamp}
+Total Events: 0
+
+EVENTS:
+=======
+`;
+        case 'download_history':
+            return `Math and Language Synergy - Resource Download History
+=====================================================
+File Created: ${timestamp}
+Total Downloads: 0
+
+DOWNLOAD HISTORY:
+=================
+`;
+        case 'chat_history':
+            return `Math and Language Synergy - Chat History
+=====================================
+File Created: ${timestamp}
+Total Messages: 0
+
+CHAT HISTORY:
+=============
+`;
+        case 'user_actions':
+            return `Math and Language Synergy - User Actions Log
+========================================
+File Created: ${timestamp}
+Total Actions: 0
+
+USER ACTIONS:
+=============
+`;
+        case 'general_forms':
+            return `Math and Language Synergy - General Form Submissions
+=================================================
+File Created: ${timestamp}
+Total Submissions: 0
+
+FORM SUBMISSIONS:
+=================
+`;
+        default:
+            return `Math and Language Synergy - ${fileType}
+================================
+File Created: ${timestamp}
+`;
+    }
 }
 
 /**
@@ -687,18 +847,22 @@ function saveToTextFile(fileType, data) {
             case 'general_forms':
                 newContent += `\n\nForm Submission: ${data.formName}
 Timestamp: ${new Date(data.timestamp).toLocaleString()}
+Page: ${data.pageUrl}
 Data: ${JSON.stringify(data, null, 2)}
 ----------------------------------------`;
                 break;
                 
             case 'chat_history':
-                newContent += `\n\n[${new Date(data.timestamp).toLocaleString()}] ${data.sender.toUpperCase()}: ${data.message}`;
+                newContent += `\n\n[${new Date(data.timestamp).toLocaleString()}] ${data.sender.toUpperCase()}: ${data.message}
+Page: ${data.page}
+----------------------------------------`;
                 break;
                 
             case 'user_actions':
                 newContent += `\n\nAction: ${data.action}
 User: ${data.username}
 Timestamp: ${new Date(data.timestamp).toLocaleString()}
+Page: ${data.page}
 ----------------------------------------`;
                 break;
                 
@@ -741,126 +905,6 @@ function updateFileCounter(content, fileType) {
     }
     
     return lines.join('\n');
-}
-
-/**
- * Get initial content for text files
- */
-function getInitialFileContent(fileType) {
-    const timestamp = new Date().toISOString();
-    
-    switch(fileType) {
-        case 'users_data':
-            return `Math and Language Synergy - Users Database
-===========================================
-File Created: ${timestamp}
-Total Users: 0
-
-USER LIST:
-==========
-`;
-        case 'general_forms':
-            return `Math and Language Synergy - General Form Submissions
-====================================================
-File Created: ${timestamp}
-Total Submissions: 0
-
-SUBMISSIONS:
-============
-`;
-        case 'chat_history':
-            return `Math and Language Synergy - Chat History
-==========================================
-File Created: ${timestamp}
-Total Messages: 0
-
-CHAT HISTORY:
-=============
-`;
-        case 'user_actions':
-            return `Math and Language Synergy - User Actions Log
-============================================
-File Created: ${timestamp}
-Total Actions: 0
-
-USER ACTIONS:
-=============
-`;
-        default:
-            return `Math and Language Synergy - ${fileType}
-================================
-File Created: ${timestamp}
-`;
-    }
-}
-
-/**
- * Initialize Text File System for data storage
- */
-function initializeTextFileSystem() {
-    console.log('Initializing text file storage system...');
-    
-    // Initialize required text file structures if they don't exist
-    initializeRequiredFiles();
-}
-
-/**
- * Initialize required text files for data storage
- */
-function initializeRequiredFiles() {
-    const requiredFiles = [
-        'users_data',
-        'general_forms', 
-        'chat_history',
-        'user_actions'
-    ];
-    
-    requiredFiles.forEach(fileType => {
-        if (!localStorage.getItem(`${fileType}_backup`)) {
-            // Create initial file structure
-            const initialContent = getInitialFileContent(fileType);
-            localStorage.setItem(`${fileType}_backup`, initialContent);
-            console.log(`Initialized ${fileType} backup file`);
-        }
-    });
-}
-
-/**
- * Show notification message
- * @param {string} message - The notification message
- * @param {string} type - 'success', 'error', or 'info'
- */
-function showNotification(message, type) {
-    // Remove any existing notifications
-    const existingNotification = document.querySelector('.notification');
-    if (existingNotification) {
-        existingNotification.remove();
-    }
-    
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    
-    // Add to page
-    document.body.appendChild(notification);
-    
-    // Show notification
-    setTimeout(() => {
-        notification.style.display = 'block';
-        notification.classList.add('show');
-    }, 10);
-    
-    // Hide notification after 3 seconds
-    setTimeout(() => {
-        notification.classList.remove('show');
-        notification.style.opacity = '0';
-        notification.style.transition = 'opacity 0.5s ease';
-        
-        setTimeout(() => {
-            notification.remove();
-        }, 500);
-    }, 3000);
 }
 
 /**
@@ -911,78 +955,146 @@ function updateFooterLinks() {
 }
 
 /**
- * Initialize Calendar functionality
+ * Initialize SEO enhancements
  */
-function initializeCalendar() {
-    const calendarDays = document.querySelectorAll('.calendar-day');
+function initializeSEO() {
+    // Add structured data for better SEO
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "Math and Language Synergy",
+        "description": "Comprehensive education in English, Japanese, and Mathematics for academic and professional success",
+        "url": window.location.href,
+        "logo": "assets/images/logo.png",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+27-11-234-5678",
+            "contactType": "customer service",
+            "areaServed": "ZA",
+            "availableLanguage": ["en", "ja"]
+        },
+        "sameAs": [
+            "https://facebook.com/MathLanguageSynergy",
+            "https://twitter.com/MathLangSynergy",
+            "https://instagram.com/MathLanguageSynergy",
+            "https://linkedin.com/company/mathlanguagesynergy"
+        ]
+    };
     
-    if (calendarDays.length) {
-        calendarDays.forEach(day => {
-            day.addEventListener('click', function() {
-                // Remove selected class from all days
-                calendarDays.forEach(d => d.classList.remove('selected'));
-                
-                // Add selected class to clicked day
-                this.classList.add('selected');
-                
-                // Show confirmation message
-                const date = this.getAttribute('data-date');
-                showNotification(`Appointment scheduled for ${date}`, 'success');
-            });
-        });
-    }
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(structuredData);
+    document.head.appendChild(script);
+    
+    // Track page views for analytics
+    const pageViewData = {
+        page: window.location.pathname,
+        timestamp: new Date().toISOString(),
+        referrer: document.referrer
+    };
+    saveToTextFile('page_views', pageViewData);
 }
 
 /**
- * Initialize Resource Downloads
+ * Initialize Apple-style animations
  */
-function initializeResourceDownloads() {
-    const downloadButtons = document.querySelectorAll('.download-btn');
+function initializeAppleAnimations() {
+    // Add fade-in animation to cards when they come into view
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
     
-    downloadButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const resourceName = this.getAttribute('data-resource') || this.closest('.resource-card').querySelector('.resource-name')?.textContent || 'Resource';
-            showNotification(`Downloading ${resourceName}...`, 'info');
-            
-            // Simulate download delay
-            setTimeout(() => {
-                showNotification(`${resourceName} downloaded successfully!`, 'success');
-                
-                // Update progress if on dashboard
-                updateDownloadProgress();
-            }, 2000);
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
         });
+    }, observerOptions);
+    
+    // Observe all cards and sections for animation
+    document.querySelectorAll('.apple-card, .program-card, .testimonial, .resource-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
     });
 }
 
 /**
- * Update download progress on dashboard
+ * Show notification message
+ * @param {string} message - The notification message
+ * @param {string} type - 'success', 'error', or 'info'
  */
-function updateDownloadProgress() {
-    const progressBar = document.querySelector('.progress-fill[data-progress]');
-    if (progressBar) {
-        let currentProgress = parseInt(progressBar.style.width) || 0;
-        if (currentProgress < 100) {
-            currentProgress += 10;
-            progressBar.style.width = `${currentProgress}%`;
-            progressBar.setAttribute('data-progress', currentProgress);
-            
-            // Check if user earned a badge
-            if (currentProgress >= 100) {
-                showNotification('Congratulations! You earned the "Resource Master" badge!', 'success');
-                const badge = document.querySelector('.badge[data-badge="resource-master"]');
-                if (badge) {
-                    badge.classList.add('earned');
-                }
-            }
-        }
+function showNotification(message, type) {
+    // Remove any existing notifications
+    const existingNotification = document.querySelector('.notification');
+    if (existingNotification) {
+        existingNotification.remove();
     }
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: var(--spacing-md);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-lg);
+        z-index: 1001;
+        max-width: 400px;
+        font-size: 0.9375rem;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    `;
+    
+    // Add to page
+    document.body.appendChild(notification);
+    
+    // Show notification
+    setTimeout(() => {
+        notification.style.opacity = '1';
+    }, 10);
+    
+    // Hide notification after 5 seconds
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 300);
+    }, 5000);
+}
+
+/**
+ * Get form data as object
+ * @param {HTMLFormElement} form - The form to get data from
+ * @returns {Object} - Form data as key-value pairs
+ */
+function getFormData(form) {
+    const formData = new FormData(form);
+    const data = {};
+    
+    for (let [key, value] of formData.entries()) {
+        data[key] = value;
+    }
+    
+    return data;
 }
 
 // Export functions for use in other modules (if needed)
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         showNotification,
+        validateForm,
         isValidEmail,
         isStrongPassword,
         saveToTextFile

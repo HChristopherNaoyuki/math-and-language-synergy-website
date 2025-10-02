@@ -3,12 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Math and Language Synergy provides comprehensive education in English, Japanese, and Mathematics for academic and professional success">
-    <meta name="keywords" content="math education, language learning, English courses, Japanese courses, academic success">
+    <meta name="description" content="Math and Language Synergy provides comprehensive education in English, Japanese, and Mathematics for academic and professional success in South Africa">
+    <meta name="keywords" content="math education, language learning, English courses, Japanese courses, academic success, professional development, South Africa education, integrated learning">
     <meta name="author" content="Math and Language Synergy">
-    <title>Math and Language Synergy | Home</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Math and Language Synergy | Integrated Language & Math Education">
+    <meta property="og:description" content="Comprehensive education in English, Japanese, and Mathematics for academic and professional success in South Africa">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mathlanguagesynergy.edu">
+    <meta property="og:image" content="assets/images/logo.png">
+    <meta property="og:site_name" content="Math and Language Synergy">
+    <meta property="og:locale" content="en_ZA">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Math and Language Synergy | Integrated Education">
+    <meta name="twitter:description" content="Comprehensive education in English, Japanese, and Mathematics">
+    <meta name="twitter:image" content="assets/images/logo.png">
+    <meta name="twitter:site" content="@MathLangSynergy">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://mathlanguagesynergy.edu">
+    
+    <!-- Favicon and Apple Touch Icons -->
     <link rel="icon" href="assets/images/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
+    <meta name="theme-color" content="#0071e3">
+    
+    <title>Math and Language Synergy | Integrated Language & Math Education</title>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <!-- Header Section -->
@@ -16,7 +42,7 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <img src="assets/images/logo.png" alt="Math and Language Synergy Logo">
+                    <img src="assets/images/logo.png" alt="Math and Language Synergy Logo" width="40" height="40" loading="eager">
                     <span>Math</span> & Language Synergy
                 </div>
                 <nav>
@@ -25,6 +51,10 @@
                         <li><a href="pages/about.html">About</a></li>
                         <li><a href="pages/services.html">Services</a></li>
                         <li><a href="pages/contact.html">Contact</a></li>
+                        <li class="current-student-toggle">
+                            <input type="radio" id="current-student" name="user-type" aria-label="Current Student">
+                            <label for="current-student">Current Student</label>
+                        </li>
                         <li class="user-menu" id="user-menu-container">
                             <!-- Dynamic content will be loaded here by JavaScript -->
                         </li>
@@ -43,10 +73,10 @@
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" aria-labelledby="hero-title">
         <div class="container">
             <div class="hero-content">
-                <h1>Where Language Meets Logic</h1>
+                <h1 id="hero-title">Where Language Meets Logic</h1>
                 <p>Comprehensive education in English, Japanese, and Mathematics for academic and professional success</p>
                 <div class="hero-buttons">
                     <a href="pages/services.html" class="btn">Explore Our Programs</a>
@@ -59,10 +89,10 @@
     <!-- Main Content Section -->
     <main id="main-content">
         <!-- Mission Section -->
-        <section class="mission">
+        <section class="mission" aria-labelledby="mission-title">
             <div class="container">
                 <div class="mission-content">
-                    <h2>Our Mission</h2>
+                    <h2 id="mission-title">Our Mission</h2>
                     <p>At Math and Language Synergy, our vision is to offer an integrated education that gives students both the math and language skills they need, to gift them a proficiency that will lead them to success in a varied, global world.</p>
                     <h2>Our Vision</h2>
                     <p>We want to see a world where language and math go with each other so that the student will excel in academic performances and be well-versed, ready to live in international backgrounds.</p>
@@ -71,40 +101,40 @@
         </section>
 
         <!-- Welcome Section -->
-        <section class="welcome">
+        <section class="welcome" aria-labelledby="welcome-title">
             <div class="container">
-                <h2>Welcome to Math and Language Synergy!</h2>
+                <h2 id="welcome-title">Welcome to Math and Language Synergy!</h2>
                 <p>We are excited about you navigating through our energetic community of learners combining language and math teaching into an extraordinary educational delivery. At Math and Language Synergy, our focus is on preparing students for a borderless world.</p>
                 <p>English, Japanese, and Math are the three core areas of study at our academy. These courses were put in place to improve our communication skills and make us better thinkers when solving problems.</p>
             </div>
         </section>
 
         <!-- Featured Programs Section -->
-        <section class="featured-programs">
+        <section class="featured-programs" aria-labelledby="programs-title">
             <div class="container">
                 <div class="section-title">
-                    <h2>Featured Programs</h2>
+                    <h2 id="programs-title">Featured Programs</h2>
                 </div>
                 <div class="programs-grid">
-                    <div class="program-card">
+                    <div class="program-card apple-card">
                         <div class="program-icon">
-                            <div style="width: 80px; height: 80px; background-color: var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin: 0 auto;">EN</div>
+                            <div style="background-color: var(--apple-blue);" aria-hidden="true">EN</div>
                         </div>
                         <h3>English Language Mastery</h3>
                         <p>Improve fluency, communication skills, writing, and cultural awareness through our comprehensive English program.</p>
                         <a href="pages/services.html#language" class="btn">Learn More</a>
                     </div>
-                    <div class="program-card">
+                    <div class="program-card apple-card">
                         <div class="program-icon">
-                            <div style="width: 80px; height: 80px; background-color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin: 0 auto;">日</div>
+                            <div style="background-color: var(--apple-purple);" aria-hidden="true">日</div>
                         </div>
                         <h3>Japanese Language Immersion</h3>
                         <p>Learn Japanese with practice in communication, reading, writing, and insights into Japanese culture.</p>
                         <a href="pages/services.html#language" class="btn">Learn More</a>
                     </div>
-                    <div class="program-card">
+                    <div class="program-card apple-card">
                         <div class="program-icon">
-                            <div style="width: 80px; height: 80px; background-color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin: 0 auto;">∫</div>
+                            <div style="background-color: var(--apple-green);" aria-hidden="true">∫</div>
                         </div>
                         <h3>Advanced Mathematics</h3>
                         <p>Develop critical thinking and problem-solving skills with our advanced mathematics curriculum.</p>
@@ -115,13 +145,13 @@
         </section>
 
         <!-- Testimonials Section -->
-        <section class="testimonials">
+        <section class="testimonials" aria-labelledby="testimonials-title">
             <div class="container">
                 <div class="section-title">
-                    <h2>What Our Students Say</h2>
+                    <h2 id="testimonials-title">What Our Students Say</h2>
                 </div>
                 <div class="testimonial-slider">
-                    <div class="testimonial">
+                    <div class="testimonial apple-card">
                         <div class="testimonial-content">
                             <p>"The integrated approach to language and math has significantly improved my analytical and communication skills. I feel more prepared for my international business career."</p>
                         </div>
@@ -130,7 +160,7 @@
                             <p>Business Professional</p>
                         </div>
                     </div>
-                    <div class="testimonial">
+                    <div class="testimonial apple-card">
                         <div class="testimonial-content">
                             <p>"The Japanese language program combined with mathematical problem-solving has given me a competitive edge in technology job applications."</p>
                         </div>
@@ -139,14 +169,23 @@
                             <p>Computer Science Student</p>
                         </div>
                     </div>
+                    <div class="testimonial apple-card">
+                        <div class="testimonial-content">
+                            <p>"As a parent, I've seen remarkable improvement in my child's confidence and academic performance since enrolling in the integrated programs."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <h4>Maria Rodriguez</h4>
+                            <p>Parent</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Call to Action Section -->
-        <section class="cta">
+        <section class="cta" aria-labelledby="cta-title">
             <div class="container">
-                <h2>Ready to Start Your Journey?</h2>
+                <h2 id="cta-title">Ready to Start Your Journey?</h2>
                 <p>Join our community of learners and unlock your potential with our integrated language and mathematics programs.</p>
                 <div class="cta-buttons">
                     <a href="pages/contact.html" class="btn">Contact Us</a>
@@ -163,56 +202,58 @@
                 <div class="footer-section">
                     <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="../index.html">Home</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="services.html">Services</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                        <li><a href="accessibility.html">Accessibility Statement</a></li>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="pages/about.html">About</a></li>
+                        <li><a href="pages/services.html">Services</a></li>
+                        <li><a href="pages/contact.html">Contact</a></li>
+                        <li><a href="pages/accessibility.html">Accessibility Statement</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h3>Contact Info</h3>
-                    <p>123 Learning Lane, Knowledge City, EDU 45678, Gauteng, South Africa</p>
-                    <p>Phone: +27 (0)11 234 5678</p>
-                    <p>Email: info@mathlanguagesynergy.edu</p>
+                    <address>
+                        <p>123 Learning Lane, Knowledge City, EDU 45678, Gauteng, South Africa</p>
+                        <p>Phone: <a href="tel:+27112345678">+27 (0)11 234 5678</a></p>
+                        <p>Email: <a href="mailto:info@mathlanguagesynergy.edu">info@mathlanguagesynergy.edu</a></p>
+                    </address>
                 </div>
                 <div class="footer-section">
                     <h3>Follow Us</h3>
                     <div class="social-media">
-                        <a href="https://facebook.com/MathLanguageSynergy" target="_blank" aria-label="Facebook">FB</a>
-                        <a href="https://twitter.com/MathLangSynergy" target="_blank" aria-label="Twitter">TW</a>
-                        <a href="https://instagram.com/MathLanguageSynergy" target="_blank" aria-label="Instagram">IG</a>
-                        <a href="https://linkedin.com/company/mathlanguagesynergy" target="_blank" aria-label="LinkedIn">LI</a>
+                        <a href="https://facebook.com/MathLanguageSynergy" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
+                        <a href="https://twitter.com/MathLangSynergy" target="_blank" rel="noopener noreferrer" aria-label="Twitter">TW</a>
+                        <a href="https://instagram.com/MathLanguageSynergy" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
+                        <a href="https://linkedin.com/company/mathlanguagesynergy" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">LI</a>
                     </div>
                 </div>
                 <div class="footer-section">
                     <h3>Support Our Mission</h3>
                     <p>Help us continue providing quality education through Bitcoin donations</p>
-                    <a href="donation.html" class="btn small">Make a Donation</a>
+                    <a href="pages/donation.html" class="btn small">Make a Donation</a>
                 </div>
             </div>
             <div class="copyright">
                 <p>&copy; <span id="current-year"></span> Math and Language Synergy. All rights reserved.</p>
-                <p><a href="accessibility.html">Accessibility Statement</a></p>
+                <p><a href="pages/accessibility.html">Accessibility Statement</a> | <a href="pages/privacy.html">Privacy Policy</a></p>
             </div>
         </div>
     </footer>
 
     <!-- Chatbot Toggle Button -->
-    <div class="chatbot-toggle">💬</div>
+    <div class="chatbot-toggle" role="button" aria-label="Open chat assistant" tabindex="0">💬</div>
     
     <!-- Chatbot Container -->
-    <div class="chatbot-container">
+    <div class="chatbot-container" aria-label="Chat assistant" role="dialog" aria-modal="true">
         <div class="chatbot-header">
             <h3>Learning Assistant</h3>
-            <span class="chatbot-close">×</span>
+            <span class="chatbot-close" role="button" aria-label="Close chat" tabindex="0">×</span>
         </div>
-        <div class="chatbot-messages">
-            <div class="chat-message bot">Hello! How can I help you with our programs?</div>
+        <div class="chatbot-messages" aria-live="polite">
+            <div class="chat-message bot">Hello! Welcome to Math and Language Synergy. How can I assist you with our programs today?</div>
         </div>
         <div class="chatbot-input">
-            <input type="text" placeholder="Ask a question...">
-            <button class="chatbot-send">Send</button>
+            <input type="text" placeholder="Ask a question..." aria-label="Type your message">
+            <button class="chatbot-send" aria-label="Send message">Send</button>
         </div>
     </div>
 
