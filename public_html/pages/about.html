@@ -3,29 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Accessibility statement for Math and Language Synergy website">
-    <title>Accessibility Statement | Math and Language Synergy</title>
+    <meta name="description" content="Learn about Math and Language Synergy - our mission, vision, team, and commitment to integrated education in South Africa">
+    <meta name="keywords" content="about us, education mission, teaching philosophy, academic team, South Africa education">
+    <meta name="author" content="Math and Language Synergy">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="About Us | Math and Language Synergy">
+    <meta property="og:description" content="Learn about our mission to provide integrated language and mathematics education in South Africa">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mathlanguagesynergy.edu/about">
+    <meta property="og:image" content="../assets/images/logo.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="About Us | Math and Language Synergy">
+    <meta name="twitter:description" content="Our mission and team dedicated to integrated education">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://mathlanguagesynergy.edu/about">
+    
+    <title>About Us | Math and Language Synergy</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="icon" href="../assets/images/logo.jpg" type="image/jpg">
 </head>
 <body>
+    <!-- Radio Button Navigation -->
+    <nav class="radio-navigation" aria-label="Main navigation">
+        <div class="container">
+            <div class="radio-nav-container">
+                <div class="radio-nav-group" role="radiogroup" aria-label="Website navigation">
+                    <div class="radio-option">
+                        <input type="radio" id="nav-home-about" name="navigation">
+                        <label for="nav-home-about" onclick="window.location.href='../index.html'">Home</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-about-about" name="navigation" checked>
+                        <label for="nav-about-about" onclick="window.location.href='about.html'">About</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-services-about" name="navigation">
+                        <label for="nav-services-about" onclick="window.location.href='services.html'">Services</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-contact-about" name="navigation">
+                        <label for="nav-contact-about" onclick="window.location.href='contact.html'">Contact</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-student-about" name="navigation">
+                        <label for="nav-student-about" id="student-label-about">Current Student</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <!-- Header Section -->
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <img src="../assets/images/logo.png" alt="Math and Language Synergy Logo">
+                    <img src="../assets/images/logo.png" alt="Math and Language Synergy Logo" width="50" height="50">
                     <span>Math</span> & Language Synergy
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="../index.html" class="active">Home</a></li>
-                    </ul>
-                </nav>
-                <div class="mobile-menu-toggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
                 </div>
             </div>
         </div>
@@ -37,80 +76,120 @@
     <!-- Page Hero Section -->
     <section class="page-hero" style="background-image: url('../assets/images/college.jpg');">
         <div class="container">
-            <h1>Accessibility Statement</h1>
-            <p>Committed to providing an accessible learning environment for all</p>
+            <h1>About Us</h1>
+            <p>Learn about our mission, vision, and the team behind Math and Language Synergy</p>
         </div>
     </section>
 
     <!-- Main Content Section -->
     <main id="main-content">
-        <section class="accessibility-content">
+        <!-- Our Story Section -->
+        <section class="about-story">
             <div class="container">
                 <div class="section-title">
-                    <h2>Our Commitment to Accessibility</h2>
+                    <h2>Our Story</h2>
                 </div>
-                
-                <div class="accessibility-grid">
-                    <div class="accessibility-item">
-                        <h3>Web Accessibility Standards</h3>
-                        <p>Math and Language Synergy is committed to ensuring digital accessibility for people with disabilities. We are continually improving the user experience for everyone and applying the relevant accessibility standards.</p>
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>Pioneering Integrated Education</h3>
+                        <p>Founded in 2018, Math and Language Synergy emerged from a simple yet powerful observation: students who excel in both language and mathematics develop superior problem-solving abilities and communication skills that serve them throughout their lives.</p>
+                        <p>Our founder, Dr. Sarah Chen, recognized that traditional education often separates these disciplines, missing the incredible synergy that occurs when language learning and mathematical thinking are integrated.</p>
+                        <p>Today, we serve hundreds of students across South Africa, helping them unlock their full potential through our unique approach to education.</p>
                     </div>
-                    
-                    <div class="accessibility-item">
-                        <h3>Conformance Status</h3>
-                        <p>We aim to conform to level AA of the Web Content Accessibility Guidelines (WCAG) 2.1. These guidelines explain how to make web content more accessible for people with disabilities.</p>
-                    </div>
-                    
-                    <div class="accessibility-item">
-                        <h3>Accessibility Features</h3>
-                        <ul>
-                            <li>Keyboard navigation support</li>
-                            <li>Screen reader compatibility</li>
-                            <li>Alternative text for images</li>
-                            <li>Clear and consistent navigation</li>
-                            <li>Responsive design for various devices</li>
-                            <li>High contrast mode support</li>
-                            <li>Text resizing capabilities</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="accessibility-item">
-                        <h3>Technical Specifications</h3>
-                        <p>This website relies on the following technologies to work with the particular combination of web browser and any assistive technologies or plugins installed on your computer:</p>
-                        <ul>
-                            <li>HTML</li>
-                            <li>CSS</li>
-                            <li>JavaScript</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="accessibility-item">
-                        <h3>Feedback & Assistance</h3>
-                        <p>We welcome your feedback on the accessibility of Math and Language Synergy. Please let us know if you encounter accessibility barriers:</p>
-                        <ul>
-                            <li>Phone: +27 (0)11 234 5678</li>
-                            <li>Email: accessibility@mathlanguagesynergy.edu</li>
-                            <li>Visitor address: 123 Learning Lane, Knowledge City, EDU 45678</li>
-                        </ul>
-                        <p>We try to respond to feedback within 2 business days.</p>
-                    </div>
-                    
-                    <div class="accessibility-item">
-                        <h3>Compatibility</h3>
-                        <p>Our website is designed to be compatible with:</p>
-                        <ul>
-                            <li>Recent versions of screen readers</li>
-                            <li>Operating system accessibility features</li>
-                            <li>Modern web browsers (Chrome, Firefox, Safari, Edge)</li>
-                            <li>Mobile devices and tablets</li>
-                        </ul>
+                    <div class="about-img">
+                        <img src="../assets/images/high-school.jpg" alt="Students learning in our modern classroom" loading="lazy">
                     </div>
                 </div>
-                
-                <div class="accessibility-notes">
-                    <h3>Additional Notes</h3>
-                    <p>This statement was created on October 1, 2023 using the W3C Accessibility Statement Generator Tool.</p>
-                    <p>We continuously monitor our website and make accessibility improvements as needed. This statement will be reviewed and updated regularly.</p>
+            </div>
+        </section>
+
+        <!-- Mission & Vision Section -->
+        <section class="mission">
+            <div class="container">
+                <div class="mission-content">
+                    <h2>Our Mission & Vision</h2>
+                    <div class="about-content">
+                        <div class="about-text">
+                            <h3>Our Mission</h3>
+                            <p>To provide integrated education that equips students with both mathematical reasoning and language proficiency, creating well-rounded individuals prepared for global opportunities.</p>
+                            
+                            <h3>Our Vision</h3>
+                            <p>To be the leading educational institution in South Africa for integrated language and mathematics learning, recognized for producing students who excel academically and thrive in diverse cultural environments.</p>
+                            
+                            <h3>Our Values</h3>
+                            <ul>
+                                <li><strong>Excellence:</strong> Commitment to the highest standards in education</li>
+                                <li><strong>Innovation:</strong> Continuously evolving our teaching methods</li>
+                                <li><strong>Inclusion:</strong> Creating accessible education for all</li>
+                                <li><strong>Integrity:</strong> Maintaining transparency and ethical practices</li>
+                            </ul>
+                        </div>
+                        <div class="about-img">
+                            <img src="../assets/images/young-professionals.jpg" alt="Our diverse team of educators" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Meet Our Team</h2>
+                </div>
+                <div class="team-grid">
+                    <div class="team-member apple-card">
+                        <img src="../assets/images/team/dr-chen.jpg" alt="Dr. Sarah Chen" loading="lazy">
+                        <h3>Dr. Sarah Chen</h3>
+                        <p><strong>Founder & Director</strong></p>
+                        <p>PhD in Educational Psychology with 15 years of teaching experience across three continents.</p>
+                    </div>
+                    <div class="team-member apple-card">
+                        <img src="../assets/images/team/mr-tanaka.jpg" alt="Mr. Kenji Tanaka" loading="lazy">
+                        <h3>Mr. Kenji Tanaka</h3>
+                        <p><strong>Head of Japanese Studies</strong></p>
+                        <p>Native Japanese speaker with JLPT N1 certification and 10 years of language instruction experience.</p>
+                    </div>
+                    <div class="team-member apple-card">
+                        <img src="../assets/images/team/ms-jones.jpg" alt="Ms. Emily Jones" loading="lazy">
+                        <h3>Ms. Emily Jones</h3>
+                        <p><strong>Head of English Studies</strong></p>
+                        <p>MA in English Literature and TESOL certified with 12 years of international teaching experience.</p>
+                    </div>
+                    <div class="team-member apple-card">
+                        <img src="../assets/images/team/dr-ndlovu.jpg" alt="Dr. James Ndlovu" loading="lazy">
+                        <h3>Dr. James Ndlovu</h3>
+                        <p><strong>Head of Mathematics</strong></p>
+                        <p>PhD in Applied Mathematics with research experience in mathematical modeling and education.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements Section -->
+        <section class="mission">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Our Achievements</h2>
+                </div>
+                <div class="programs-grid">
+                    <div class="program-card apple-card">
+                        <h3>500+ Students</h3>
+                        <p>Successfully educated students from diverse backgrounds across South Africa</p>
+                    </div>
+                    <div class="program-card apple-card">
+                        <h3>95% Success Rate</h3>
+                        <p>Of our students achieve their academic and professional goals</p>
+                    </div>
+                    <div class="program-card apple-card">
+                        <h3>3 Languages</h3>
+                        <p>Comprehensive programs in English, Japanese, and Mathematics</p>
+                    </div>
+                    <div class="program-card apple-card">
+                        <h3>5 Years</h3>
+                        <p>Of excellence in integrated education delivery</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -132,17 +211,19 @@
                 </div>
                 <div class="footer-section">
                     <h3>Contact Info</h3>
-                    <p>123 Learning Lane, Knowledge City, EDU 45678, Gauteng, South Africa</p>
-                    <p>Phone: +27 (0)11 234 5678</p>
-                    <p>Email: info@mathlanguagesynergy.edu</p>
+                    <address>
+                        <p>123 Learning Lane, Knowledge City, EDU 45678, Gauteng, South Africa</p>
+                        <p>Phone: <a href="tel:+27112345678">+27 (0)11 234 5678</a></p>
+                        <p>Email: <a href="mailto:info@mathlanguagesynergy.edu">info@mathlanguagesynergy.edu</a></p>
+                    </address>
                 </div>
                 <div class="footer-section">
                     <h3>Follow Us</h3>
                     <div class="social-media">
-                        <a href="https://facebook.com/MathLanguageSynergy" target="_blank" aria-label="Facebook">FB</a>
-                        <a href="https://twitter.com/MathLangSynergy" target="_blank" aria-label="Twitter">TW</a>
-                        <a href="https://instagram.com/MathLanguageSynergy" target="_blank" aria-label="Instagram">IG</a>
-                        <a href="https://linkedin.com/company/mathlanguagesynergy" target="_blank" aria-label="LinkedIn">LI</a>
+                        <a href="https://facebook.com/MathLanguageSynergy" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
+                        <a href="https://twitter.com/MathLangSynergy" target="_blank" rel="noopener noreferrer" aria-label="Twitter">TW</a>
+                        <a href="https://instagram.com/MathLanguageSynergy" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
+                        <a href="https://linkedin.com/company/mathlanguagesynergy" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">LI</a>
                     </div>
                 </div>
                 <div class="footer-section">
@@ -153,26 +234,26 @@
             </div>
             <div class="copyright">
                 <p>&copy; <span id="current-year"></span> Math and Language Synergy. All rights reserved.</p>
-                <p><a href="accessibility.html">Accessibility Statement</a></p>
+                <p><a href="accessibility.html">Accessibility Statement</a> | <a href="privacy.html">Privacy Policy</a></p>
             </div>
         </div>
     </footer>
 
     <!-- Chatbot Toggle Button -->
-    <div class="chatbot-toggle">💬</div>
+    <div class="chatbot-toggle" role="button" aria-label="Open chat assistant" tabindex="0">💬</div>
     
     <!-- Chatbot Container -->
-    <div class="chatbot-container">
+    <div class="chatbot-container" aria-label="Chat assistant" role="dialog" aria-modal="true">
         <div class="chatbot-header">
             <h3>Learning Assistant</h3>
-            <span class="chatbot-close">×</span>
+            <span class="chatbot-close" role="button" aria-label="Close chat" tabindex="0">×</span>
         </div>
-        <div class="chatbot-messages">
-            <div class="chat-message bot">Hello! How can I help you today?</div>
+        <div class="chatbot-messages" aria-live="polite">
+            <div class="chat-message bot">Hello! How can I help you learn more about our institution?</div>
         </div>
         <div class="chatbot-input">
-            <input type="text" placeholder="Ask a question...">
-            <button class="chatbot-send">Send</button>
+            <input type="text" placeholder="Ask a question..." aria-label="Type your message">
+            <button class="chatbot-send" aria-label="Send message">Send</button>
         </div>
     </div>
 

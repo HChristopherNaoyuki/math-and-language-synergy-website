@@ -4127,3 +4127,1059 @@ footer
     }
 }
 
+/* 
+ * Math and Language Synergy - Apple-Inspired Stylesheet
+ * Allman style with comprehensive comments
+ * Apple-inspired minimalistic design with radio button navigation
+ */
+
+/* ===== APPLE DESIGN VARIABLES ===== */
+:root
+{
+    /* Apple Color Palette */
+    --apple-bg: #f5f5f7;
+    --apple-card: #ffffff;
+    --apple-text: #1d1d1f;
+    --apple-gray: #86868b;
+    --apple-blue: #0071e3;
+    --apple-green: #34c759;
+    --apple-red: #ff3b30;
+    --apple-yellow: #ffcc00;
+    --apple-purple: #af52de;
+    
+    /* Typography */
+    --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-heading: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+    
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    --spacing-2xl: 4rem;
+    
+    /* Border radius */
+    --border-radius: 12px;
+    --border-radius-lg: 18px;
+    --border-radius-xl: 24px;
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.15);
+    
+    /* Transitions */
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== RESET & BASE STYLES ===== */
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html
+{
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body
+{
+    font-family: var(--font-main);
+    line-height: 1.47059;
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    color: var(--apple-text);
+    background-color: var(--apple-bg);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+    font-family: var(--font-heading);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    margin-bottom: var(--spacing-sm);
+    color: var(--apple-text);
+}
+
+h1
+{
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+h2
+{
+    font-size: 2.5rem;
+}
+
+h3
+{
+    font-size: 1.5rem;
+}
+
+p
+{
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.0625rem;
+    line-height: 1.47059;
+}
+
+a
+{
+    text-decoration: none;
+    color: var(--apple-blue);
+    transition: var(--transition);
+}
+
+a:hover
+{
+    color: #0077ed;
+}
+
+img
+{
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+ul, ol
+{
+    list-style-position: inside;
+    margin-bottom: var(--spacing-sm);
+}
+
+/* ===== RADIO BUTTON NAVIGATION STYLES ===== */
+.radio-navigation
+{
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.radio-nav-container
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.radio-nav-group
+{
+    display: flex;
+    background: var(--apple-bg);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xs);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.radio-option
+{
+    position: relative;
+}
+
+.radio-option input[type="radio"]
+{
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.radio-option label
+{
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--apple-gray);
+    background: transparent;
+    border: 1px solid transparent;
+}
+
+.radio-option input[type="radio"]:checked + label
+{
+    background: var(--apple-blue);
+    color: #ffffff;
+    box-shadow: var(--shadow-sm);
+}
+
+.radio-option label:hover
+{
+    background: rgba(0, 113, 227, 0.1);
+    color: var(--apple-blue);
+}
+
+.radio-option input[type="radio"]:focus + label
+{
+    outline: 2px solid var(--apple-blue);
+    outline-offset: 2px;
+}
+
+/* ===== APPLE LAYOUT UTILITIES ===== */
+.container
+{
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-sm);
+}
+
+.section-title
+{
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.section-title h2
+{
+    position: relative;
+    display: inline-block;
+    padding-bottom: var(--spacing-xs);
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.text-center
+{
+    text-align: center;
+}
+
+/* ===== APPLE BUTTON STYLES ===== */
+.btn
+{
+    display: inline-block;
+    background: var(--apple-blue);
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 980px;
+    font-size: 1.0625rem;
+    font-weight: 400;
+    line-height: 1.47059;
+    letter-spacing: -0.022em;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.btn:hover
+{
+    background: #0077ed;
+    transform: scale(1.02);
+    box-shadow: 0 4px 20px rgba(0, 113, 227, 0.3);
+}
+
+.btn.secondary
+{
+    background: transparent;
+    border: 1px solid var(--apple-blue);
+    color: var(--apple-blue);
+}
+
+.btn.secondary:hover
+{
+    background: rgba(0, 113, 227, 0.1);
+}
+
+.btn.small
+{
+    padding: 0.5rem 1rem;
+    font-size: 0.9375rem;
+}
+
+/* ===== APPLE HEADER STYLES ===== */
+header
+{
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: var(--spacing-lg) 0;
+    position: relative;
+    z-index: 1000;
+}
+
+.header-content
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.logo
+{
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--apple-text);
+    text-align: center;
+}
+
+.logo img
+{
+    height: 50px;
+    margin-right: var(--spacing-sm);
+}
+
+.logo span
+{
+    color: var(--apple-blue);
+}
+
+/* ===== APPLE HERO SECTION ===== */
+.hero
+{
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before
+{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.hero-content
+{
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero h1
+{
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.hero p
+{
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+.hero-buttons
+{
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ===== APPLE CARD STYLES ===== */
+.apple-card
+{
+    background: var(--apple-card);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.apple-card:hover
+{
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ===== MISSION SECTION ===== */
+.mission
+{
+    background: var(--apple-card);
+    padding: var(--spacing-2xl) 0;
+}
+
+.mission-content
+{
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.mission h2
+{
+    font-size: 3rem;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* ===== WELCOME SECTION ===== */
+.welcome
+{
+    background: var(--apple-bg);
+    padding: var(--spacing-2xl) 0;
+}
+
+.welcome h2
+{
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    font-size: 3rem;
+}
+
+.welcome p
+{
+    max-width: 800px;
+    margin: 0 auto var(--spacing-md);
+    text-align: center;
+    font-size: 1.25rem;
+}
+
+/* ===== FEATURED PROGRAMS SECTION ===== */
+.featured-programs
+{
+    padding: var(--spacing-2xl) 0;
+    background: var(--apple-card);
+}
+
+.programs-grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.program-card
+{
+    composes: apple-card;
+    text-align: center;
+    padding: var(--spacing-xl);
+}
+
+.program-icon
+{
+    margin-bottom: var(--spacing-md);
+}
+
+.program-icon div
+{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2.5rem;
+    margin: 0 auto;
+    font-weight: 600;
+}
+
+/* ===== TESTIMONIALS SECTION ===== */
+.testimonials
+{
+    padding: var(--spacing-2xl) 0;
+    background: var(--apple-bg);
+}
+
+.testimonial-slider
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.testimonial
+{
+    composes: apple-card;
+    padding: var(--spacing-xl);
+}
+
+.testimonial-content
+{
+    margin-bottom: var(--spacing-md);
+    font-style: italic;
+    font-size: 1.125rem;
+    line-height: 1.6;
+}
+
+.testimonial-author
+{
+    text-align: right;
+}
+
+.testimonial-author h4
+{
+    color: var(--apple-blue);
+    margin-bottom: 0;
+    font-size: 1.125rem;
+}
+
+.testimonial-author p
+{
+    font-size: 0.875rem;
+    color: var(--apple-gray);
+    margin-bottom: 0;
+}
+
+/* ===== CALL TO ACTION SECTION ===== */
+.cta
+{
+    padding: var(--spacing-2xl) 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    text-align: center;
+}
+
+.cta h2
+{
+    color: #ffffff;
+    margin-bottom: var(--spacing-sm);
+    font-size: 3rem;
+}
+
+.cta p
+{
+    margin-bottom: var(--spacing-lg);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.25rem;
+}
+
+.cta-buttons
+{
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+}
+
+/* ===== ABOUT PAGE STYLES ===== */
+.about-story
+{
+    padding: var(--spacing-2xl) 0;
+    background: var(--apple-card);
+}
+
+.about-content
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    align-items: center;
+}
+
+.about-text
+{
+    padding-right: var(--spacing-lg);
+}
+
+.about-img
+{
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.about-img img
+{
+    width: 100%;
+    height: auto;
+    transition: var(--transition-slow);
+}
+
+.about-img:hover img
+{
+    transform: scale(1.05);
+}
+
+.team
+{
+    padding: var(--spacing-2xl) 0;
+    background: var(--apple-bg);
+}
+
+.team-grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.team-member
+{
+    composes: apple-card;
+    text-align: center;
+    padding: var(--spacing-lg);
+}
+
+.team-member img
+{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 0 auto var(--spacing-md);
+    object-fit: cover;
+}
+
+/* ===== SERVICES PAGE STYLES ===== */
+.services-hero
+{
+    padding: var(--spacing-2xl) 0;
+    background: var(--apple-card);
+    text-align: center;
+}
+
+.services-grid
+{
+    padding: var(--spacing-2xl) 0;
+    background: var(--apple-bg);
+}
+
+.service-category
+{
+    margin-bottom: var(--spacing-2xl);
+}
+
+.service-cards
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.service-card
+{
+    composes: apple-card;
+    padding: var(--spacing-xl);
+}
+
+.service-card h3
+{
+    color: var(--apple-blue);
+    margin-bottom: var(--spacing-sm);
+}
+
+.service-price
+{
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--apple-green);
+    margin: var(--spacing-sm) 0;
+}
+
+/* ===== CONTACT PAGE STYLES ===== */
+.contact-hero
+{
+    padding: var(--spacing-2xl) 0;
+    background: var(--apple-card);
+    text-align: center;
+}
+
+.contact-content
+{
+    padding: var(--spacing-2xl) 0;
+    background: var(--apple-bg);
+}
+
+.contact-grid
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+}
+
+.contact-info
+{
+    composes: apple-card;
+    padding: var(--spacing-xl);
+}
+
+.contact-form
+{
+    composes: apple-card;
+    padding: var(--spacing-xl);
+}
+
+.contact-details
+{
+    margin-top: var(--spacing-lg);
+}
+
+.contact-item
+{
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.contact-item i
+{
+    font-size: 1.25rem;
+    color: var(--apple-blue);
+    margin-top: 0.25rem;
+}
+
+/* ===== APPLE FORM STYLES ===== */
+.apple-form
+{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.form-group
+{
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group label
+{
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 500;
+    color: var(--apple-text);
+    font-size: 0.9375rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea
+{
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d2d2d7;
+    border-radius: var(--border-radius);
+    font-size: 1.0625rem;
+    font-family: var(--font-main);
+    transition: var(--transition);
+    background: var(--apple-card);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus
+{
+    outline: none;
+    border-color: var(--apple-blue);
+    box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+}
+
+.form-group textarea
+{
+    resize: vertical;
+    min-height: 120px;
+    font-family: var(--font-main);
+}
+
+/* ===== APPLE FOOTER STYLES ===== */
+footer
+{
+    background: var(--apple-card);
+    color: var(--apple-text);
+    padding: var(--spacing-2xl) 0 var(--spacing-sm);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.footer-content
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.footer-section h3
+{
+    color: var(--apple-text);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.footer-section ul
+{
+    list-style: none;
+}
+
+.footer-section ul li
+{
+    margin-bottom: var(--spacing-xs);
+}
+
+.footer-section ul li a
+{
+    color: var(--apple-gray);
+    font-size: 0.9375rem;
+    transition: var(--transition);
+}
+
+.footer-section ul li a:hover
+{
+    color: var(--apple-blue);
+}
+
+.social-media
+{
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.social-media a
+{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--apple-bg);
+    transition: var(--transition);
+    color: var(--apple-text);
+    font-weight: 500;
+}
+
+.social-media a:hover
+{
+    background-color: var(--apple-blue);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.copyright
+{
+    text-align: center;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 0.875rem;
+    color: var(--apple-gray);
+}
+
+.copyright a
+{
+    color: var(--apple-blue);
+}
+
+.copyright a:hover
+{
+    text-decoration: underline;
+}
+
+/* ===== ACCESSIBILITY STYLES ===== */
+.skip-link
+{
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--apple-blue);
+    color: #ffffff;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    z-index: 1001;
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
+}
+
+.skip-link:focus
+{
+    top: 0;
+}
+
+/* Hidden class for toggling visibility */
+.hidden
+{
+    display: none !important;
+}
+
+/* Reduced motion for users who prefer it */
+@media (prefers-reduced-motion: reduce)
+{
+    *,
+    *::before,
+    *::after
+    {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ===== RESPONSIVE STYLES ===== */
+@media (max-width: 1024px)
+{
+    h1
+    {
+        font-size: 3rem;
+    }
+    
+    h2
+    {
+        font-size: 2rem;
+    }
+    
+    .hero h1
+    {
+        font-size: 3rem;
+    }
+    
+    .about-content
+    {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+    
+    .about-text
+    {
+        padding-right: 0;
+    }
+    
+    .contact-grid
+    {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+}
+
+@media (max-width: 768px)
+{
+    .radio-nav-container
+    {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .radio-nav-group
+    {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .radio-option label
+    {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    .header-content
+    {
+        text-align: center;
+    }
+    
+    .logo
+    {
+        font-size: 1.5rem;
+    }
+    
+    .hero
+    {
+        min-height: 70vh;
+    }
+    
+    .hero h1
+    {
+        font-size: 2.5rem;
+    }
+    
+    .hero p
+    {
+        font-size: 1.25rem;
+    }
+    
+    section
+    {
+        padding: var(--spacing-xl) 0;
+    }
+    
+    .cta-buttons,
+    .hero-buttons
+    {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .programs-grid,
+    .service-cards
+    {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-content
+    {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+}
+
+@media (max-width: 480px)
+{
+    .container
+    {
+        width: 95%;
+        padding: 0 var(--spacing-xs);
+    }
+    
+    h1
+    {
+        font-size: 2rem;
+    }
+    
+    h2
+    {
+        font-size: 1.75rem;
+    }
+    
+    .hero h1
+    {
+        font-size: 2rem;
+    }
+
+    .hero p
+    {
+        font-size: 1rem;
+    }
+    
+    .btn
+    {
+        padding: 0.625rem 1.25rem;
+        width: 100%;
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .radio-option label
+    {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+}

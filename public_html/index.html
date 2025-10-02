@@ -37,33 +37,43 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+    <!-- Radio Button Navigation -->
+    <nav class="radio-navigation" aria-label="Main navigation">
+        <div class="container">
+            <div class="radio-nav-container">
+                <div class="radio-nav-group" role="radiogroup" aria-label="Website navigation">
+                    <div class="radio-option">
+                        <input type="radio" id="nav-home" name="navigation" checked>
+                        <label for="nav-home" onclick="window.location.href='index.html'">Home</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-about" name="navigation">
+                        <label for="nav-about" onclick="window.location.href='pages/about.html'">About</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-services" name="navigation">
+                        <label for="nav-services" onclick="window.location.href='pages/services.html'">Services</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-contact" name="navigation">
+                        <label for="nav-contact" onclick="window.location.href='pages/contact.html'">Contact</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-student" name="navigation">
+                        <label for="nav-student" id="student-label">Current Student</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <!-- Header Section -->
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <img src="assets/images/logo.png" alt="Math and Language Synergy Logo" width="40" height="40" loading="eager">
+                    <img src="assets/images/logo.png" alt="Math and Language Synergy Logo" width="50" height="50" loading="eager">
                     <span>Math</span> & Language Synergy
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="index.html" class="active">Home</a></li>
-                        <li><a href="pages/about.html">About</a></li>
-                        <li><a href="pages/services.html">Services</a></li>
-                        <li><a href="pages/contact.html">Contact</a></li>
-                        <li class="current-student-toggle">
-                            <input type="radio" id="current-student" name="user-type" aria-label="Current Student">
-                            <label for="current-student">Current Student</label>
-                        </li>
-                        <li class="user-menu" id="user-menu-container">
-                            <!-- Dynamic content will be loaded here by JavaScript -->
-                        </li>
-                    </ul>
-                </nav>
-                <div class="mobile-menu-toggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
                 </div>
             </div>
         </div>
