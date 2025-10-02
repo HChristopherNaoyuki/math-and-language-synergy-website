@@ -4,121 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Support Math and Language Synergy through Bitcoin donations">
-    <title>Support Our Mission | Math and Language Synergy</title>
+    <meta name="keywords" content="donation, Bitcoin, BTC, support education">
+    <title>Make a Donation | Math and Language Synergy</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="icon" href="../assets/images/logo.jpg" type="image/jpg">
-    <style>
-        .donation-hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            padding: 4rem 0;
-        }
-
-        .donation-container {
-            max-width: 500px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        .donation-card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .bitcoin-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #f7931a;
-        }
-
-        .wallet-address {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            word-break: break-all;
-            position: relative;
-        }
-
-        .copy-btn {
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background 0.2s ease;
-        }
-
-        .copy-btn:hover {
-            background: #0056b3;
-        }
-
-        .copy-btn.copied {
-            background: #28a745;
-        }
-
-        .donation-info {
-            background: #e7f3ff;
-            border-left: 4px solid #007bff;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            text-align: left;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .donation-info h4 {
-            margin: 0 0 0.5rem 0;
-            color: #0056b3;
-        }
-
-        .donation-info p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: #495057;
-        }
-
-        .qr-code {
-            width: 150px;
-            height: 150px;
-            margin: 1rem auto;
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            color: #6c757d;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 2rem;
-            color: #6c757d;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .back-link:hover {
-            color: #495057;
-        }
-
-        .security-note {
-            font-size: 0.8rem;
-            color: #6c757d;
-            margin-top: 1rem;
-            line-height: 1.4;
-        }
-    </style>
 </head>
 <body>
     <!-- Header Section -->
@@ -152,8 +41,8 @@
     <!-- Skip to main content link for accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Hero Section -->
-    <section class="donation-hero">
+    <!-- Page Hero Section -->
+    <section class="page-hero" style="background-image: url('../assets/images/college.jpg');">
         <div class="container">
             <h1>Support Our Mission</h1>
             <p>Help us continue providing quality education through Bitcoin donations</p>
@@ -162,44 +51,109 @@
 
     <!-- Main Content Section -->
     <main id="main-content">
-        <div class="donation-container">
-            <div class="donation-card">
-                <div class="bitcoin-icon">
-                    ₿
-                </div>
-                
-                <h2>Bitcoin Donation</h2>
-                <p>Your support helps us maintain and improve our educational programs</p>
-
-                <div class="donation-info">
-                    <h4>How Your Donation Helps</h4>
-                    <p>• Fund scholarships for underprivileged students<br>
-                       • Develop new learning materials<br>
-                       • Maintain our online platform<br>
-                       • Support teacher training programs</p>
+        <section class="donation-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Make a Bitcoin Donation</h2>
+                    <p>Your support helps us provide quality education to students worldwide</p>
                 </div>
 
-                <div class="wallet-address" id="wallet-address">
-                    bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
+                <div class="donation-content">
+                    <div class="donation-info">
+                        <h3>Why Donate?</h3>
+                        <p>Your Bitcoin donation supports:</p>
+                        <ul>
+                            <li>Scholarships for underprivileged students</li>
+                            <li>Development of new learning materials</li>
+                            <li>Technology infrastructure for online learning</li>
+                            <li>Teacher training and development</li>
+                            <li>Expansion of our course offerings</li>
+                        </ul>
+                    </div>
+
+                    <div class="donation-form-container">
+                        <div class="donation-card">
+                            <h3>Donate with Bitcoin</h3>
+                            <div class="bitcoin-info">
+                                <div class="wallet-address-section">
+                                    <label>Bitcoin Wallet Address (BTC)</label>
+                                    <div class="address-display">
+                                        <code id="btc-address">bc1qssyczsfm70qjglpjzhcxpyl5xdafwwlyhucn6u</code>
+                                        <button type="button" class="btn small" id="copy-address">Copy Address</button>
+                                    </div>
+                                    <p class="help-text">Send Bitcoin only to this address. Do not send other cryptocurrencies.</p>
+                                </div>
+
+                                <div class="qr-code-section">
+                                    <div class="qr-code-placeholder">
+                                        <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                                            <div style="font-size: 3rem; margin-bottom: 10px;">₿</div>
+                                            <p>Bitcoin QR Code</p>
+                                            <p style="font-size: 0.8rem; color: #666;">Scan to donate</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="donation-options">
+                                <h4>Suggested Donation Amounts</h4>
+                                <div class="amount-buttons">
+                                    <button class="amount-btn" data-amount="0.001">0.001 BTC</button>
+                                    <button class="amount-btn" data-amount="0.005">0.005 BTC</button>
+                                    <button class="amount-btn" data-amount="0.01">0.01 BTC</button>
+                                    <button class="amount-btn" data-amount="0.05">0.05 BTC</button>
+                                </div>
+                            </div>
+
+                            <div class="custom-amount">
+                                <label for="custom-amount">Or enter custom amount (BTC):</label>
+                                <input type="number" id="custom-amount" name="custom-amount" step="0.00000001" min="0.00000001" placeholder="0.001">
+                            </div>
+
+                            <form id="donation-form">
+                                <div class="form-group">
+                                    <label for="donor-name">Your Name (Optional)</label>
+                                    <input type="text" id="donor-name" name="donorName" placeholder="Enter your name">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="donor-email">Your Email (Optional)</label>
+                                    <input type="email" id="donor-email" name="donorEmail" placeholder="Enter your email for receipt">
+                                </div>
+
+                                <div class="form-group checkbox-group">
+                                    <input type="checkbox" id="anonymous" name="anonymous">
+                                    <label for="anonymous">Donate anonymously</label>
+                                </div>
+
+                                <div class="form-group checkbox-group">
+                                    <input type="checkbox" id="newsletter" name="newsletter">
+                                    <label for="newsletter">Subscribe to our newsletter</label>
+                                </div>
+
+                                <button type="submit" class="btn">Confirm Donation</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
-                <button class="copy-btn" id="copy-address">
-                    Copy Address
-                </button>
-
-                <div class="qr-code">
-                    [QR Code Placeholder]<br>
-                    Scan to Donate
+                <div class="donation-faq">
+                    <h3>Frequently Asked Questions</h3>
+                    <div class="faq-item">
+                        <h4>Why Bitcoin only?</h4>
+                        <p>We accept Bitcoin donations to minimize transaction fees and provide a borderless way for our global community to support our mission.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Is my donation tax-deductible?</h4>
+                        <p>Yes, we are a registered educational institution and donations may be tax-deductible in your jurisdiction. We provide donation receipts for all contributions.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>How will my donation be used?</h4>
+                        <p>100% of donations go directly to supporting our educational programs, student scholarships, and learning resource development.</p>
+                    </div>
                 </div>
-
-                <div class="security-note">
-                    <strong>Note:</strong> This is a Bitcoin-only address. Only send Bitcoin (BTC) to this address. 
-                    We do not accept other cryptocurrencies. Transactions are irreversible.
-                </div>
-
-                <a href="../index.html" class="back-link">← Back to Home</a>
             </div>
-        </div>
+        </section>
     </main>
 
     <!-- Footer Section -->
@@ -244,38 +198,27 @@
         </div>
     </footer>
 
+    <!-- Chatbot Toggle Button -->
+    <div class="chatbot-toggle">💬</div>
+    
+    <!-- Chatbot Container -->
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <h3>Learning Assistant</h3>
+            <span class="chatbot-close">×</span>
+        </div>
+        <div class="chatbot-messages">
+            <div class="chat-message bot">Hello! How can I help with donation questions?</div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" placeholder="Ask a question...">
+            <button class="chatbot-send">Send</button>
+        </div>
+    </div>
+
     <!-- JavaScript Files -->
     <script src="../assets/js/main.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const copyButton = document.getElementById('copy-address');
-            const walletAddress = document.getElementById('wallet-address');
-
-            copyButton.addEventListener('click', function() {
-                const textArea = document.createElement('textarea');
-                textArea.value = walletAddress.textContent;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-
-                // Visual feedback
-                const originalText = copyButton.textContent;
-                copyButton.textContent = 'Copied!';
-                copyButton.classList.add('copied');
-
-                setTimeout(() => {
-                    copyButton.textContent = originalText;
-                    copyButton.classList.remove('copied');
-                }, 2000);
-            });
-
-            // Update copyright year
-            const yearElement = document.getElementById('current-year');
-            if (yearElement) {
-                yearElement.textContent = new Date().getFullYear();
-            }
-        });
-    </script>
+    <script src="../assets/js/donation.js"></script>
+    <script src="../assets/js/chatbot.js"></script>
 </body>
 </html>
