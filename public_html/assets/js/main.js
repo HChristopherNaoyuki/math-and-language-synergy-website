@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeUserMenu();
     initializeTextFileSystem();
     updateFooterLinks();
-    initializeCurrentStudentMenu(); // Add this line
+    initializeCurrentStudentMenu();
 });
 
 /**
@@ -24,12 +24,13 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeCurrentStudentMenu() {
     const userMenuContainer = document.getElementById('user-menu-container');
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-    const currentPath = window.location.pathname;
-    const isInPagesFolder = currentPath.includes('/pages/');
     
     // Only initialize if user is not logged in and on public pages
     if (userMenuContainer && !currentUser) {
+        const currentPath = window.location.pathname;
+        const isInPagesFolder = currentPath.includes('/pages/');
         const basePath = isInPagesFolder ? '' : 'pages/';
+        
         userMenuContainer.innerHTML = `
             <li class="user-menu">
                 <a href="#" class="user-toggle">Current Student ▾</a>
@@ -43,155 +44,6 @@ function initializeCurrentStudentMenu() {
         
         // Initialize dropdown functionality
         setupUserMenuFunctionality();
-    }
-}
-
-/**
- * Update footer links based on current page location
- */
-function updateFooterLinks() {
-    const currentPath = window.location.pathname;
-    const isInPagesFolder = currentPath.includes('/pages/');
-    
-    // Define base paths for links
-    const basePath = isInPagesFolder ? '../' : '';
-    const pagesPath = isInPagesFolder ? '' : 'pages/';
-    
-    // Update all footer quick links
-    const footerLinks = document.querySelectorAll('.footer-section ul');
-    
-    footerLinks.forEach(footerSection => {
-        const links = footerSection.querySelectorAll('a');
-        
-        links.forEach(link => {
-            const href = link.getAttribute('href');
-            
-            if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
-                if (href === '../index.html' || href === 'index.html') {
-                    link.href = basePath + 'index.html';
-                } else if (href.startsWith('../')) {
-                    // Remove ../ from the beginning and add basePath
-                    const cleanHref = href.replace('../', '');
-                    link.href = basePath + cleanHref;
-                } else if (href.startsWith('pages/')) {
-                    // Remove pages/ from the beginning and add pagesPath
-                    const cleanHref = href.replace('pages/', '');
-                    link.href = pagesPath + cleanHref;
-                } else {
-                    link.href = pagesPath + href;
-                }
-            }
-        });
-    });
-    
-    // Update donation button specifically
-    const donationButtons = document.querySelectorAll('a[href*="donation"]');
-    donationButtons.forEach(button => {
-        if (button.getAttribute('href').includes('donation')) {
-            button.href = pagesPath + 'donation.html';
-        }
-    });
-}
-
-/**
- * Initialize Text File System for data storage
- */
-function initializeTextFileSystem() {
-    console.log('Initializing text file storage system...');
-    
-    // Initialize required text file structures if they don't exist
-    initializeRequiredFiles();
-}
-
-/**
- * Initialize required text files for data storage
- */
-function initializeRequiredFiles() {
-    const requiredFiles = [
-        'users_data',
-        'contact_submissions', 
-        'student_progress',
-        'forum_threads',
-        'user_events',
-        'download_history'
-    ];
-    
-    requiredFiles.forEach(fileType => {
-        if (!localStorage.getItem(`${fileType}_backup`)) {
-            // Create initial file structure
-            const initialContent = getInitialFileContent(fileType);
-            localStorage.setItem(`${fileType}_backup`, initialContent);
-            console.log(`Initialized ${fileType} backup file`);
-        }
-    });
-}
-
-/**
- * Get initial content for text files
- */
-function getInitialFileContent(fileType) {
-    const timestamp = new Date().toISOString();
-    
-    switch(fileType) {
-        case 'users_data':
-            return `Math and Language Synergy - Users Database
-===========================================
-File Created: ${timestamp}
-Total Users: 0
-
-USER LIST:
-==========
-`;
-        case 'contact_submissions':
-            return `Math and Language Synergy - Contact Form Submissions
-=====================================================
-File Created: ${timestamp}
-Total Submissions: 0
-
-SUBMISSIONS:
-============
-`;
-        case 'student_progress':
-            return `Math and Language Synergy - Student Progress Reports
-====================================================
-File Created: ${timestamp}
-Total Progress Records: 0
-
-PROGRESS RECORDS:
-=================
-`;
-        case 'forum_threads':
-            return `Math and Language Synergy - Forum Discussions
-============================================
-File Created: ${timestamp}
-Total Threads: 0
-
-THREADS:
-========
-`;
-        case 'user_events':
-            return `Math and Language Synergy - User Events and Appointments
-=======================================================
-File Created: ${timestamp}
-Total Events: 0
-
-EVENTS:
-=======
-`;
-        case 'download_history':
-            return `Math and Language Synergy - Resource Download History
-=====================================================
-File Created: ${timestamp}
-Total Downloads: 0
-
-DOWNLOAD HISTORY:
-=================
-`;
-        default:
-            return `Math and Language Synergy - ${fileType}
-================================
-File Created: ${timestamp}
-`;
     }
 }
 
@@ -215,6 +67,16 @@ function initializeMobileMenu() {
         // Initialize aria attributes for accessibility
         mobileMenuToggle.setAttribute('aria-label', 'Toggle navigation menu');
         mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        
+        // Close mobile menu when clicking on a link
+        const navLinks = nav.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenuToggle.classList.remove('active');
+                nav.classList.remove('active');
+                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
     }
 }
 
@@ -241,9 +103,10 @@ function setupSmoothScrolling() {
             
             if (targetElement) {
                 const headerHeight = document.querySelector('header').offsetHeight;
+                const targetPosition = targetElement.offsetTop - headerHeight;
                 
                 window.scrollTo({
-                    top: targetElement.offsetTop - headerHeight,
+                    top: targetPosition,
                     behavior: 'smooth'
                 });
                 
@@ -264,7 +127,7 @@ function setupSmoothScrolling() {
  * Handle form submissions with validation
  */
 function handleFormSubmissions() {
-    const forms = document.querySelectorAll('form:not(#login-form):not(#signup-form):not(#contactForm):not(#enrollment-form):not(#new-thread-form)');
+    const forms = document.querySelectorAll('form:not(#login-form):not(#signup-form):not(#contactForm):not(#enrollment-form):not(#new-thread-form):not(#payment-form):not(#donation-form)');
     
     forms.forEach(form => {
         form.addEventListener('submit', function(e) {
@@ -452,15 +315,19 @@ function setupLazyLoading() {
  * Highlight Active Link in Navigation
  */
 function highlightActiveLink() {
-    const currentPage = window.location.pathname.split('/').pop();
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     const navLinks = document.querySelectorAll('nav ul li a');
     
     navLinks.forEach(link => {
         const linkHref = link.getAttribute('href');
+        const linkPage = linkHref.split('/').pop();
         
-        if (currentPage === linkHref || 
-            (currentPage === '' && linkHref === 'index.html')) {
+        if (currentPage === linkPage || 
+            (currentPage === '' && linkPage === 'index.html') ||
+            (currentPage === 'index.html' && linkPage === '../index.html')) {
             link.classList.add('active');
+        } else {
+            link.classList.remove('active');
         }
     });
 }
@@ -516,7 +383,6 @@ function initializeProgressBars() {
     
     progressBars.forEach(bar => {
         const progress = bar.getAttribute('data-progress') || '75';
-        bar.style.width = `${progress}%`;
         
         // Animate progress bar
         setTimeout(() => {
@@ -536,6 +402,7 @@ function initializeBadges() {
             // Add animation to earned badges
             badge.addEventListener('mouseenter', function() {
                 this.style.transform = 'scale(1.1)';
+                this.style.transition = 'transform 0.3s ease';
             });
             
             badge.addEventListener('mouseleave', function() {
@@ -615,11 +482,13 @@ function saveChatHistory(message, sender) {
  */
 function addChatMessage(sender, message) {
     const messagesContainer = document.querySelector('.chatbot-messages');
-    const messageElement = document.createElement('div');
-    messageElement.className = `chat-message ${sender}`;
-    messageElement.textContent = message;
-    messagesContainer.appendChild(messageElement);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    if (messagesContainer) {
+        const messageElement = document.createElement('div');
+        messageElement.className = `chat-message ${sender}`;
+        messageElement.textContent = message;
+        messagesContainer.appendChild(messageElement);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
 }
 
 /**
@@ -647,6 +516,8 @@ function respondToMessage(message) {
         response = "You can enroll through our enrollment page. Would you like me to direct you there?";
     } else if (lowerMessage.includes('contact') || lowerMessage.includes('email')) {
         response = "You can reach us at info@mathlanguagesynergy.edu or +27 (0)11 234 5678. Our office hours are Monday to Friday, 9 AM to 6 PM.";
+    } else if (lowerMessage.includes('donation') || lowerMessage.includes('donate')) {
+        response = "We accept Bitcoin donations to support our educational programs. You can make a donation on our donation page. Our Bitcoin address is: bc1qssyczsfm70qjglpjzhcxpyl5xdafwwlyhucn6u";
     }
     
     return response;
@@ -658,40 +529,38 @@ function respondToMessage(message) {
 function initializeUserMenu() {
     const userMenuContainer = document.getElementById('user-menu-container');
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-    const currentPath = window.location.pathname;
-    const isInPagesFolder = currentPath.includes('/pages/');
     
-    if (userMenuContainer) {
-        if (currentUser) {
-            // User is logged in - show appropriate options based on account type
-            const basePath = isInPagesFolder ? '../' : 'pages/';
-            
-            if (currentUser.accountType === 'student') {
-                userMenuContainer.innerHTML = `
-                    <li class="user-menu">
-                        <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
-                        <ul class="user-dropdown">
-                            <li><a href="${basePath}enrollment.html">Enroll in Courses</a></li>
-                            <li><a href="${basePath}dashboard.html">My Dashboard</a></li>
-                            <li><a href="${basePath}forum.html">Student Forum</a></li>
-                            <li><a href="#" id="switch-account">Switch Account</a></li>
-                            <li><a href="#" id="logout">Logout</a></li>
-                        </ul>
-                    </li>
-                `;
-            } else if (currentUser.accountType === 'lecturer') {
-                userMenuContainer.innerHTML = `
-                    <li class="user-menu">
-                        <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
-                        <ul class="user-dropdown">
-                            <li><a href="${basePath}dashboard.html">My Dashboard</a></li>
-                            <li><a href="${basePath}forum.html">Student Forum</a></li>
-                            <li><a href="#" id="switch-account">Switch Account</a></li>
-                            <li><a href="#" id="logout">Logout</a></li>
-                        </ul>
-                    </li>
-                `;
-            }
+    if (userMenuContainer && currentUser) {
+        // User is logged in - show appropriate options based on account type
+        const currentPath = window.location.pathname;
+        const isInPagesFolder = currentPath.includes('/pages/');
+        const basePath = isInPagesFolder ? '' : 'pages/';
+        
+        if (currentUser.accountType === 'student') {
+            userMenuContainer.innerHTML = `
+                <li class="user-menu">
+                    <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
+                    <ul class="user-dropdown">
+                        <li><a href="${basePath}enrollment.html">Enroll in Courses</a></li>
+                        <li><a href="${basePath}dashboard.html">My Dashboard</a></li>
+                        <li><a href="${basePath}forum.html">Student Forum</a></li>
+                        <li><a href="#" id="switch-account">Switch Account</a></li>
+                        <li><a href="#" id="logout">Logout</a></li>
+                    </ul>
+                </li>
+            `;
+        } else if (currentUser.accountType === 'lecturer') {
+            userMenuContainer.innerHTML = `
+                <li class="user-menu">
+                    <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
+                    <ul class="user-dropdown">
+                        <li><a href="${basePath}dashboard.html">My Dashboard</a></li>
+                        <li><a href="${basePath}forum.html">Student Forum</a></li>
+                        <li><a href="#" id="switch-account">Switch Account</a></li>
+                        <li><a href="#" id="logout">Logout</a></li>
+                    </ul>
+                </li>
+            `;
         }
         
         // Initialize user menu functionality
@@ -875,6 +744,88 @@ function updateFileCounter(content, fileType) {
 }
 
 /**
+ * Get initial content for text files
+ */
+function getInitialFileContent(fileType) {
+    const timestamp = new Date().toISOString();
+    
+    switch(fileType) {
+        case 'users_data':
+            return `Math and Language Synergy - Users Database
+===========================================
+File Created: ${timestamp}
+Total Users: 0
+
+USER LIST:
+==========
+`;
+        case 'general_forms':
+            return `Math and Language Synergy - General Form Submissions
+====================================================
+File Created: ${timestamp}
+Total Submissions: 0
+
+SUBMISSIONS:
+============
+`;
+        case 'chat_history':
+            return `Math and Language Synergy - Chat History
+==========================================
+File Created: ${timestamp}
+Total Messages: 0
+
+CHAT HISTORY:
+=============
+`;
+        case 'user_actions':
+            return `Math and Language Synergy - User Actions Log
+============================================
+File Created: ${timestamp}
+Total Actions: 0
+
+USER ACTIONS:
+=============
+`;
+        default:
+            return `Math and Language Synergy - ${fileType}
+================================
+File Created: ${timestamp}
+`;
+    }
+}
+
+/**
+ * Initialize Text File System for data storage
+ */
+function initializeTextFileSystem() {
+    console.log('Initializing text file storage system...');
+    
+    // Initialize required text file structures if they don't exist
+    initializeRequiredFiles();
+}
+
+/**
+ * Initialize required text files for data storage
+ */
+function initializeRequiredFiles() {
+    const requiredFiles = [
+        'users_data',
+        'general_forms', 
+        'chat_history',
+        'user_actions'
+    ];
+    
+    requiredFiles.forEach(fileType => {
+        if (!localStorage.getItem(`${fileType}_backup`)) {
+            // Create initial file structure
+            const initialContent = getInitialFileContent(fileType);
+            localStorage.setItem(`${fileType}_backup`, initialContent);
+            console.log(`Initialized ${fileType} backup file`);
+        }
+    });
+}
+
+/**
  * Show notification message
  * @param {string} message - The notification message
  * @param {string} type - 'success', 'error', or 'info'
@@ -897,10 +848,12 @@ function showNotification(message, type) {
     // Show notification
     setTimeout(() => {
         notification.style.display = 'block';
+        notification.classList.add('show');
     }, 10);
     
     // Hide notification after 3 seconds
     setTimeout(() => {
+        notification.classList.remove('show');
         notification.style.opacity = '0';
         notification.style.transition = 'opacity 0.5s ease';
         
@@ -908,6 +861,53 @@ function showNotification(message, type) {
             notification.remove();
         }, 500);
     }, 3000);
+}
+
+/**
+ * Update footer links based on current page location
+ */
+function updateFooterLinks() {
+    const currentPath = window.location.pathname;
+    const isInPagesFolder = currentPath.includes('/pages/');
+    
+    // Define base paths for links
+    const basePath = isInPagesFolder ? '../' : '';
+    const pagesPath = isInPagesFolder ? '' : 'pages/';
+    
+    // Update all footer quick links
+    const footerLinks = document.querySelectorAll('.footer-section ul');
+    
+    footerLinks.forEach(footerSection => {
+        const links = footerSection.querySelectorAll('a');
+        
+        links.forEach(link => {
+            const href = link.getAttribute('href');
+            
+            if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+                if (href === '../index.html' || href === 'index.html') {
+                    link.href = basePath + 'index.html';
+                } else if (href.startsWith('../')) {
+                    // Remove ../ from the beginning and add basePath
+                    const cleanHref = href.replace('../', '');
+                    link.href = basePath + cleanHref;
+                } else if (href.startsWith('pages/')) {
+                    // Remove pages/ from the beginning and add pagesPath
+                    const cleanHref = href.replace('pages/', '');
+                    link.href = pagesPath + cleanHref;
+                } else {
+                    link.href = pagesPath + href;
+                }
+            }
+        });
+    });
+    
+    // Update donation button specifically
+    const donationButtons = document.querySelectorAll('a[href*="donation"]');
+    donationButtons.forEach(button => {
+        if (button.getAttribute('href').includes('donation')) {
+            button.href = pagesPath + 'donation.html';
+        }
+    });
 }
 
 /**
@@ -941,7 +941,7 @@ function initializeResourceDownloads() {
     
     downloadButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const resourceName = this.getAttribute('data-resource');
+            const resourceName = this.getAttribute('data-resource') || this.closest('.resource-card').querySelector('.resource-name')?.textContent || 'Resource';
             showNotification(`Downloading ${resourceName}...`, 'info');
             
             // Simulate download delay
@@ -977,4 +977,14 @@ function updateDownloadProgress() {
             }
         }
     }
+}
+
+// Export functions for use in other modules (if needed)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        showNotification,
+        isValidEmail,
+        isStrongPassword,
+        saveToTextFile
+    };
 }
