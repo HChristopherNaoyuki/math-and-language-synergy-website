@@ -39,7 +39,8 @@ function handleLogin(form)
     const password = formData.get('password');
     
     // Get users from file
-    getUsers().then(users => {
+    getUsers().then(users => 
+    {
         const user = users.find(u => u.username === username && u.password === password);
         
         if (user)
@@ -52,7 +53,8 @@ function handleLogin(form)
             updateNavigationForLoggedInUser(user);
             
             // Redirect to dashboard
-            setTimeout(() => {
+            setTimeout(() => 
+            {
                 const basePath = window.location.pathname.includes('/pages/') ? '' : '../';
                 window.location.href = basePath + 'pages/dashboard.html';
             }, 1000);
@@ -61,7 +63,8 @@ function handleLogin(form)
         {
             showNotification('Invalid username or password', 'error');
         }
-    }).catch(error => {
+    }).catch(error => 
+    {
         showNotification('Error accessing user data', 'error');
         console.error('Error:', error);
     });
@@ -70,14 +73,28 @@ function handleLogin(form)
 function handleSignup(form)
 {
     const formData = new FormData(form);
+    const firstName = formData.get('firstName');
+    const lastName = formData.get('lastName');
+    const username = formData.get('username');
+    const password = formData.get('password');
+    const accountType = formData.get('accountType');
+    const dob = formData.get('dob');
+    
+    // Validate required fields
+    if (!firstName || !lastName || !username || !password || !accountType || !dob)
+    {
+        showNotification('Please fill in all required fields', 'error');
+        return;
+    }
+    
     const userData = {
         id: generateUserId(),
-        firstName: formData.get('firstName'),
-        lastName: formData.get('lastName'),
-        username: formData.get('username'),
-        password: formData.get('password'),
-        accountType: formData.get('accountType'),
-        dob: formData.get('dob'),
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+        password: password,
+        accountType: accountType,
+        dob: dob,
         joinDate: new Date().toISOString(),
         progress: {
             english: 0,
@@ -96,7 +113,8 @@ function handleSignup(form)
     }
     
     // Get existing users
-    getUsers().then(users => {
+    getUsers().then(users => 
+    {
         // Check if username already exists
         if (users.some(u => u.username === userData.username))
         {
@@ -108,7 +126,8 @@ function handleSignup(form)
         users.push(userData);
         
         // Save users to text file
-        saveUsersToFile(users).then(() => {
+        saveUsersToFile(users).then(() => 
+        {
             showNotification('Account created successfully!', 'success');
             
             // Auto login
@@ -118,26 +137,32 @@ function handleSignup(form)
             updateNavigationForLoggedInUser(userData);
             
             // Redirect to dashboard
-            setTimeout(() => {
+            setTimeout(() => 
+            {
                 const basePath = window.location.pathname.includes('/pages/') ? '' : '../';
                 window.location.href = basePath + 'pages/dashboard.html';
             }, 1000);
-        }).catch(error => {
+        }).catch(error => 
+        {
             showNotification('Error saving user data', 'error');
             console.error('Error:', error);
         });
-    }).catch(error => {
+    }).catch(error => 
+    {
         // If no users file exists, create one with this user
-        saveUsersToFile([userData]).then(() => {
+        saveUsersToFile([userData]).then(() => 
+        {
             showNotification('Account created successfully!', 'success');
             localStorage.setItem('currentUser', JSON.stringify(userData));
             updateNavigationForLoggedInUser(userData);
             
-            setTimeout(() => {
+            setTimeout(() => 
+            {
                 const basePath = window.location.pathname.includes('/pages/') ? '' : '../';
                 window.location.href = basePath + 'pages/dashboard.html';
             }, 1000);
-        }).catch(saveError => {
+        }).catch(saveError => 
+        {
             showNotification('Error creating account', 'error');
             console.error('Error:', saveError);
         });
@@ -151,36 +176,37 @@ function generateUserId()
 
 function getUsers()
 {
-    return new Promise((resolve, reject) => {
-        // Check localStorage first (for demo purposes)
-        const usersData = localStorage.getItem('userData');
-        
-        if (usersData)
+    return new Promise((resolve, reject) => 
+    {
+        try
         {
-            try
+            // Check localStorage first (for demo purposes)
+            const usersData = localStorage.getItem('userData');
+            
+            if (usersData)
             {
-                resolve(JSON.parse(usersData));
+                const users = JSON.parse(usersData);
+                resolve(users);
             }
-            catch (error)
+            else
             {
-                reject(error);
+                // Initialize with empty array if no data exists
+                resolve([]);
             }
         }
-        else
+        catch (error)
         {
-            // Simulate reading from a text file
-            // In a real application, this would be a server API call
-            setTimeout(() => {
-                // For demo purposes, return an empty array
-                resolve([]);
-            }, 100);
+            console.error('Error parsing user data:', error);
+            // Return empty array if there's an error
+            resolve([]);
         }
     });
 }
 
 function saveUsersToFile(users)
 {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => 
+    {
         try
         {
             // Save to localStorage for this demo
@@ -200,8 +226,10 @@ function saveUsersToFile(users)
 
 function simulateUserSaveToTxtFile(users)
 {
-    // This simulates what would happen on the server
-    const txtContent = users.map(user => `
+    try
+    {
+        // This simulates what would happen on the server
+        const txtContent = users.map(user => `
 User Account
 ============
 User ID: ${user.id}
@@ -217,12 +245,17 @@ Badges: ${user.badges.join(', ') || 'None'}
 Events: ${user.events.length}
 
 `).join('\n' + '='.repeat(50) + '\n');
-    
-    // In a real application, this would be saved to a file on the server
-    // For demo purposes, we'll store it in localStorage
-    localStorage.setItem('users_backup.txt', txtContent);
-    
-    console.log('Simulated user data .txt file creation');
+        
+        // In a real application, this would be saved to a file on the server
+        // For demo purposes, we'll store it in localStorage
+        localStorage.setItem('users_backup.txt', txtContent);
+        
+        console.log('Simulated user data .txt file creation');
+    }
+    catch (error)
+    {
+        console.error('Error creating backup file:', error);
+    }
 }
 
 function checkAuthStatus()
@@ -266,7 +299,7 @@ function updateNavigationForLoggedInUser(user)
         
         userMenuContainer.innerHTML = `
             <li class="user-menu">
-                <a href="#" class="user-toggle">${user.firstName} ▾</a>
+                <a href="#" class="user-toggle">${user.firstName || 'User'} ▾</a>
                 <ul class="user-dropdown">
                     ${menuItems}
                 </ul>
@@ -295,7 +328,8 @@ function updateNavigationForLoggedInUser(user)
                 e.preventDefault();
                 localStorage.removeItem('currentUser');
                 showNotification('Switching accounts...', 'info');
-                setTimeout(() => {
+                setTimeout(() => 
+                {
                     window.location.href = 'login.html';
                 }, 1000);
             });
@@ -308,12 +342,16 @@ function updateNavigationForLoggedInUser(user)
                 e.preventDefault();
                 localStorage.removeItem('currentUser');
                 showNotification('Logged out successfully', 'success');
-                setTimeout(() => {
+                setTimeout(() => 
+                {
                     window.location.reload();
                 }, 1000);
             });
         }
     }
+    
+    // Update student labels in radio navigation
+    updateStudentLabels();
 }
 
 // Helper function to show notifications
@@ -330,22 +368,86 @@ function showNotification(message, type)
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1001;
+        max-width: 400px;
+        font-size: 14px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        color: white;
+    `;
+    
+    // Set background color based on type
+    if (type === 'success')
+    {
+        notification.style.backgroundColor = '#34c759';
+    }
+    else if (type === 'error')
+    {
+        notification.style.backgroundColor = '#ff3b30';
+    }
+    else if (type === 'info')
+    {
+        notification.style.backgroundColor = '#007aff';
+    }
     
     // Add to page
     document.body.appendChild(notification);
     
     // Show notification
-    setTimeout(() => {
-        notification.style.display = 'block';
+    setTimeout(() => 
+    {
+        notification.style.opacity = '1';
     }, 10);
     
-    // Hide notification after 3 seconds
-    setTimeout(() => {
+    // Hide notification after 5 seconds
+    setTimeout(() => 
+    {
         notification.style.opacity = '0';
-        notification.style.transition = 'opacity 0.5s ease';
         
-        setTimeout(() => {
-            notification.remove();
-        }, 500);
-    }, 3000);
+        setTimeout(() => 
+        {
+            if (notification.parentNode)
+            {
+                notification.remove();
+            }
+        }, 300);
+    }, 5000);
 }
+
+// Update student labels based on login status
+function updateStudentLabels()
+{
+    const studentLabels = document.querySelectorAll('#student-label, [id*="student-label"]');
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    
+    studentLabels.forEach(label => 
+    {
+        if (currentUser)
+        {
+            label.textContent = `Welcome, ${currentUser.firstName || 'User'}`;
+            label.style.color = 'var(--apple-blue)';
+            label.style.fontWeight = '600';
+            label.classList.add('logged-in');
+        }
+        else
+        {
+            label.textContent = 'Current Student';
+            label.style.color = '';
+            label.style.fontWeight = '';
+            label.classList.remove('logged-in');
+        }
+    });
+}
+
+// Initialize student labels when auth.js loads
+document.addEventListener('DOMContentLoaded', function()
+{
+    updateStudentLabels();
+});
