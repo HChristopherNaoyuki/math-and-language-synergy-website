@@ -87,6 +87,13 @@ function handleSignup(form)
         return;
     }
     
+    // Validate password length
+    if (password.length < 12)
+    {
+        showNotification('Password must be at least 12 characters long', 'error');
+        return;
+    }
+    
     const userData = {
         id: generateUserId(),
         firstName: firstName,
@@ -104,13 +111,6 @@ function handleSignup(form)
         badges: [],
         events: []
     };
-    
-    // Validate password length
-    if (userData.password.length < 12)
-    {
-        showNotification('Password must be at least 12 characters long', 'error');
-        return;
-    }
     
     // Get existing users
     getUsers().then(users => 

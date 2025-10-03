@@ -39,25 +39,30 @@ function initializeRadioNavigation()
         const label = input.nextElementSibling;
         if (label && label.textContent) 
         {
-            if (currentPage === 'index.html' && label.textContent.toLowerCase().includes('home')) 
+            const labelText = label.textContent.toLowerCase();
+            
+            if (currentPage === 'index.html' && labelText.includes('home')) 
             {
                 input.checked = true;
             } 
-            else if (currentPage.includes('about') && label.textContent.toLowerCase().includes('about')) 
+            else if (currentPage.includes('about') && labelText.includes('about')) 
             {
                 input.checked = true;
             } 
-            else if (currentPage.includes('services') && label.textContent.toLowerCase().includes('services')) 
+            else if (currentPage.includes('services') && labelText.includes('services')) 
             {
                 input.checked = true;
             } 
-            else if (currentPage.includes('contact') && label.textContent.toLowerCase().includes('contact')) 
+            else if (currentPage.includes('contact') && labelText.includes('contact')) 
             {
                 input.checked = true;
             }
             else if ((currentPage.includes('login') || currentPage.includes('signup') || 
                      currentPage.includes('dashboard') || currentPage.includes('enrollment') ||
-                     currentPage.includes('forum')) && label.textContent.toLowerCase().includes('student')) 
+                     currentPage.includes('forum') || currentPage.includes('donation') ||
+                     currentPage.includes('payment') || currentPage.includes('privacy') ||
+                     currentPage.includes('accessibility') || currentPage.includes('faq')) && 
+                     labelText.includes('student')) 
             {
                 input.checked = true;
             }
@@ -215,12 +220,14 @@ function updateStudentLabels()
             label.textContent = `Welcome, ${currentUser.firstName}`;
             label.style.color = 'var(--apple-blue)';
             label.style.fontWeight = '600';
+            label.classList.add('logged-in');
         }
         else
         {
             label.textContent = 'Current Student';
             label.style.color = '';
             label.style.fontWeight = '';
+            label.classList.remove('logged-in');
         }
     });
 }
@@ -279,7 +286,7 @@ function setupSmoothScrolling()
  */
 function handleFormSubmissions()
 {
-    const forms = document.querySelectorAll('form:not(#login-form):not(#signup-form):not(#contactForm):not(#enrollment-form):not(#new-thread-form):not(#payment-form)');
+    const forms = document.querySelectorAll('form:not(#login-form):not(#signup-form):not(#contactForm):not(#enrollment-form):not(#new-thread-form):not(#payment-form):not(#donation-form)');
     
     forms.forEach(form => 
     {
@@ -1353,6 +1360,20 @@ function showNotification(message, type)
         opacity: 0;
         transition: opacity 0.3s ease;
     `;
+    
+    // Set background color based on type
+    if (type === 'success')
+    {
+        notification.style.backgroundColor = '#34c759';
+    }
+    else if (type === 'error')
+    {
+        notification.style.backgroundColor = '#ff3b30';
+    }
+    else if (type === 'info')
+    {
+        notification.style.backgroundColor = '#007aff';
+    }
     
     // Add to page
     document.body.appendChild(notification);

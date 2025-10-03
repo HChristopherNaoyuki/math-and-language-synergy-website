@@ -8,6 +8,36 @@
     <link rel="icon" href="../assets/images/logo.jpg" type="image/jpg">
 </head>
 <body>
+    <!-- Radio Button Navigation -->
+    <nav class="radio-navigation" aria-label="Main navigation">
+        <div class="container">
+            <div class="radio-nav-container">
+                <div class="radio-nav-group" role="radiogroup" aria-label="Website navigation">
+                    <div class="radio-option">
+                        <input type="radio" id="nav-home-signup" name="navigation">
+                        <label for="nav-home-signup" onclick="window.location.href='../index.html'">Home</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-about-signup" name="navigation">
+                        <label for="nav-about-signup" onclick="window.location.href='about.html'">About</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-services-signup" name="navigation">
+                        <label for="nav-services-signup" onclick="window.location.href='services.html'">Services</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-contact-signup" name="navigation">
+                        <label for="nav-contact-signup" onclick="window.location.href='contact.html'">Contact</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-student-signup" name="navigation" checked>
+                        <label for="nav-student-signup" id="student-label-signup">Current Student</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <header>
         <div class="container">
             <div class="header-content">
@@ -25,24 +55,24 @@
             <form id="signup-form">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="first-name">First Name</label>
+                        <label for="first-name">First Name *</label>
                         <input type="text" id="first-name" name="firstName" required>
                     </div>
                     <div class="form-group">
-                        <label for="last-name">Last Name</label>
+                        <label for="last-name">Last Name *</label>
                         <input type="text" id="last-name" name="lastName" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="username">Username</label>
+                    <label for="username">Username *</label>
                     <input type="text" id="username" name="username" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password (min 12 characters)</label>
+                    <label for="password">Password (min 12 characters) *</label>
                     <input type="password" id="password" name="password" minlength="12" required>
                 </div>
                 <div class="form-group">
-                    <label for="account-type">Account Type</label>
+                    <label for="account-type">Account Type *</label>
                     <select id="account-type" name="accountType" required>
                         <option value="">Select account type</option>
                         <option value="student">Student</option>
@@ -50,7 +80,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="dob">Date of Birth</label>
+                    <label for="dob">Date of Birth *</label>
                     <input type="date" id="dob" name="dob" required>
                 </div>
                 <button type="submit" class="btn">Create Account</button>

@@ -8,6 +8,36 @@
     <link rel="icon" href="../assets/images/logo.jpg" type="image/jpg">
 </head>
 <body>
+    <!-- Radio Button Navigation -->
+    <nav class="radio-navigation" aria-label="Main navigation">
+        <div class="container">
+            <div class="radio-nav-container">
+                <div class="radio-nav-group" role="radiogroup" aria-label="Website navigation">
+                    <div class="radio-option">
+                        <input type="radio" id="nav-home-login" name="navigation">
+                        <label for="nav-home-login" onclick="window.location.href='../index.html'">Home</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-about-login" name="navigation">
+                        <label for="nav-about-login" onclick="window.location.href='about.html'">About</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-services-login" name="navigation">
+                        <label for="nav-services-login" onclick="window.location.href='services.html'">Services</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-contact-login" name="navigation">
+                        <label for="nav-contact-login" onclick="window.location.href='contact.html'">Contact</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="nav-student-login" name="navigation" checked>
+                        <label for="nav-student-login" id="student-label-login">Current Student</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <header>
         <div class="container">
             <div class="header-content">
@@ -24,11 +54,11 @@
             <h2>Login to Your Account</h2>
             <form id="login-form">
                 <div class="form-group">
-                    <label for="login-username">Username</label>
+                    <label for="login-username">Username *</label>
                     <input type="text" id="login-username" name="username" required>
                 </div>
                 <div class="form-group">
-                    <label for="login-password">Password</label>
+                    <label for="login-password">Password *</label>
                     <input type="password" id="login-password" name="password" required>
                 </div>
                 <button type="submit" class="btn">Login</button>
