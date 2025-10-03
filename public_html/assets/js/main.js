@@ -19,17 +19,47 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeCurrentStudentToggle();
     initializeSEO();
     initializeAppleAnimations();
+    
+    // Initialize radio navigation state
+    initializeRadioNavigation();
 });
+
+/**
+ * Initialize Radio Navigation State
+ */
+function initializeRadioNavigation()
+{
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const radioInputs = document.querySelectorAll('.radio-navigation input[type="radio"]');
+    
+    radioInputs.forEach(input => {
+        const label = input.nextElementSibling;
+        if (label && label.textContent) {
+            if (currentPage === 'index.html' && label.textContent.toLowerCase().includes('home')) {
+                input.checked = true;
+            } else if (currentPage.includes('about') && label.textContent.toLowerCase().includes('about')) {
+                input.checked = true;
+            } else if (currentPage.includes('services') && label.textContent.toLowerCase().includes('services')) {
+                input.checked = true;
+            } else if (currentPage.includes('contact') && label.textContent.toLowerCase().includes('contact')) {
+                input.checked = true;
+            }
+        }
+    });
+}
 
 /**
  * Initialize Mobile Menu Toggle functionality
  */
-function initializeMobileMenu() {
+function initializeMobileMenu()
+{
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     const nav = document.querySelector('nav');
     
-    if (mobileMenuToggle && nav) {
-        mobileMenuToggle.addEventListener('click', function() {
+    if (mobileMenuToggle && nav)
+    {
+        mobileMenuToggle.addEventListener('click', function()
+        {
             this.classList.toggle('active');
             nav.classList.toggle('active');
             
@@ -57,54 +87,107 @@ function initializeMobileMenu() {
 /**
  * Initialize Current Student toggle functionality
  */
-function initializeCurrentStudentToggle() {
-    const currentStudentToggle = document.querySelector('.current-student-toggle input[type="radio"]');
+function initializeCurrentStudentToggle()
+{
+    const currentStudentRadios = document.querySelectorAll('input[type="radio"][id*="nav-student"]');
     
-    if (currentStudentToggle) {
-        currentStudentToggle.addEventListener('change', function() {
-            if (this.checked) {
-                // Check if user is logged in
-                const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-                
-                if (currentUser) {
-                    // User is logged in, redirect to dashboard
-                    showNotification('Redirecting to your dashboard...', 'info');
-                    setTimeout(() => {
-                        window.location.href = 'pages/dashboard.html';
-                    }, 1000);
-                } else {
-                    // User not logged in, redirect to login
-                    showNotification('Please log in to access student features', 'info');
-                    setTimeout(() => {
-                        window.location.href = 'pages/login.html';
-                    }, 1000);
-                }
+    currentStudentRadios.forEach(radio => {
+        radio.addEventListener('change', function()
+        {
+            if (this.checked)
+            {
+                handleCurrentStudentNavigation();
             }
         });
         
-        // Check if user is already logged in and update the label
-        const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-        if (currentUser) {
-            const label = document.querySelector('.current-student-toggle label');
-            if (label) {
-                label.textContent = `Welcome, ${currentUser.firstName}`;
-            }
+        // Also add click event to the label for better UX
+        const label = document.querySelector(`label[for="${this.id}"]`);
+        if (label)
+        {
+            label.addEventListener('click', function(e)
+            {
+                // Prevent default to handle via radio change
+                setTimeout(() => {
+                    if (radio.checked)
+                    {
+                        handleCurrentStudentNavigation();
+                    }
+                }, 10);
+            });
         }
+    });
+    
+    // Update student labels based on login status
+    updateStudentLabels();
+}
+
+/**
+ * Handle Current Student navigation
+ */
+function handleCurrentStudentNavigation()
+{
+    // Check if user is logged in
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    
+    if (currentUser)
+    {
+        // User is logged in, redirect to dashboard
+        showNotification('Redirecting to your dashboard...', 'info');
+        setTimeout(() => {
+            const basePath = window.location.pathname.includes('/pages/') ? '' : 'pages/';
+            window.location.href = basePath + 'dashboard.html';
+        }, 1000);
     }
+    else
+    {
+        // User not logged in, redirect to login
+        showNotification('Please log in to access student features', 'info');
+        setTimeout(() => {
+            const basePath = window.location.pathname.includes('/pages/') ? '' : 'pages/';
+            window.location.href = basePath + 'login.html';
+        }, 1000);
+    }
+}
+
+/**
+ * Update student labels based on login status
+ */
+function updateStudentLabels()
+{
+    const studentLabels = document.querySelectorAll('#student-label, [id*="student-label"]');
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    
+    studentLabels.forEach(label => {
+        if (currentUser)
+        {
+            label.textContent = `Welcome, ${currentUser.firstName}`;
+            label.style.color = 'var(--apple-blue)';
+            label.style.fontWeight = '600';
+        }
+        else
+        {
+            label.textContent = 'Current Student';
+            label.style.color = '';
+            label.style.fontWeight = '';
+        }
+    });
 }
 
 /**
  * Setup smooth scrolling for anchor links
  */
-function setupSmoothScrolling() {
+function setupSmoothScrolling()
+{
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
+        anchor.addEventListener('click', function(e)
+        {
             e.preventDefault();
             
             const targetId = this.getAttribute('href');
             
             // Handle "back to top" links
-            if (targetId === '#') {
+            if (targetId === '#')
+            {
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
@@ -114,7 +197,8 @@ function setupSmoothScrolling() {
             
             const targetElement = document.querySelector(targetId);
             
-            if (targetElement) {
+            if (targetElement)
+            {
                 const headerHeight = document.querySelector('header').offsetHeight;
                 const targetPosition = targetElement.offsetTop - headerHeight - 20;
                 
@@ -125,7 +209,8 @@ function setupSmoothScrolling() {
                 
                 // Close mobile menu if open
                 const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-                if (mobileMenuToggle && mobileMenuToggle.classList.contains('active')) {
+                if (mobileMenuToggle && mobileMenuToggle.classList.contains('active'))
+                {
                     mobileMenuToggle.click();
                 }
                 
@@ -139,14 +224,17 @@ function setupSmoothScrolling() {
 /**
  * Handle form submissions with validation
  */
-function handleFormSubmissions() {
+function handleFormSubmissions()
+{
     const forms = document.querySelectorAll('form:not(#login-form):not(#signup-form):not(#contactForm):not(#enrollment-form):not(#new-thread-form):not(#payment-form)');
     
     forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', function(e)
+        {
             e.preventDefault();
             
-            if (validateForm(this)) {
+            if (validateForm(this))
+            {
                 // Show success message
                 showNotification('Form submitted successfully!', 'success');
                 
@@ -163,11 +251,13 @@ function handleFormSubmissions() {
 /**
  * Save form data to text file
  */
-function saveFormDataToFile(form) {
+function saveFormDataToFile(form)
+{
     const formData = new FormData(form);
     const data = {};
     
-    for (let [key, value] of formData.entries()) {
+    for (let [key, value] of formData.entries())
+    {
         data[key] = value;
     }
     
@@ -184,7 +274,8 @@ function saveFormDataToFile(form) {
  * @param {HTMLFormElement} form - The form to validate
  * @returns {boolean} - True if form is valid, false otherwise
  */
-function validateForm(form) {
+function validateForm(form)
+{
     let isValid = true;
     const requiredFields = form.querySelectorAll('[required]');
     
@@ -199,7 +290,8 @@ function validateForm(form) {
     
     // Check required fields
     requiredFields.forEach(field => {
-        if (!field.value.trim()) {
+        if (!field.value.trim())
+        {
             isValid = false;
             showFieldError(field, 'This field is required');
         }
@@ -207,19 +299,22 @@ function validateForm(form) {
     
     // Validate email format
     const emailField = form.querySelector('input[type="email"]');
-    if (emailField && emailField.value && !isValidEmail(emailField.value)) {
+    if (emailField && emailField.value && !isValidEmail(emailField.value))
+    {
         isValid = false;
         showFieldError(emailField, 'Please enter a valid email address');
     }
     
     // Validate password strength if applicable
     const passwordField = form.querySelector('input[type="password"]');
-    if (passwordField && passwordField.value && !isStrongPassword(passwordField.value)) {
+    if (passwordField && passwordField.value && !isStrongPassword(passwordField.value))
+    {
         isValid = false;
         showFieldError(passwordField, 'Password must be at least 8 characters with uppercase, lowercase, and number');
     }
     
-    if (!isValid) {
+    if (!isValid)
+    {
         showNotification('Please correct the errors in the form', 'error');
     }
     
@@ -231,13 +326,15 @@ function validateForm(form) {
  * @param {HTMLElement} field - The form field with error
  * @param {string} message - The error message to display
  */
-function showFieldError(field, message) {
+function showFieldError(field, message)
+{
     field.style.borderColor = 'var(--apple-red)';
     
     // Create or find error element
     let errorElement = field.parentNode.querySelector('.form-error');
     
-    if (!errorElement) {
+    if (!errorElement)
+    {
         errorElement = document.createElement('div');
         errorElement.className = 'form-error';
         errorElement.style.cssText = 'color: var(--apple-red); font-size: 0.875rem; margin-top: 0.5rem;';
@@ -253,7 +350,8 @@ function showFieldError(field, message) {
  * @param {string} email - Email address to validate
  * @returns {boolean} - True if email is valid
  */
-function isValidEmail(email) {
+function isValidEmail(email)
+{
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
 }
@@ -263,7 +361,8 @@ function isValidEmail(email) {
  * @param {string} password - Password to validate
  * @returns {boolean} - True if password is strong
  */
-function isStrongPassword(password) {
+function isStrongPassword(password)
+{
     // At least 8 characters, one uppercase, one lowercase, one number
     const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     return re.test(password);
@@ -272,10 +371,12 @@ function isStrongPassword(password) {
 /**
  * Update copyright year automatically
  */
-function updateCopyrightYear() {
+function updateCopyrightYear()
+{
     const yearElement = document.getElementById('current-year');
     
-    if (yearElement) {
+    if (yearElement)
+    {
         const currentYear = new Date().getFullYear();
         yearElement.textContent = currentYear;
     }
@@ -284,13 +385,16 @@ function updateCopyrightYear() {
 /**
  * Setup lazy loading for images
  */
-function setupLazyLoading() {
+function setupLazyLoading()
+{
     const lazyImages = document.querySelectorAll('img[data-src]');
     
-    if ('IntersectionObserver' in window) {
+    if ('IntersectionObserver' in window)
+    {
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
+                if (entry.isIntersecting)
+                {
                     const img = entry.target;
                     img.src = img.getAttribute('data-src');
                     img.removeAttribute('data-src');
@@ -303,7 +407,9 @@ function setupLazyLoading() {
         lazyImages.forEach(img => {
             imageObserver.observe(img);
         });
-    } else {
+    }
+    else
+    {
         // Fallback for browsers without IntersectionObserver
         lazyImages.forEach(img => {
             img.src = img.getAttribute('data-src');
@@ -315,7 +421,8 @@ function setupLazyLoading() {
 /**
  * Highlight Active Link in Navigation
  */
-function highlightActiveLink() {
+function highlightActiveLink()
+{
     const currentPage = window.location.pathname.split('/').pop();
     const navLinks = document.querySelectorAll('nav ul li a');
     
@@ -324,9 +431,12 @@ function highlightActiveLink() {
         
         if (currentPage === linkHref || 
             (currentPage === '' && linkHref === 'index.html') ||
-            (currentPage === 'index.html' && linkHref === '../index.html')) {
+            (currentPage === 'index.html' && linkHref === '../index.html'))
+        {
             link.classList.add('active');
-        } else {
+        }
+        else
+        {
             link.classList.remove('active');
         }
     });
@@ -335,11 +445,14 @@ function highlightActiveLink() {
 /**
  * Initialize Language Selector
  */
-function initializeLanguageSelector() {
+function initializeLanguageSelector()
+{
     const languageSelector = document.getElementById('language-selector');
     
-    if (languageSelector) {
-        languageSelector.addEventListener('change', function() {
+    if (languageSelector)
+    {
+        languageSelector.addEventListener('change', function()
+        {
             const selectedLanguage = this.options[this.selectedIndex].text;
             showNotification(`Language changed to ${selectedLanguage}`, 'info');
             
@@ -347,11 +460,14 @@ function initializeLanguageSelector() {
             localStorage.setItem('userLanguage', this.value);
             
             // For demo purposes, we'll just show a notification
-            if (this.value === 'jp') {
+            if (this.value === 'jp')
+            {
                 document.querySelectorAll('h1, h2, h3').forEach(element => {
                     element.style.fontFamily = "'Hiragino Sans', 'Hiragino Kaku Gothic Pro', 'Yu Gothic', sans-serif";
                 });
-            } else {
+            }
+            else
+            {
                 document.querySelectorAll('h1, h2, h3').forEach(element => {
                     element.style.fontFamily = "var(--font-heading)";
                 });
@@ -367,9 +483,11 @@ function initializeLanguageSelector() {
 /**
  * Setup Gamification Elements
  */
-function setupGamification() {
+function setupGamification()
+{
     // Check if we're on the dashboard page
-    if (document.querySelector('.dashboard-grid')) {
+    if (document.querySelector('.dashboard-grid'))
+    {
         initializeProgressBars();
         initializeBadges();
     }
@@ -378,7 +496,8 @@ function setupGamification() {
 /**
  * Initialize Progress Bars
  */
-function initializeProgressBars() {
+function initializeProgressBars()
+{
     const progressBars = document.querySelectorAll('.progress-fill');
     
     progressBars.forEach(bar => {
@@ -395,18 +514,22 @@ function initializeProgressBars() {
 /**
  * Initialize Badges
  */
-function initializeBadges() {
+function initializeBadges()
+{
     const badges = document.querySelectorAll('.badge');
     
     badges.forEach(badge => {
-        if (badge.classList.contains('earned')) {
+        if (badge.classList.contains('earned'))
+        {
             // Add animation to earned badges
-            badge.addEventListener('mouseenter', function() {
+            badge.addEventListener('mouseenter', function()
+            {
                 this.style.transform = 'scale(1.1) rotate(5deg)';
                 this.style.transition = 'transform 0.3s ease';
             });
             
-            badge.addEventListener('mouseleave', function() {
+            badge.addEventListener('mouseleave', function()
+            {
                 this.style.transform = 'scale(1) rotate(0deg)';
             });
         }
@@ -416,19 +539,25 @@ function initializeBadges() {
 /**
  * Initialize Chatbot
  */
-function initializeChatbot() {
+function initializeChatbot()
+{
     const chatbotToggle = document.querySelector('.chatbot-toggle');
     const chatbotContainer = document.querySelector('.chatbot-container');
     const chatbotClose = document.querySelector('.chatbot-close');
     const chatbotInput = document.querySelector('.chatbot-input input');
     const chatbotSend = document.querySelector('.chatbot-send');
     
-    if (chatbotToggle && chatbotContainer) {
-        chatbotToggle.addEventListener('click', function() {
-            if (chatbotContainer.style.display === 'flex') {
+    if (chatbotToggle && chatbotContainer)
+    {
+        chatbotToggle.addEventListener('click', function()
+        {
+            if (chatbotContainer.style.display === 'flex')
+            {
                 chatbotContainer.style.display = 'none';
                 this.style.transform = 'scale(1)';
-            } else {
+            }
+            else
+            {
                 chatbotContainer.style.display = 'flex';
                 this.style.transform = 'scale(1.1)';
                 
@@ -439,17 +568,22 @@ function initializeChatbot() {
             }
         });
         
-        if (chatbotClose) {
-            chatbotClose.addEventListener('click', function() {
+        if (chatbotClose)
+        {
+            chatbotClose.addEventListener('click', function()
+            {
                 chatbotContainer.style.display = 'none';
                 chatbotToggle.style.transform = 'scale(1)';
             });
         }
         
-        if (chatbotInput && chatbotSend) {
-            const sendMessage = function() {
+        if (chatbotInput && chatbotSend)
+        {
+            const sendMessage = function()
+            {
                 const message = chatbotInput.value.trim();
-                if (message) {
+                if (message)
+                {
                     addChatMessage('user', message);
                     chatbotInput.value = '';
                     
@@ -466,8 +600,10 @@ function initializeChatbot() {
             };
             
             chatbotSend.addEventListener('click', sendMessage);
-            chatbotInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
+            chatbotInput.addEventListener('keypress', function(e)
+            {
+                if (e.key === 'Enter')
+                {
                     sendMessage();
                 }
             });
@@ -478,7 +614,8 @@ function initializeChatbot() {
 /**
  * Save chat history to text file
  */
-function saveChatHistory(message, sender) {
+function saveChatHistory(message, sender)
+{
     const chatData = {
         message: message,
         sender: sender,
@@ -494,7 +631,8 @@ function saveChatHistory(message, sender) {
  * @param {string} sender - 'user' or 'bot'
  * @param {string} message - The message text
  */
-function addChatMessage(sender, message) {
+function addChatMessage(sender, message)
+{
     const messagesContainer = document.querySelector('.chatbot-messages');
     const messageElement = document.createElement('div');
     messageElement.className = `chat-message ${sender}`;
@@ -507,31 +645,55 @@ function addChatMessage(sender, message) {
  * Respond to user message in chatbot
  * @param {string} message - The user's message
  */
-function respondToMessage(message) {
+function respondToMessage(message)
+{
     let response = "I'm sorry, I didn't understand that. How can I help you with our courses?";
     
     const lowerMessage = message.toLowerCase();
     
-    if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+    if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey'))
+    {
         response = "Hello! Welcome to Math and Language Synergy. How can I assist you today?";
-    } else if (lowerMessage.includes('course') || lowerMessage.includes('program')) {
+    }
+    else if (lowerMessage.includes('course') || lowerMessage.includes('program'))
+    {
         response = "We offer comprehensive programs in English, Japanese, and Mathematics. Would you like more information about any of these?";
-    } else if (lowerMessage.includes('english')) {
+    }
+    else if (lowerMessage.includes('english'))
+    {
         response = "Our English programs focus on fluency, communication skills, academic writing, and cultural awareness. We offer courses for all levels from beginner to advanced.";
-    } else if (lowerMessage.includes('japanese')) {
+    }
+    else if (lowerMessage.includes('japanese'))
+    {
         response = "Our Japanese programs provide complete immersion in language and culture, with options for beginners to advanced learners, including business Japanese.";
-    } else if (lowerMessage.includes('math') || lowerMessage.includes('mathematics')) {
+    }
+    else if (lowerMessage.includes('math') || lowerMessage.includes('mathematics'))
+    {
         response = "Our Mathematics programs develop critical thinking and problem-solving skills, from basic algebra to advanced calculus and applied mathematics.";
-    } else if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('fee')) {
+    }
+    else if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('fee'))
+    {
         response = "Course fees vary by program. English courses start at ZAR 9,000 per semester, Japanese at ZAR 9,900, and Mathematics at ZAR 7,200. Would you like detailed pricing?";
-    } else if (lowerMessage.includes('enroll') || lowerMessage.includes('apply') || lowerMessage.includes('register')) {
+    }
+    else if (lowerMessage.includes('enroll') || lowerMessage.includes('apply') || lowerMessage.includes('register'))
+    {
         response = "You can enroll through our enrollment page. Would you like me to direct you there? You can also visit our campus during business hours.";
-    } else if (lowerMessage.includes('contact') || lowerMessage.includes('email') || lowerMessage.includes('phone')) {
+    }
+    else if (lowerMessage.includes('contact') || lowerMessage.includes('email') || lowerMessage.includes('phone'))
+    {
         response = "You can reach us at info@mathlanguagesynergy.edu or +27 (0)11 234 5678. Our office hours are Monday to Friday, 9 AM to 6 PM, and Saturday 10 AM to 4 PM.";
-    } else if (lowerMessage.includes('location') || lowerMessage.includes('address')) {
+    }
+    else if (lowerMessage.includes('location') || lowerMessage.includes('address'))
+    {
         response = "We're located at 123 Learning Lane, Knowledge City, EDU 45678, Gauteng, South Africa. We also offer online classes for remote students.";
-    } else if (lowerMessage.includes('thank') || lowerMessage.includes('thanks')) {
+    }
+    else if (lowerMessage.includes('thank') || lowerMessage.includes('thanks'))
+    {
         response = "You're welcome! Is there anything else I can help you with today?";
+    }
+    else if (lowerMessage.includes('student') || lowerMessage.includes('dashboard') || lowerMessage.includes('login'))
+    {
+        response = "You can access your student dashboard by logging in. Would you like to be redirected to the login page?";
     }
     
     return response;
@@ -540,16 +702,20 @@ function respondToMessage(message) {
 /**
  * Initialize User Menu based on authentication status
  */
-function initializeUserMenu() {
+function initializeUserMenu()
+{
     const userMenuContainer = document.getElementById('user-menu-container');
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
     
-    if (userMenuContainer) {
-        if (currentUser) {
+    if (userMenuContainer)
+    {
+        if (currentUser)
+        {
             // User is logged in - show user-specific options
             const basePath = window.location.pathname.includes('/pages/') ? '' : 'pages/';
             
-            if (currentUser.accountType === 'student') {
+            if (currentUser.accountType === 'student')
+            {
                 userMenuContainer.innerHTML = `
                     <li class="user-menu">
                         <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
@@ -562,7 +728,9 @@ function initializeUserMenu() {
                         </ul>
                     </li>
                 `;
-            } else if (currentUser.accountType === 'lecturer') {
+            }
+            else if (currentUser.accountType === 'lecturer')
+            {
                 userMenuContainer.innerHTML = `
                     <li class="user-menu">
                         <a href="#" class="user-toggle">${currentUser.firstName} ▾</a>
@@ -575,7 +743,9 @@ function initializeUserMenu() {
                     </li>
                 `;
             }
-        } else {
+        }
+        else
+        {
             // User not logged in - show login/signup options
             const basePath = window.location.pathname.includes('/pages/') ? '' : 'pages/';
             userMenuContainer.innerHTML = `
@@ -592,56 +762,71 @@ function initializeUserMenu() {
         
         // Initialize user menu functionality
         setupUserMenuFunctionality();
+        
+        // Update student labels
+        updateStudentLabels();
     }
 }
 
 /**
  * Setup user menu functionality
  */
-function setupUserMenuFunctionality() {
+function setupUserMenuFunctionality()
+{
     const userToggle = document.querySelector('.user-toggle');
     const userDropdown = document.querySelector('.user-dropdown');
     const switchAccount = document.getElementById('switch-account');
     const logout = document.getElementById('logout');
 
-    if (userToggle && userDropdown) {
-        userToggle.addEventListener('click', function(e) {
+    if (userToggle && userDropdown)
+    {
+        userToggle.addEventListener('click', function(e)
+        {
             e.preventDefault();
             userDropdown.classList.toggle('show');
             
             // Close other open dropdowns
             document.querySelectorAll('.user-dropdown').forEach(dropdown => {
-                if (dropdown !== userDropdown) {
+                if (dropdown !== userDropdown)
+                {
                     dropdown.classList.remove('show');
                 }
             });
         });
 
         // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (userToggle && userDropdown && !userToggle.contains(e.target) && !userDropdown.contains(e.target)) {
+        document.addEventListener('click', function(e)
+        {
+            if (userToggle && userDropdown && !userToggle.contains(e.target) && !userDropdown.contains(e.target))
+            {
                 userDropdown.classList.remove('show');
             }
         });
     }
 
-    if (switchAccount) {
-        switchAccount.addEventListener('click', function(e) {
+    if (switchAccount)
+    {
+        switchAccount.addEventListener('click', function(e)
+        {
             e.preventDefault();
             handleSwitchAccount();
         });
     }
 
-    if (logout) {
-        logout.addEventListener('click', function(e) {
+    if (logout)
+    {
+        logout.addEventListener('click', function(e)
+        {
             e.preventDefault();
             handleLogout();
         });
     }
     
     // Add keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && userDropdown && userDropdown.classList.contains('show')) {
+    document.addEventListener('keydown', function(e)
+    {
+        if (e.key === 'Escape' && userDropdown && userDropdown.classList.contains('show'))
+        {
             userDropdown.classList.remove('show');
         }
     });
@@ -650,11 +835,13 @@ function setupUserMenuFunctionality() {
 /**
  * Handle switch account
  */
-function handleSwitchAccount() {
+function handleSwitchAccount()
+{
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
     
     // Log account switch to text file
-    if (currentUser) {
+    if (currentUser)
+    {
         const switchData = {
             action: 'account_switch',
             username: currentUser.username,
@@ -676,11 +863,13 @@ function handleSwitchAccount() {
 /**
  * Handle logout
  */
-function handleLogout() {
+function handleLogout()
+{
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
     
     // Log logout action to text file
-    if (currentUser) {
+    if (currentUser)
+    {
         const logoutData = {
             action: 'logout',
             username: currentUser.username,
@@ -692,15 +881,17 @@ function handleLogout() {
     
     localStorage.removeItem('currentUser');
     showNotification('Logged out successfully', 'success');
-    setTimeout(() => {
-        window.location.reload(); // Reload to update navigation
-    }, 1000);
+    
+    // Update UI
+    initializeUserMenu();
+    updateStudentLabels();
 }
 
 /**
  * Initialize Text File System for data storage
  */
-function initializeTextFileSystem() {
+function initializeTextFileSystem()
+{
     console.log('Initializing text file storage system...');
     
     // Initialize required text file structures if they don't exist
@@ -710,7 +901,8 @@ function initializeTextFileSystem() {
 /**
  * Initialize required text files for data storage
  */
-function initializeRequiredFiles() {
+function initializeRequiredFiles()
+{
     const requiredFiles = [
         'users_data',
         'contact_submissions', 
@@ -724,7 +916,8 @@ function initializeRequiredFiles() {
     ];
     
     requiredFiles.forEach(fileType => {
-        if (!localStorage.getItem(`${fileType}_backup`)) {
+        if (!localStorage.getItem(`${fileType}_backup`))
+        {
             // Create initial file structure
             const initialContent = getInitialFileContent(fileType);
             localStorage.setItem(`${fileType}_backup`, initialContent);
@@ -736,10 +929,12 @@ function initializeRequiredFiles() {
 /**
  * Get initial content for text files
  */
-function getInitialFileContent(fileType) {
+function getInitialFileContent(fileType)
+{
     const timestamp = new Date().toISOString();
     
-    switch(fileType) {
+    switch(fileType)
+    {
         case 'users_data':
             return `Math and Language Synergy - Users Database
 ===========================================
@@ -834,8 +1029,10 @@ File Created: ${timestamp}
  * @param {string} fileType - Type of data to save
  * @param {Object} data - Data to save
  */
-function saveToTextFile(fileType, data) {
-    try {
+function saveToTextFile(fileType, data)
+{
+    try
+    {
         // Get existing file content
         const existingContent = localStorage.getItem(`${fileType}_backup`) || getInitialFileContent(fileType);
         
@@ -843,7 +1040,8 @@ function saveToTextFile(fileType, data) {
         let newContent = existingContent;
         
         // Add new entry based on file type
-        switch(fileType) {
+        switch(fileType)
+        {
             case 'general_forms':
                 newContent += `\n\nForm Submission: ${data.formName}
 Timestamp: ${new Date(data.timestamp).toLocaleString()}
@@ -880,7 +1078,9 @@ ${JSON.stringify(data, null, 2)}
         
         console.log(`Data saved to ${fileType} backup file`);
         
-    } catch (error) {
+    }
+    catch (error)
+    {
         console.error(`Error saving to ${fileType}:`, error);
     }
 }
@@ -888,14 +1088,18 @@ ${JSON.stringify(data, null, 2)}
 /**
  * Update counter in file header
  */
-function updateFileCounter(content, fileType) {
+function updateFileCounter(content, fileType)
+{
     const lines = content.split('\n');
     let updated = false;
     
-    for (let i = 0; i < lines.length; i++) {
-        if (lines[i].includes('Total')) {
+    for (let i = 0; i < lines.length; i++)
+    {
+        if (lines[i].includes('Total'))
+        {
             const match = lines[i].match(/Total (\w+): (\d+)/);
-            if (match) {
+            if (match)
+            {
                 const currentCount = parseInt(match[2]);
                 lines[i] = lines[i].replace(`: ${currentCount}`, `: ${currentCount + 1}`);
                 updated = true;
@@ -910,7 +1114,8 @@ function updateFileCounter(content, fileType) {
 /**
  * Update footer links based on current page location
  */
-function updateFooterLinks() {
+function updateFooterLinks()
+{
     const currentPath = window.location.pathname;
     const isInPagesFolder = currentPath.includes('/pages/');
     
@@ -927,18 +1132,26 @@ function updateFooterLinks() {
         links.forEach(link => {
             const href = link.getAttribute('href');
             
-            if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
-                if (href === '../index.html' || href === 'index.html') {
+            if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('tel:'))
+            {
+                if (href === '../index.html' || href === 'index.html')
+                {
                     link.href = basePath + 'index.html';
-                } else if (href.startsWith('../')) {
+                }
+                else if (href.startsWith('../'))
+                {
                     // Remove ../ from the beginning and add basePath
                     const cleanHref = href.replace('../', '');
                     link.href = basePath + cleanHref;
-                } else if (href.startsWith('pages/')) {
+                }
+                else if (href.startsWith('pages/'))
+                {
                     // Remove pages/ from the beginning and add pagesPath
                     const cleanHref = href.replace('pages/', '');
                     link.href = pagesPath + cleanHref;
-                } else {
+                }
+                else
+                {
                     link.href = pagesPath + href;
                 }
             }
@@ -948,7 +1161,8 @@ function updateFooterLinks() {
     // Update donation button specifically
     const donationButtons = document.querySelectorAll('a[href*="donation"]');
     donationButtons.forEach(button => {
-        if (button.getAttribute('href').includes('donation')) {
+        if (button.getAttribute('href').includes('donation'))
+        {
             button.href = pagesPath + 'donation.html';
         }
     });
@@ -957,7 +1171,8 @@ function updateFooterLinks() {
 /**
  * Initialize SEO enhancements
  */
-function initializeSEO() {
+function initializeSEO()
+{
     // Add structured data for better SEO
     const structuredData = {
         "@context": "https://schema.org",
@@ -998,7 +1213,8 @@ function initializeSEO() {
 /**
  * Initialize Apple-style animations
  */
-function initializeAppleAnimations() {
+function initializeAppleAnimations()
+{
     // Add fade-in animation to cards when they come into view
     const observerOptions = {
         threshold: 0.1,
@@ -1007,7 +1223,8 @@ function initializeAppleAnimations() {
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
+            if (entry.isIntersecting)
+            {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
                 observer.unobserve(entry.target);
@@ -1029,10 +1246,12 @@ function initializeAppleAnimations() {
  * @param {string} message - The notification message
  * @param {string} type - 'success', 'error', or 'info'
  */
-function showNotification(message, type) {
+function showNotification(message, type)
+{
     // Remove any existing notifications
     const existingNotification = document.querySelector('.notification');
-    if (existingNotification) {
+    if (existingNotification)
+    {
         existingNotification.remove();
     }
     
@@ -1067,7 +1286,8 @@ function showNotification(message, type) {
         notification.style.opacity = '0';
         
         setTimeout(() => {
-            if (notification.parentNode) {
+            if (notification.parentNode)
+            {
                 notification.remove();
             }
         }, 300);
@@ -1079,11 +1299,13 @@ function showNotification(message, type) {
  * @param {HTMLFormElement} form - The form to get data from
  * @returns {Object} - Form data as key-value pairs
  */
-function getFormData(form) {
+function getFormData(form)
+{
     const formData = new FormData(form);
     const data = {};
     
-    for (let [key, value] of formData.entries()) {
+    for (let [key, value] of formData.entries())
+    {
         data[key] = value;
     }
     
@@ -1091,7 +1313,8 @@ function getFormData(form) {
 }
 
 // Export functions for use in other modules (if needed)
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== 'undefined' && module.exports)
+{
     module.exports = {
         showNotification,
         validateForm,

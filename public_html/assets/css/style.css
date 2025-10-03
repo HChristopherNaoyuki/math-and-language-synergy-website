@@ -5183,3 +5183,95 @@ footer
         font-size: 0.8rem;
     }
 }
+
+/* ===== RADIO NAVIGATION ENHANCEMENTS ===== */
+.current-student-toggle
+{
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.current-student-toggle input[type="radio"]
+{
+    margin: 0;
+}
+
+.current-student-toggle label
+{
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.current-student-toggle label:hover
+{
+    color: var(--apple-blue);
+}
+
+/* Student label styles when logged in */
+#student-label,
+[id*="student-label"]
+{
+    transition: all 0.3s ease;
+}
+
+/* Radio navigation active states */
+.radio-navigation
+{
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.radio-option input[type="radio"]:checked + label
+{
+    background: var(--apple-blue);
+    color: #ffffff;
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+/* Mobile responsiveness for radio navigation */
+@media (max-width: 768px)
+{
+    .radio-nav-container
+    {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .radio-nav-group
+    {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .radio-option label
+    {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        white-space: nowrap;
+    }
+    
+    #student-label,
+    [id*="student-label"]
+    {
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px)
+{
+    .radio-option label
+    {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+    
+    .radio-nav-group
+    {
+        gap: 0.25rem;
+    }
+}
