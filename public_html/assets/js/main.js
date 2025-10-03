@@ -2,7 +2,8 @@
 // Enhanced with Apple-inspired design, SEO, and Current Student functionality
 
 // DOM Content Loaded Event
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function()
+{
     // Initialize all functionality when the DOM is fully loaded
     initializeMobileMenu();
     setupSmoothScrolling();
@@ -19,9 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeCurrentStudentToggle();
     initializeSEO();
     initializeAppleAnimations();
-    
-    // Initialize radio navigation state
     initializeRadioNavigation();
+    
+    // Update UI based on authentication status
+    updateUIForAuthentication();
 });
 
 /**
@@ -32,18 +34,60 @@ function initializeRadioNavigation()
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     const radioInputs = document.querySelectorAll('.radio-navigation input[type="radio"]');
     
-    radioInputs.forEach(input => {
+    radioInputs.forEach(input => 
+    {
         const label = input.nextElementSibling;
-        if (label && label.textContent) {
-            if (currentPage === 'index.html' && label.textContent.toLowerCase().includes('home')) {
+        if (label && label.textContent) 
+        {
+            if (currentPage === 'index.html' && label.textContent.toLowerCase().includes('home')) 
+            {
                 input.checked = true;
-            } else if (currentPage.includes('about') && label.textContent.toLowerCase().includes('about')) {
+            } 
+            else if (currentPage.includes('about') && label.textContent.toLowerCase().includes('about')) 
+            {
                 input.checked = true;
-            } else if (currentPage.includes('services') && label.textContent.toLowerCase().includes('services')) {
+            } 
+            else if (currentPage.includes('services') && label.textContent.toLowerCase().includes('services')) 
+            {
                 input.checked = true;
-            } else if (currentPage.includes('contact') && label.textContent.toLowerCase().includes('contact')) {
+            } 
+            else if (currentPage.includes('contact') && label.textContent.toLowerCase().includes('contact')) 
+            {
                 input.checked = true;
             }
+            else if ((currentPage.includes('login') || currentPage.includes('signup') || 
+                     currentPage.includes('dashboard') || currentPage.includes('enrollment') ||
+                     currentPage.includes('forum')) && label.textContent.toLowerCase().includes('student')) 
+            {
+                input.checked = true;
+            }
+        }
+    });
+}
+
+/**
+ * Update UI based on authentication status
+ */
+function updateUIForAuthentication()
+{
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    updateStudentLabels();
+    
+    // Update radio navigation labels
+    const studentLabels = document.querySelectorAll('#student-label, [id*="student-label"]');
+    studentLabels.forEach(label => 
+    {
+        if (currentUser) 
+        {
+            label.textContent = `Welcome, ${currentUser.firstName}`;
+            label.style.color = 'var(--apple-blue)';
+            label.style.fontWeight = '600';
+        } 
+        else 
+        {
+            label.textContent = 'Current Student';
+            label.style.color = '';
+            label.style.fontWeight = '';
         }
     });
 }
@@ -74,8 +118,10 @@ function initializeMobileMenu()
         
         // Close mobile menu when clicking on a link
         const navLinks = document.querySelectorAll('nav a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
+        navLinks.forEach(link => 
+        {
+            link.addEventListener('click', () => 
+            {
                 mobileMenuToggle.classList.remove('active');
                 nav.classList.remove('active');
                 mobileMenuToggle.setAttribute('aria-expanded', 'false');
@@ -89,9 +135,11 @@ function initializeMobileMenu()
  */
 function initializeCurrentStudentToggle()
 {
+    // Add event listeners to all Current Student radio buttons
     const currentStudentRadios = document.querySelectorAll('input[type="radio"][id*="nav-student"]');
     
-    currentStudentRadios.forEach(radio => {
+    currentStudentRadios.forEach(radio => 
+    {
         radio.addEventListener('change', function()
         {
             if (this.checked)
@@ -101,13 +149,14 @@ function initializeCurrentStudentToggle()
         });
         
         // Also add click event to the label for better UX
-        const label = document.querySelector(`label[for="${this.id}"]`);
+        const label = document.querySelector(`label[for="${radio.id}"]`);
         if (label)
         {
             label.addEventListener('click', function(e)
             {
-                // Prevent default to handle via radio change
-                setTimeout(() => {
+                // Small delay to ensure radio state is updated
+                setTimeout(() => 
+                {
                     if (radio.checked)
                     {
                         handleCurrentStudentNavigation();
@@ -132,17 +181,19 @@ function handleCurrentStudentNavigation()
     if (currentUser)
     {
         // User is logged in, redirect to dashboard
-        showNotification('Redirecting to your dashboard...', 'info');
-        setTimeout(() => {
+        showNotification('Welcome back! Redirecting to your dashboard...', 'success');
+        setTimeout(() => 
+        {
             const basePath = window.location.pathname.includes('/pages/') ? '' : 'pages/';
             window.location.href = basePath + 'dashboard.html';
         }, 1000);
     }
     else
     {
-        // User not logged in, redirect to login
+        // User not logged in, redirect to login page
         showNotification('Please log in to access student features', 'info');
-        setTimeout(() => {
+        setTimeout(() => 
+        {
             const basePath = window.location.pathname.includes('/pages/') ? '' : 'pages/';
             window.location.href = basePath + 'login.html';
         }, 1000);
@@ -157,7 +208,8 @@ function updateStudentLabels()
     const studentLabels = document.querySelectorAll('#student-label, [id*="student-label"]');
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
     
-    studentLabels.forEach(label => {
+    studentLabels.forEach(label => 
+    {
         if (currentUser)
         {
             label.textContent = `Welcome, ${currentUser.firstName}`;
@@ -178,7 +230,8 @@ function updateStudentLabels()
  */
 function setupSmoothScrolling()
 {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => 
+    {
         anchor.addEventListener('click', function(e)
         {
             e.preventDefault();
@@ -228,7 +281,8 @@ function handleFormSubmissions()
 {
     const forms = document.querySelectorAll('form:not(#login-form):not(#signup-form):not(#contactForm):not(#enrollment-form):not(#new-thread-form):not(#payment-form)');
     
-    forms.forEach(form => {
+    forms.forEach(form => 
+    {
         form.addEventListener('submit', function(e)
         {
             e.preventDefault();
@@ -280,16 +334,19 @@ function validateForm(form)
     const requiredFields = form.querySelectorAll('[required]');
     
     // Reset error states
-    form.querySelectorAll('.form-error').forEach(error => {
+    form.querySelectorAll('.form-error').forEach(error => 
+    {
         error.style.display = 'none';
     });
     
-    form.querySelectorAll('.form-group input, .form-group select, .form-group textarea').forEach(field => {
+    form.querySelectorAll('.form-group input, .form-group select, .form-group textarea').forEach(field => 
+    {
         field.style.borderColor = '';
     });
     
     // Check required fields
-    requiredFields.forEach(field => {
+    requiredFields.forEach(field => 
+    {
         if (!field.value.trim())
         {
             isValid = false;
@@ -391,8 +448,10 @@ function setupLazyLoading()
     
     if ('IntersectionObserver' in window)
     {
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
+        const imageObserver = new IntersectionObserver((entries, observer) => 
+        {
+            entries.forEach(entry => 
+            {
                 if (entry.isIntersecting)
                 {
                     const img = entry.target;
@@ -404,14 +463,16 @@ function setupLazyLoading()
             });
         });
         
-        lazyImages.forEach(img => {
+        lazyImages.forEach(img => 
+        {
             imageObserver.observe(img);
         });
     }
     else
     {
         // Fallback for browsers without IntersectionObserver
-        lazyImages.forEach(img => {
+        lazyImages.forEach(img => 
+        {
             img.src = img.getAttribute('data-src');
             img.classList.add('fade-in');
         });
@@ -426,7 +487,8 @@ function highlightActiveLink()
     const currentPage = window.location.pathname.split('/').pop();
     const navLinks = document.querySelectorAll('nav ul li a');
     
-    navLinks.forEach(link => {
+    navLinks.forEach(link => 
+    {
         const linkHref = link.getAttribute('href');
         
         if (currentPage === linkHref || 
@@ -462,13 +524,15 @@ function initializeLanguageSelector()
             // For demo purposes, we'll just show a notification
             if (this.value === 'jp')
             {
-                document.querySelectorAll('h1, h2, h3').forEach(element => {
+                document.querySelectorAll('h1, h2, h3').forEach(element => 
+                {
                     element.style.fontFamily = "'Hiragino Sans', 'Hiragino Kaku Gothic Pro', 'Yu Gothic', sans-serif";
                 });
             }
             else
             {
-                document.querySelectorAll('h1, h2, h3').forEach(element => {
+                document.querySelectorAll('h1, h2, h3').forEach(element => 
+                {
                     element.style.fontFamily = "var(--font-heading)";
                 });
             }
@@ -500,11 +564,13 @@ function initializeProgressBars()
 {
     const progressBars = document.querySelectorAll('.progress-fill');
     
-    progressBars.forEach(bar => {
+    progressBars.forEach(bar => 
+    {
         const progress = bar.getAttribute('data-progress') || '75';
         
         // Animate progress bar
-        setTimeout(() => {
+        setTimeout(() => 
+        {
             bar.style.width = `${progress}%`;
             bar.style.transition = 'width 1s ease-in-out';
         }, 500);
@@ -518,7 +584,8 @@ function initializeBadges()
 {
     const badges = document.querySelectorAll('.badge');
     
-    badges.forEach(badge => {
+    badges.forEach(badge => 
+    {
         if (badge.classList.contains('earned'))
         {
             // Add animation to earned badges
@@ -562,7 +629,8 @@ function initializeChatbot()
                 this.style.transform = 'scale(1.1)';
                 
                 // Focus on input when opening
-                setTimeout(() => {
+                setTimeout(() => 
+                {
                     if (chatbotInput) chatbotInput.focus();
                 }, 300);
             }
@@ -591,7 +659,8 @@ function initializeChatbot()
                     saveChatHistory(message, 'user');
                     
                     // Simulate bot response
-                    setTimeout(() => {
+                    setTimeout(() => 
+                    {
                         const response = respondToMessage(message);
                         addChatMessage('bot', response);
                         saveChatHistory(response, 'bot');
@@ -786,7 +855,8 @@ function setupUserMenuFunctionality()
             userDropdown.classList.toggle('show');
             
             // Close other open dropdowns
-            document.querySelectorAll('.user-dropdown').forEach(dropdown => {
+            document.querySelectorAll('.user-dropdown').forEach(dropdown => 
+            {
                 if (dropdown !== userDropdown)
                 {
                     dropdown.classList.remove('show');
@@ -853,7 +923,12 @@ function handleSwitchAccount()
     
     localStorage.removeItem('currentUser');
     showNotification('Switching accounts...', 'info');
-    setTimeout(() => {
+    
+    // Update UI
+    updateUIForAuthentication();
+    
+    setTimeout(() => 
+    {
         const currentPath = window.location.pathname;
         const loginPath = currentPath.includes('/pages/') ? 'login.html' : 'pages/login.html';
         window.location.href = loginPath;
@@ -883,8 +958,7 @@ function handleLogout()
     showNotification('Logged out successfully', 'success');
     
     // Update UI
-    initializeUserMenu();
-    updateStudentLabels();
+    updateUIForAuthentication();
 }
 
 /**
@@ -915,7 +989,8 @@ function initializeRequiredFiles()
         'general_forms'
     ];
     
-    requiredFiles.forEach(fileType => {
+    requiredFiles.forEach(fileType => 
+    {
         if (!localStorage.getItem(`${fileType}_backup`))
         {
             // Create initial file structure
@@ -1126,10 +1201,12 @@ function updateFooterLinks()
     // Update all footer quick links
     const footerLinks = document.querySelectorAll('.footer-section ul');
     
-    footerLinks.forEach(footerSection => {
+    footerLinks.forEach(footerSection => 
+    {
         const links = footerSection.querySelectorAll('a');
         
-        links.forEach(link => {
+        links.forEach(link => 
+        {
             const href = link.getAttribute('href');
             
             if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('tel:'))
@@ -1160,7 +1237,8 @@ function updateFooterLinks()
     
     // Update donation button specifically
     const donationButtons = document.querySelectorAll('a[href*="donation"]');
-    donationButtons.forEach(button => {
+    donationButtons.forEach(button => 
+    {
         if (button.getAttribute('href').includes('donation'))
         {
             button.href = pagesPath + 'donation.html';
@@ -1221,8 +1299,10 @@ function initializeAppleAnimations()
         rootMargin: '0px 0px -50px 0px'
     };
     
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+    const observer = new IntersectionObserver((entries) => 
+    {
+        entries.forEach(entry => 
+        {
             if (entry.isIntersecting)
             {
                 entry.target.style.opacity = '1';
@@ -1233,7 +1313,8 @@ function initializeAppleAnimations()
     }, observerOptions);
     
     // Observe all cards and sections for animation
-    document.querySelectorAll('.apple-card, .program-card, .testimonial, .resource-card').forEach(el => {
+    document.querySelectorAll('.apple-card, .program-card, .testimonial, .resource-card').forEach(el => 
+    {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
@@ -1277,15 +1358,18 @@ function showNotification(message, type)
     document.body.appendChild(notification);
     
     // Show notification
-    setTimeout(() => {
+    setTimeout(() => 
+    {
         notification.style.opacity = '1';
     }, 10);
     
     // Hide notification after 5 seconds
-    setTimeout(() => {
+    setTimeout(() => 
+    {
         notification.style.opacity = '0';
         
-        setTimeout(() => {
+        setTimeout(() => 
+        {
             if (notification.parentNode)
             {
                 notification.remove();

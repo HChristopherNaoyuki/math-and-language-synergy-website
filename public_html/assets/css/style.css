@@ -5275,3 +5275,218 @@ footer
         gap: 0.25rem;
     }
 }
+
+/* ===== RADIO NAVIGATION ENHANCEMENTS ===== */
+.radio-navigation
+{
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    padding: var(--spacing-sm) 0;
+}
+
+.radio-nav-container
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.radio-nav-group
+{
+    display: flex;
+    background: var(--apple-bg);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xs);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
+}
+
+.radio-option
+{
+    position: relative;
+}
+
+.radio-option input[type="radio"]
+{
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.radio-option label
+{
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--apple-gray);
+    background: transparent;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.radio-option input[type="radio"]:checked + label
+{
+    background: var(--apple-blue);
+    color: #ffffff;
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+.radio-option label:hover
+{
+    background: rgba(0, 113, 227, 0.1);
+    color: var(--apple-blue);
+    transform: translateY(-1px);
+}
+
+.radio-option input[type="radio"]:focus + label
+{
+    outline: 2px solid var(--apple-blue);
+    outline-offset: 2px;
+}
+
+/* Student label styles when logged in */
+#student-label,
+[id*="student-label"]
+{
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+#student-label.logged-in,
+[id*="student-label"].logged-in
+{
+    color: var(--apple-blue);
+    font-weight: 600;
+}
+
+/* Ensure radio buttons are always readable */
+.radio-navigation
+{
+    background: rgba(255, 255, 255, 0.98) !important;
+}
+
+.radio-nav-group
+{
+    background: var(--apple-bg) !important;
+}
+
+.radio-option label
+{
+    color: var(--apple-gray) !important;
+    background: transparent !important;
+}
+
+.radio-option input[type="radio"]:checked + label
+{
+    color: #ffffff !important;
+    background: var(--apple-blue) !important;
+}
+
+/* Mobile responsiveness for radio navigation */
+@media (max-width: 768px)
+{
+    .radio-nav-container
+    {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .radio-nav-group
+    {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .radio-option label
+    {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        white-space: nowrap;
+    }
+    
+    #student-label,
+    [id*="student-label"]
+    {
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px)
+{
+    .radio-option label
+    {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+    
+    .radio-nav-group
+    {
+        gap: 0.25rem;
+    }
+    
+    .radio-navigation
+    {
+        padding: var(--spacing-xs) 0;
+    }
+}
+
+/* High contrast support for better readability */
+@media (prefers-contrast: high)
+{
+    .radio-navigation
+    {
+        background: #ffffff !important;
+        border-bottom: 2px solid #000000;
+    }
+    
+    .radio-nav-group
+    {
+        background: #f0f0f0 !important;
+        border: 2px solid #000000;
+    }
+    
+    .radio-option label
+    {
+        color: #000000 !important;
+        border: 1px solid #000000;
+    }
+    
+    .radio-option input[type="radio"]:checked + label
+    {
+        color: #ffffff !important;
+        background: #000000 !important;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce)
+{
+    .radio-option label
+    {
+        transition: none;
+    }
+    
+    .radio-option label:hover
+    {
+        transform: none;
+    }
+    
+    .radio-option input[type="radio"]:checked + label
+    {
+        transform: none;
+    }
+}
