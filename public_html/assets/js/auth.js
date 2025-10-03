@@ -38,7 +38,13 @@ function handleLogin(form)
     const username = formData.get('username');
     const password = formData.get('password');
     
-    // Get users from file
+    // Show loading state
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
+    submitButton.textContent = 'Logging in...';
+    submitButton.disabled = true;
+    
+    // Get users from storage
     getUsers().then(users => 
     {
         const user = users.find(u => u.username === username && u.password === password);
@@ -62,11 +68,15 @@ function handleLogin(form)
         else
         {
             showNotification('Invalid username or password', 'error');
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
         }
     }).catch(error => 
     {
         showNotification('Error accessing user data', 'error');
         console.error('Error:', error);
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
     });
 }
 
@@ -94,7 +104,8 @@ function handleSignup(form)
         return;
     }
     
-    const userData = {
+    const userData = 
+    {
         id: generateUserId(),
         firstName: firstName,
         lastName: lastName,
@@ -103,7 +114,8 @@ function handleSignup(form)
         accountType: accountType,
         dob: dob,
         joinDate: new Date().toISOString(),
-        progress: {
+        progress: 
+        {
             english: 0,
             japanese: 0,
             math: 0
@@ -112,6 +124,12 @@ function handleSignup(form)
         events: []
     };
     
+    // Show loading state
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
+    submitButton.textContent = 'Creating Account...';
+    submitButton.disabled = true;
+    
     // Get existing users
     getUsers().then(users => 
     {
@@ -119,13 +137,15 @@ function handleSignup(form)
         if (users.some(u => u.username === userData.username))
         {
             showNotification('Username already exists', 'error');
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
             return;
         }
         
         // Add new user
         users.push(userData);
         
-        // Save users to text file
+        // Save users to storage
         saveUsersToFile(users).then(() => 
         {
             showNotification('Account created successfully!', 'success');
@@ -146,6 +166,8 @@ function handleSignup(form)
         {
             showNotification('Error saving user data', 'error');
             console.error('Error:', error);
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
         });
     }).catch(error => 
     {
@@ -165,6 +187,8 @@ function handleSignup(form)
         {
             showNotification('Error creating account', 'error');
             console.error('Error:', saveError);
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
         });
     });
 }
