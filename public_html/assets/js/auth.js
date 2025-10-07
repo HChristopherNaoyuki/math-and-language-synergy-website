@@ -1,4 +1,6 @@
-// Authentication functionality with text file storage simulation
+// auth.js - Authentication functionality with proper file storage simulation
+// Allman style formatting with comprehensive error handling
+
 document.addEventListener('DOMContentLoaded', function()
 {
     // Check if user is logged in
@@ -8,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function()
     initializeAuthForms();
 });
 
+/**
+ * Initialize authentication forms
+ */
 function initializeAuthForms()
 {
     const loginForm = document.getElementById('login-form');
@@ -32,6 +37,10 @@ function initializeAuthForms()
     }
 }
 
+/**
+ * Handle login form submission
+ * @param {HTMLFormElement} form - The login form
+ */
 function handleLogin(form)
 {
     const formData = new FormData(form);
@@ -61,8 +70,8 @@ function handleLogin(form)
             // Redirect to dashboard
             setTimeout(() => 
             {
-                const basePath = window.location.pathname.includes('/pages/') ? '' : '../';
-                window.location.href = basePath + 'pages/dashboard.html';
+                const basePath = getBasePath();
+                window.location.href = basePath + 'dashboard.html';
             }, 1000);
         }
         else
@@ -80,6 +89,10 @@ function handleLogin(form)
     });
 }
 
+/**
+ * Handle signup form submission
+ * @param {HTMLFormElement} form - The signup form
+ */
 function handleSignup(form)
 {
     const formData = new FormData(form);
@@ -146,7 +159,7 @@ function handleSignup(form)
         users.push(userData);
         
         // Save users to storage
-        saveUsersToFile(users).then(() => 
+        saveUsersToStorage(users).then(() => 
         {
             showNotification('Account created successfully!', 'success');
             
@@ -159,8 +172,8 @@ function handleSignup(form)
             // Redirect to dashboard
             setTimeout(() => 
             {
-                const basePath = window.location.pathname.includes('/pages/') ? '' : '../';
-                window.location.href = basePath + 'pages/dashboard.html';
+                const basePath = getBasePath();
+                window.location.href = basePath + 'dashboard.html';
             }, 1000);
         }).catch(error => 
         {
@@ -171,8 +184,8 @@ function handleSignup(form)
         });
     }).catch(error => 
     {
-        // If no users file exists, create one with this user
-        saveUsersToFile([userData]).then(() => 
+        // If no users data exists, create one with this user
+        saveUsersToStorage([userData]).then(() => 
         {
             showNotification('Account created successfully!', 'success');
             localStorage.setItem('currentUser', JSON.stringify(userData));
@@ -180,8 +193,8 @@ function handleSignup(form)
             
             setTimeout(() => 
             {
-                const basePath = window.location.pathname.includes('/pages/') ? '' : '../';
-                window.location.href = basePath + 'pages/dashboard.html';
+                const basePath = getBasePath();
+                window.location.href = basePath + 'dashboard.html';
             }, 1000);
         }).catch(saveError => 
         {
@@ -193,11 +206,19 @@ function handleSignup(form)
     });
 }
 
+/**
+ * Generate unique user ID
+ * @returns {string} - Generated user ID
+ */
 function generateUserId()
 {
     return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
 }
 
+/**
+ * Get users from storage
+ * @returns {Promise<Array>} - Promise resolving to array of users
+ */
 function getUsers()
 {
     return new Promise((resolve, reject) => 
@@ -227,7 +248,12 @@ function getUsers()
     });
 }
 
-function saveUsersToFile(users)
+/**
+ * Save users to storage
+ * @param {Array} users - Array of user objects
+ * @returns {Promise} - Promise that resolves when save is complete
+ */
+function saveUsersToStorage(users)
 {
     return new Promise((resolve, reject) => 
     {
@@ -236,7 +262,7 @@ function saveUsersToFile(users)
             // Save to localStorage for this demo
             localStorage.setItem('userData', JSON.stringify(users));
             
-            // Simulate saving to .txt file
+            // Simulate saving to .txt file (for demonstration)
             simulateUserSaveToTxtFile(users);
             
             resolve();
@@ -248,6 +274,10 @@ function saveUsersToFile(users)
     });
 }
 
+/**
+ * Simulate user save to text file (for demonstration)
+ * @param {Array} users - Array of user objects
+ */
 function simulateUserSaveToTxtFile(users)
 {
     try
@@ -282,6 +312,9 @@ Events: ${user.events.length}
     }
 }
 
+/**
+ * Check authentication status and update UI
+ */
 function checkAuthStatus()
 {
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
@@ -293,6 +326,10 @@ function checkAuthStatus()
     }
 }
 
+/**
+ * Update navigation for logged in user
+ * @param {Object} user - User object
+ */
 function updateNavigationForLoggedInUser(user)
 {
     const userMenuContainer = document.getElementById('user-menu-container');
@@ -300,13 +337,14 @@ function updateNavigationForLoggedInUser(user)
     if (userMenuContainer)
     {
         let menuItems = '';
+        const basePath = getBasePath();
         
         if (user.accountType === 'student')
         {
             menuItems = `
-                <li><a href="enrollment.html">Enroll in Courses</a></li>
-                <li><a href="dashboard.html">My Dashboard</a></li>
-                <li><a href="forum.html">Student Forum</a></li>
+                <li><a href="${basePath}enrollment.html">Enroll in Courses</a></li>
+                <li><a href="${basePath}dashboard.html">My Dashboard</a></li>
+                <li><a href="${basePath}forum.html">Student Forum</a></li>
                 <li><a href="#" id="switch-account">Switch Account</a></li>
                 <li><a href="#" id="logout">Logout</a></li>
             `;
@@ -314,8 +352,8 @@ function updateNavigationForLoggedInUser(user)
         else if (user.accountType === 'lecturer')
         {
             menuItems = `
-                <li><a href="dashboard.html">My Dashboard</a></li>
-                <li><a href="forum.html">Student Forum</a></li>
+                <li><a href="${basePath}dashboard.html">My Dashboard</a></li>
+                <li><a href="${basePath}forum.html">Student Forum</a></li>
                 <li><a href="#" id="switch-account">Switch Account</a></li>
                 <li><a href="#" id="logout">Logout</a></li>
             `;
@@ -331,54 +369,307 @@ function updateNavigationForLoggedInUser(user)
         `;
         
         // Re-initialize user menu functionality
-        const userToggle = userMenuContainer.querySelector('.user-toggle');
-        const userDropdown = userMenuContainer.querySelector('.user-dropdown');
-        const switchAccount = userMenuContainer.querySelector('#switch-account');
-        const logout = userMenuContainer.querySelector('#logout');
-        
-        if (userToggle && userDropdown)
-        {
-            userToggle.addEventListener('click', function(e)
-            {
-                e.preventDefault();
-                userDropdown.classList.toggle('show');
-            });
-        }
-        
-        if (switchAccount)
-        {
-            switchAccount.addEventListener('click', function(e)
-            {
-                e.preventDefault();
-                localStorage.removeItem('currentUser');
-                showNotification('Switching accounts...', 'info');
-                setTimeout(() => 
-                {
-                    window.location.href = 'login.html';
-                }, 1000);
-            });
-        }
-        
-        if (logout)
-        {
-            logout.addEventListener('click', function(e)
-            {
-                e.preventDefault();
-                localStorage.removeItem('currentUser');
-                showNotification('Logged out successfully', 'success');
-                setTimeout(() => 
-                {
-                    window.location.reload();
-                }, 1000);
-            });
-        }
+        initializeUserMenuFunctionality();
     }
     
     // Update student labels in radio navigation
     updateStudentLabels();
 }
 
-// Helper function to show notifications
+/**
+ * Initialize user menu functionality
+ */
+function initializeUserMenuFunctionality()
+{
+    const userToggle = document.querySelector('.user-toggle');
+    const userDropdown = document.querySelector('.user-dropdown');
+    const switchAccount = document.getElementById('switch-account');
+    const logout = document.getElementById('logout');
+    
+    if (userToggle && userDropdown)
+    {
+        userToggle.addEventListener('click', function(e)
+        {
+            e.preventDefault();
+            userDropdown.classList.toggle('show');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e)
+        {
+            if (!userToggle.contains(e.target) && !userDropdown.contains(e.target))
+            {
+                userDropdown.classList.remove('show');
+            }
+        });
+    }
+    
+    if (switchAccount)
+    {
+        switchAccount.addEventListener('click', function(e)
+        {
+            e.preventDefault();
+            handleSwitchAccount();
+        });
+    }
+    
+    if (logout)
+    {
+        logout.addEventListener('click', function(e)
+        {
+            e.preventDefault();
+            handleLogout();
+        });
+    }
+}
+
+/**
+ * Handle switch account
+ */
+function handleSwitchAccount()
+{
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    
+    // Log account switch to text file
+    if (currentUser)
+    {
+        const switchData = {
+            action: 'account_switch',
+            username: currentUser.username,
+            timestamp: new Date().toISOString(),
+            page: window.location.pathname
+        };
+        saveToTextFile('user_actions', switchData);
+    }
+    
+    localStorage.removeItem('currentUser');
+    showNotification('Switching accounts...', 'info');
+    
+    // Update UI
+    updateUIForAuthentication();
+    
+    setTimeout(() => 
+    {
+        const basePath = getBasePath();
+        window.location.href = basePath + 'login.html';
+    }, 1000);
+}
+
+/**
+ * Handle logout
+ */
+function handleLogout()
+{
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    
+    // Log logout action to text file
+    if (currentUser)
+    {
+        const logoutData = {
+            action: 'logout',
+            username: currentUser.username,
+            timestamp: new Date().toISOString(),
+            page: window.location.pathname
+        };
+        saveToTextFile('user_actions', logoutData);
+    }
+    
+    localStorage.removeItem('currentUser');
+    showNotification('Logged out successfully', 'success');
+    
+    // Update UI
+    updateUIForAuthentication();
+    
+    // Redirect to home page
+    setTimeout(() => 
+    {
+        const basePath = getBasePath();
+        window.location.href = basePath + '../index.html';
+    }, 1000);
+}
+
+/**
+ * Update UI based on authentication status
+ */
+function updateUIForAuthentication()
+{
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    updateStudentLabels();
+    
+    // Update radio navigation labels
+    const studentLabels = document.querySelectorAll('#student-label, [id*="student-label"]');
+    studentLabels.forEach(label => 
+    {
+        if (currentUser) 
+        {
+            label.textContent = `Welcome, ${currentUser.firstName}`;
+            label.style.color = 'var(--apple-blue)';
+            label.style.fontWeight = '600';
+        } 
+        else 
+        {
+            label.textContent = 'Current Student';
+            label.style.color = '';
+            label.style.fontWeight = '';
+        }
+    });
+}
+
+/**
+ * Update student labels based on login status
+ */
+function updateStudentLabels()
+{
+    const studentLabels = document.querySelectorAll('#student-label, [id*="student-label"]');
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    
+    studentLabels.forEach(label => 
+    {
+        if (currentUser) 
+        {
+            label.textContent = `Welcome, ${currentUser.firstName}`;
+            label.style.color = 'var(--apple-blue)';
+            label.style.fontWeight = '600';
+            label.classList.add('logged-in');
+        } 
+        else 
+        {
+            label.textContent = 'Current Student';
+            label.style.color = '';
+            label.style.fontWeight = '';
+            label.classList.remove('logged-in');
+        }
+    });
+}
+
+/**
+ * Get base path for navigation
+ * @returns {string} - Base path string
+ */
+function getBasePath()
+{
+    const currentPath = window.location.pathname;
+    
+    // Check if we're in the pages directory
+    if (currentPath.includes('/pages/'))
+    {
+        return '';
+    }
+    else
+    {
+        return 'pages/';
+    }
+}
+
+/**
+ * Save data to text file system
+ * @param {string} fileType - Type of data to save
+ * @param {Object} data - Data to save
+ */
+function saveToTextFile(fileType, data)
+{
+    try
+    {
+        // Get existing file content
+        const existingContent = localStorage.getItem(`${fileType}_backup`) || getInitialFileContent(fileType);
+        
+        // Parse existing content and update
+        let newContent = existingContent;
+        
+        // Add new entry based on file type
+        switch(fileType)
+        {
+            case 'user_actions':
+                newContent += `\n\nAction: ${data.action}
+User: ${data.username}
+Timestamp: ${new Date(data.timestamp).toLocaleString()}
+Page: ${data.page}
+----------------------------------------`;
+                break;
+                
+            default:
+                newContent += `\n\nNew Entry - ${new Date().toLocaleString()}
+${JSON.stringify(data, null, 2)}
+----------------------------------------`;
+        }
+        
+        // Update counters in file header
+        newContent = updateFileCounter(newContent, fileType);
+        
+        // Save back to localStorage
+        localStorage.setItem(`${fileType}_backup`, newContent);
+        
+        console.log(`Data saved to ${fileType} backup file`);
+        
+    }
+    catch (error)
+    {
+        console.error(`Error saving to ${fileType}:`, error);
+    }
+}
+
+/**
+ * Get initial content for text files
+ * @param {string} fileType - Type of file
+ * @returns {string} - Initial file content
+ */
+function getInitialFileContent(fileType)
+{
+    const timestamp = new Date().toISOString();
+    
+    switch(fileType)
+    {
+        case 'user_actions':
+            return `Math and Language Synergy - User Actions Log
+========================================
+File Created: ${timestamp}
+Total Actions: 0
+
+USER ACTIONS:
+=============
+`;
+        default:
+            return `Math and Language Synergy - ${fileType}
+================================
+File Created: ${timestamp}
+`;
+    }
+}
+
+/**
+ * Update counter in file header
+ * @param {string} content - File content
+ * @param {string} fileType - Type of file
+ * @returns {string} - Updated file content
+ */
+function updateFileCounter(content, fileType)
+{
+    const lines = content.split('\n');
+    let updated = false;
+    
+    for (let i = 0; i < lines.length; i++)
+    {
+        if (lines[i].includes('Total'))
+        {
+            const match = lines[i].match(/Total (\w+): (\d+)/);
+            if (match)
+            {
+                const currentCount = parseInt(match[2]);
+                lines[i] = lines[i].replace(`: ${currentCount}`, `: ${currentCount + 1}`);
+                updated = true;
+                break;
+            }
+        }
+    }
+    
+    return lines.join('\n');
+}
+
+/**
+ * Show notification message
+ * @param {string} message - The notification message
+ * @param {string} type - 'success', 'error', or 'info'
+ */
 function showNotification(message, type)
 {
     // Remove any existing notifications
@@ -443,31 +734,6 @@ function showNotification(message, type)
             }
         }, 300);
     }, 5000);
-}
-
-// Update student labels based on login status
-function updateStudentLabels()
-{
-    const studentLabels = document.querySelectorAll('#student-label, [id*="student-label"]');
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-    
-    studentLabels.forEach(label => 
-    {
-        if (currentUser)
-        {
-            label.textContent = `Welcome, ${currentUser.firstName || 'User'}`;
-            label.style.color = 'var(--apple-blue)';
-            label.style.fontWeight = '600';
-            label.classList.add('logged-in');
-        }
-        else
-        {
-            label.textContent = 'Current Student';
-            label.style.color = '';
-            label.style.fontWeight = '';
-            label.classList.remove('logged-in');
-        }
-    });
 }
 
 // Initialize student labels when auth.js loads
